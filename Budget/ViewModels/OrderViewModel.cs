@@ -28,8 +28,10 @@ namespace Budget {
   
 
         public OrderViewModel() {
+            string st = "test string";
+            
             ConnectToDataBase();
-          
+         
             UpdateOrders(); //+
 
             PieChartVM = new PieChartViewModel(this);
