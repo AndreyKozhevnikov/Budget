@@ -1,0 +1,191 @@
+﻿using DevExpress.Xpf.Mvvm;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Data;
+using System.Diagnostics;
+
+namespace Budget {
+//[DebuggerDisplay("DateOrder-{DateOrder} Value-{Value}, ParentTag-{ParentTag}")]
+    public class MyOrder : MyBindableBase {
+        public Order parentOrderEntity;
+
+        public MyOrder() {
+            parentOrderEntity = OrderViewModel.generalEntity.Orders.Create();
+            OrderViewModel.generalEntity.Orders.Add(parentOrderEntity);
+
+        }
+
+        bool _isSavedInBase;
+        #region
+
+      
+
+
+        public int Id {
+            get {
+                return parentOrderEntity.Id;
+            }
+        }
+        public DateTime DateOrder {
+            get {
+                return parentOrderEntity.DateOrder.Value;
+            }
+            set {
+                parentOrderEntity.DateOrder = value;
+                RaisePropertyChanged("DateOrder");
+                IsSavedInBase = false;
+            }
+        }
+
+        public int Value {
+            get {
+                if (parentOrderEntity.Value == null)
+                    return 0;
+                return parentOrderEntity.Value.Value;
+            }
+            set {
+                parentOrderEntity.Value = value;
+                RaisePropertyChanged("Value");
+                IsSavedInBase = false;
+            }
+        }
+        public string Description {
+            get {
+                return parentOrderEntity.Description;
+            }
+            set {
+                parentOrderEntity.Description = value;
+                RaisePropertyChanged("Description");
+                IsSavedInBase = false;
+            }
+        }
+        public int ParentTag {
+            get {
+                return parentOrderEntity.ParentTag.Value;
+            }
+            set {
+                parentOrderEntity.ParentTag = value;
+                if (value == 21 || value == 22) {
+                    Ignore = true;
+                }
+                RaisePropertyChanged("ParentTag");
+                IsSavedInBase = false;
+            }
+        }
+
+        public string Tags {
+            get {
+                return parentOrderEntity.Tags;
+            }
+            set {
+                parentOrderEntity.Tags = value;
+                RaisePropertyChanged();
+                IsSavedInBase = false;
+            }
+        }
+
+        public int Source {
+            get {
+                return parentOrderEntity.Source.Value;
+            }
+            set {
+                parentOrderEntity.Source = value;
+                RaisePropertyChanged();
+                IsSavedInBase = false;
+            }
+        }
+        public bool? Ignore {
+            get {
+                return parentOrderEntity.Ignore;
+            }
+            set {
+                parentOrderEntity.Ignore = value;
+                RaisePropertyChanged();
+                IsSavedInBase = false;
+            }
+        }
+        public bool IsSavedInBase {
+            get { return _isSavedInBase; }
+            set {
+                _isSavedInBase = value;
+                RaisePropertyChanged();
+            }
+        }
+        #endregion
+
+
+    
+      
+        
+       
+
+
+
+        
+     
+
+
+
+
+
+
+
+
+
+
+
+       
+      
+        
+       
+        
+      
+       
+
+
+        public void Save() {
+            OrderViewModel.generalEntity.SaveChanges();
+            
+            IsSavedInBase = true;
+        }
+    }
+
+
+
+    public class SourceOrder {
+        public SourceOrder(DataRow row) {
+            Id = (int)row["Id"];
+            Name = row["Name"].ToString();
+        }
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class TypeOrder {
+        public TypeOrder(DataRow row) {
+            Id = (int)row["Id"];
+            Name = row["Name"].ToString();
+        }
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+    public class OwnerOrder {
+        public OwnerOrder(DataRow row) {
+            Id = (int)row["Id"];
+            Name = row["Name"].ToString();
+        }
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+
+
+
+
+
+}

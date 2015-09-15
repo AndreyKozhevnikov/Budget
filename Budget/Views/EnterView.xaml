@@ -1,0 +1,152 @@
+﻿<UserControl x:Class="Budget.Views.EnterView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+               xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"             
+               xmlns:local="clr-namespace:Budget"
+    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+            >
+    <dxmvvm:Interaction.Behaviors>
+        <dxmvvm:EventToCommand EventName="PreviewKeyDown" Command="{Binding PreviewKeyHandlerCommand}" PassEventArgsToCommand="True">
+            
+        </dxmvvm:EventToCommand>
+    </dxmvvm:Interaction.Behaviors>
+    <dxlc:LayoutGroup Orientation="Horizontal">
+        <!--<Grid Width="250" >
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Vertical" Grid.Row="1">
+                <dxlc:LayoutItem Label="AllSum:">
+                    <Label Content="{Binding SelectedItemsSumAll}"/>
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem Label="Sum of eat">
+                    <Label Content="{Binding SelectedItemsSumEat}" />
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem Label="Sum by card">
+                    <Label Content="{Binding SelectedItemsSumCard}"/>
+                </dxlc:LayoutItem>
+            </StackPanel>
+        </Grid>-->
+        <dxlc:LayoutGroup Orientation="Vertical">
+            <dxlc:LayoutGroup Orientation="Horizontal">
+                <dxlc:LayoutGroup Orientation="Vertical" Width="170">
+                    <dxlc:LayoutItem Label="AllSum:">
+                        <Label Content="{Binding SelectedItemsSumAll}"/>
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="Sum of eat">
+                        <Label Content="{Binding SelectedItemsSumEat}" />
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="Sum by card">
+                        <Label Content="{Binding SelectedItemsSumCard}"/>
+                    </dxlc:LayoutItem>
+                </dxlc:LayoutGroup>
+                    <dxlc:LayoutGroup Orientation="Vertical" >
+                    <dxlc:LayoutGroup>
+                        <Button Content="Down" Height="22" Width="50" Command="{Binding ChangeCurrentOrderDate}" CommandParameter="Down"/>
+                        <dxlc:LayoutItem Label="Date:">
+                            <dxe:DateEdit EditValue="{Binding CurrentDate, Mode=TwoWay}" DisplayFormatString="dd-MMMM-yyyy, dddd"/>
+                        </dxlc:LayoutItem>
+                        <Button Content="Up" Height="22" Width="50" Command="{Binding ChangeCurrentOrderDate}" CommandParameter="Up"/>
+                    </dxlc:LayoutGroup>
+                    <dxlc:LayoutItem Label="Value:">
+                        <dxe:TextEdit  EditValue="{Binding CurrentOrder.Value, Mode=TwoWay}" SelectAllOnGotFocus="True"  local:FocusExtension.IsFocused="{Binding IsValueTextEditFocused}" />
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="ParentTag:">
+                        <dxe:ComboBoxEdit  DisplayMember="TagName" EditValue="{Binding CurrentOrder.ParentTag, Mode=TwoWay}" ItemsSource="{Binding AllTags}" ValueMember="Id"   />
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="Description:">
+                        <dxe:TextEdit  EditValue="{Binding CurrentOrder.Description, Mode=TwoWay}" />
+                    </dxlc:LayoutItem>
+                    <!--<dxlc:LayoutItem Label="Source:">
+                        <dxe:ListBoxEdit  EditValue="{Binding CurrentOrder.Source, Mode=TwoWay}" ItemsSource="{Binding Sources}" DisplayMember="Name" ValueMember="Id">
+                            <dxe:ListBoxEdit.StyleSettings>
+                                <dxe:RadioListBoxEditStyleSettings/>
+                            </dxe:ListBoxEdit.StyleSettings>
+                        </dxe:ListBoxEdit>
+                    </dxlc:LayoutItem>-->
+                    <dxlc:LayoutItem Label="Tags:">
+                        <dxe:TextEdit EditValue="{Binding CurrentOrder.Tags}"/>
+                    </dxlc:LayoutItem>
+                </dxlc:LayoutGroup>
+                <dxlc:LayoutGroup Orientation="Vertical" Width="350">
+                    <!--<Button Content="AddOutLayTag" Command="{Binding AddTagCommand}" Height="30" />-->
+                    <Button Content="ExportXLSX" Command="{Binding ExportXLSXCommand}" Height="30"/>
+                    <Button Content="Enter"  Command="{Binding EnterOrderCommand}" Height="60" />
+                    <Button Content="UpdateBase" Command="{Binding SaveNotSavedOrdersInBaseCommand}" Height="30"/>
+                    <!--<Button Content="save changes" Click="Button_Click_1"  Height="30"  />-->
+                </dxlc:LayoutGroup>
+            </dxlc:LayoutGroup>
+            <dxlc:LayoutGroup>
+                <dxg:GridControl ItemsSource="{Binding ParentViewModel.Orders}" AutoGenerateColumns="None"  Grid.ColumnSpan="2"
+                                         Loaded="GridControl_Loaded_1"
+                                         SelectedItems="{Binding SelectedOrders}"
+                                         SelectionMode="Row"
+                                         CurrentItem="{Binding FocusedInOutLayGridOrder, Mode=TwoWay}" >
+                    <dxg:GridControl.GroupSummary>
+                        <dxg:GridSummaryItem FieldName="Value" SummaryType="Sum" />
+                    </dxg:GridControl.GroupSummary>
+                    <dxg:GridControl.Columns>
+                        <dxg:GridColumn FieldName="Id" Width="30"/>
+                        <dxg:GridColumn FieldName="IsSavedInBase" ReadOnly="True" Width="30"/>
+                        <dxg:GridColumn FieldName="DateOrder" SortIndex="0" Width="90" FilterPopupMode="List" >
+                            <dxg:GridColumn.DisplayTemplate>
+                                <ControlTemplate>
+                                    <TextBlock Text="{Binding Value, StringFormat={} {0:dd MMM yy ddd}}"    />
+                                </ControlTemplate>
+                            </dxg:GridColumn.DisplayTemplate>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn FieldName="Value" Width="60"/>
+                        <dxg:GridColumn FieldName="ParentTag" ColumnFilterMode="DisplayText" FilterPopupMode="CheckedList" >
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <dxe:ComboBoxEdit x:Name="PART_Editor" 
+                                                              ItemsSource="{Binding DataContext.AllTags, RelativeSource={RelativeSource AncestorType={x:Type dxg:GridControl}, Mode=FindAncestor}}"
+                                                              DisplayMember="TagName" ValueMember="Id"/>
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings  DisplayTextConverter="{local:ConverterForParentTags}"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn FieldName="Description"/>
+                        <!--<dxg:GridColumn FieldName="Source">
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <dxe:ComboBoxEdit x:Name="PART_Editor"
+                                                              ItemsSource="{Binding DataContext.Sources, RelativeSource={RelativeSource AncestorType={x:Type dxg:GridControl}, Mode=FindAncestor}}"
+                                                              DisplayMember="Name" ValueMember="Id" 
+                                                              />
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>-->
+                        <dxg:GridColumn FieldName="Ignore">
+
+                        </dxg:GridColumn>
+                        <dxg:GridColumn FieldName="Tags"/>
+                    </dxg:GridControl.Columns>
+                    <dxg:GridControl.View>
+                        <dxg:TableView ShowFilterPopup="TableView_ShowFilterPopup" local:ExportHelper.ExportProperty="{Binding ExportProperty}"  >
+                            <dxg:TableView.RowStyle>
+                                <Style TargetType="{x:Type dxg:RowControl}" BasedOn="{StaticResource {x:Type dxg:RowControl}}">
+                                    <Setter Property="Background" Value="{Binding Row.DateOrder, Converter={local:DatetoColorConverter}}"/>
+                                    <!--<Style.Triggers>
+                                        <DataTrigger Binding="{Binding Row.Source}" Value="3">
+                                            <Setter Property="Foreground" Value="#FF726200"/>
+                                            <Setter Property="TextElement.FontWeight" Value="ExtraBold"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>-->
+                                </Style>
+                            </dxg:TableView.RowStyle>
+                        </dxg:TableView>
+                    </dxg:GridControl.View>
+                </dxg:GridControl>
+            </dxlc:LayoutGroup>
+        </dxlc:LayoutGroup>
+    </dxlc:LayoutGroup>
+</UserControl>
