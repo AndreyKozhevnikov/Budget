@@ -16,23 +16,6 @@
         </dxmvvm:EventToCommand>
     </dxmvvm:Interaction.Behaviors>
     <dxlc:LayoutGroup Orientation="Horizontal">
-        <!--<Grid Width="250" >
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <StackPanel Orientation="Vertical" Grid.Row="1">
-                <dxlc:LayoutItem Label="AllSum:">
-                    <Label Content="{Binding SelectedItemsSumAll}"/>
-                </dxlc:LayoutItem>
-                <dxlc:LayoutItem Label="Sum of eat">
-                    <Label Content="{Binding SelectedItemsSumEat}" />
-                </dxlc:LayoutItem>
-                <dxlc:LayoutItem Label="Sum by card">
-                    <Label Content="{Binding SelectedItemsSumCard}"/>
-                </dxlc:LayoutItem>
-            </StackPanel>
-        </Grid>-->
         <dxlc:LayoutGroup Orientation="Vertical">
             <dxlc:LayoutGroup Orientation="Horizontal">
                 <dxlc:LayoutGroup Orientation="Vertical" Width="170">
@@ -101,7 +84,7 @@
                                 </ControlTemplate>
                             </dxg:GridColumn.DisplayTemplate>
                         </dxg:GridColumn>
-                        <dxg:GridColumn FieldName="Value" Width="60"/>
+                        <dxg:GridColumn FieldName="Value" Width="90"/>
                         <dxg:GridColumn FieldName="ParentTag" ColumnFilterMode="DisplayText" FilterPopupMode="CheckedList" >
                             <dxg:GridColumn.CellTemplate>
                                 <DataTemplate>
@@ -131,7 +114,9 @@
                         <dxg:GridColumn FieldName="Tags"/>
                     </dxg:GridControl.Columns>
                     <dxg:GridControl.View>
-                        <dxg:TableView ShowFilterPopup="TableView_ShowFilterPopup" local:ExportHelper.ExportProperty="{Binding ExportProperty}"  >
+                        <dxg:TableView ShowFilterPopup="TableView_ShowFilterPopup" local:ExportHelper.ExportProperty="{Binding ExportProperty}" 
+                                       ShowTotalSummary="True"
+                                       >
                             <dxg:TableView.RowStyle>
                                 <Style TargetType="{x:Type dxg:RowControl}" BasedOn="{StaticResource {x:Type dxg:RowControl}}">
                                     <Setter Property="Background" Value="{Binding Row.DateOrder, Converter={local:DatetoColorConverter}}"/>
@@ -145,6 +130,9 @@
                             </dxg:TableView.RowStyle>
                         </dxg:TableView>
                     </dxg:GridControl.View>
+                    <dxg:GridControl.TotalSummary>
+                        <dxg:GridSummaryItem FieldName="Value" SummaryType="Sum" DisplayFormat="{}{0:n0}"/>
+                    </dxg:GridControl.TotalSummary>
                 </dxg:GridControl>
             </dxlc:LayoutGroup>
         </dxlc:LayoutGroup>

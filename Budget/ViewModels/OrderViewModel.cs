@@ -28,7 +28,7 @@ namespace Budget {
   
 
         public OrderViewModel() {
-            string st = "test string";
+          //  string st = "test string";
             
             ConnectToDataBase();
          

@@ -61,7 +61,7 @@ namespace Budget {
         static int k = 0;
         public DatetoColorConverter() { }
         public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture) {
-            Debug.Print(k++.ToString());
+         //   Debug.Print(k++.ToString());
             if (value is DateTime) {
                 DateTime dt = (DateTime)value;
                 TimeSpan t = (dt - new DateTime(2013, 1, 1));
