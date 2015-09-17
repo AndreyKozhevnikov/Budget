@@ -9,11 +9,9 @@
 
     <Grid>
         <Label Content="Name:" HorizontalAlignment="Left" Height="32" Margin="28,34,0,0" VerticalAlignment="Top" Width="61"/>
-
-        <dxe:TextEdit HorizontalAlignment="Left" Height="32" Margin="120,34,0,0" VerticalAlignment="Top" Width="150" EditValue="{Binding CurrentTag.TagName,Mode=TwoWay}"/>
-
-        <Button Content="AddTag" HorizontalAlignment="Left" Height="51" Margin="45,86,0,0" VerticalAlignment="Top" Width="189" Command="{Binding SaveTagCommand}"/>
-        <!--<dxe:ComboBoxEdit HorizontalAlignment="Left" Height="32" Margin="306,34,0,0" VerticalAlignment="Top" Width="150" EditValue="{Binding CurrentTag.TagType,Mode=TwoWay}" ItemsSource="{Binding OrdTypes}" ValueMember="Id" DisplayMember="Name"/>-->
-
+        <dxe:TextEdit HorizontalAlignment="Left" Height="32" Margin="120,34,0,0" VerticalAlignment="Top" Width="150"
+                      EditValue="{Binding CurrentTag.TagName,Mode=TwoWay}"/>
+        <Button Content="AddTag" HorizontalAlignment="Left" Height="51" Margin="45,86,0,0" VerticalAlignment="Top"
+                Width="189" Command="{Binding SaveTagCommand}"/>
     </Grid>
 </dx:DXWindow>

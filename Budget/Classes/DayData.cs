@@ -14,13 +14,10 @@ namespace Budget {
         public DayData(DateTime _dt) {
             DayDate = _dt;
         }
+
         DateTime _dayDate;
         int _sumOfEat;
         int _sumAll;
-       
-
-    
-
 
         public DateTime DayDate {
             get { return _dayDate; }
@@ -34,13 +31,6 @@ namespace Budget {
             get { return _sumAll; }
             set { _sumAll = value; }
         }
-        //public string DayDateString {
-        //    get {
-        //        return DayDate.ToString("MMMM YY");
-        //    }
-          
-        //}
-        
     }
 
     public class DayOrderData {

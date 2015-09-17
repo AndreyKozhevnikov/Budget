@@ -46,23 +46,14 @@
                     <dxlc:LayoutItem Label="Description:">
                         <dxe:TextEdit  EditValue="{Binding CurrentOrder.Description, Mode=TwoWay}" />
                     </dxlc:LayoutItem>
-                    <!--<dxlc:LayoutItem Label="Source:">
-                        <dxe:ListBoxEdit  EditValue="{Binding CurrentOrder.Source, Mode=TwoWay}" ItemsSource="{Binding Sources}" DisplayMember="Name" ValueMember="Id">
-                            <dxe:ListBoxEdit.StyleSettings>
-                                <dxe:RadioListBoxEditStyleSettings/>
-                            </dxe:ListBoxEdit.StyleSettings>
-                        </dxe:ListBoxEdit>
-                    </dxlc:LayoutItem>-->
                     <dxlc:LayoutItem Label="Tags:">
                         <dxe:TextEdit EditValue="{Binding CurrentOrder.Tags}"/>
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
                 <dxlc:LayoutGroup Orientation="Vertical" Width="350">
-                    <!--<Button Content="AddOutLayTag" Command="{Binding AddTagCommand}" Height="30" />-->
                     <Button Content="ExportXLSX" Command="{Binding ExportXLSXCommand}" Height="30"/>
                     <Button Content="Enter"  Command="{Binding EnterOrderCommand}" Height="60" />
                     <Button Content="UpdateBase" Command="{Binding SaveNotSavedOrdersInBaseCommand}" Height="30"/>
-                    <!--<Button Content="save changes" Click="Button_Click_1"  Height="30"  />-->
                 </dxlc:LayoutGroup>
             </dxlc:LayoutGroup>
             <dxlc:LayoutGroup>
@@ -98,16 +89,6 @@
                             </dxg:GridColumn.EditSettings>
                         </dxg:GridColumn>
                         <dxg:GridColumn FieldName="Description"/>
-                        <!--<dxg:GridColumn FieldName="Source">
-                            <dxg:GridColumn.CellTemplate>
-                                <DataTemplate>
-                                    <dxe:ComboBoxEdit x:Name="PART_Editor"
-                                                              ItemsSource="{Binding DataContext.Sources, RelativeSource={RelativeSource AncestorType={x:Type dxg:GridControl}, Mode=FindAncestor}}"
-                                                              DisplayMember="Name" ValueMember="Id" 
-                                                              />
-                                </DataTemplate>
-                            </dxg:GridColumn.CellTemplate>
-                        </dxg:GridColumn>-->
                         <dxg:GridColumn FieldName="Ignore">
 
                         </dxg:GridColumn>
@@ -120,12 +101,6 @@
                             <dxg:TableView.RowStyle>
                                 <Style TargetType="{x:Type dxg:RowControl}" BasedOn="{StaticResource {x:Type dxg:RowControl}}">
                                     <Setter Property="Background" Value="{Binding Row.DateOrder, Converter={local:DatetoColorConverter}}"/>
-                                    <!--<Style.Triggers>
-                                        <DataTrigger Binding="{Binding Row.Source}" Value="3">
-                                            <Setter Property="Foreground" Value="#FF726200"/>
-                                            <Setter Property="TextElement.FontWeight" Value="ExtraBold"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>-->
                                 </Style>
                             </dxg:TableView.RowStyle>
                         </dxg:TableView>

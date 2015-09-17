@@ -173,7 +173,6 @@
   <ItemGroup>
     <Compile Include="Classes\DayData.cs" />
     <Compile Include="Classes\MyBindableBase.cs" />
-    <Compile Include="Classes\OrderTemplate.cs" />
     <Compile Include="Classes\Tag.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -188,7 +187,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
-    <Compile Include="MsSqlConnector.cs" />
     <Compile Include="ViewModels\OrderViewModel.cs" />
     <Compile Include="Classes\MyOrder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

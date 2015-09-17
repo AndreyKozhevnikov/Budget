@@ -60,7 +60,7 @@ namespace Budget {
             }
             set {
                 parentOrderEntity.ParentTag = value;
-                if (  value == 22) {
+                if (value == 22) {
                     Ignore = true;
                 }
                 RaisePropertyChanged("ParentTag");

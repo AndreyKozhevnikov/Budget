@@ -36,13 +36,6 @@ namespace Budget {
 
     public class custConverter : MarkupExtension, IValueConverter {
         public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture) {
-            //ComboBoxEdit cmb = value as ComboBoxEdit;
-            //if (value != null) {
-            //    string st = OrderViewModel.AllTags.Where(x => x.Id == (int)value).First().TagName;
-            //    return st;
-            //}
-            //  Debug.Print(value.ToString());
-            //cmb.IsEnabled;
             return value;
         }
 
@@ -61,7 +54,6 @@ namespace Budget {
         static int k = 0;
         public DatetoColorConverter() { }
         public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture) {
-         //   Debug.Print(k++.ToString());
             if (value is DateTime) {
                 DateTime dt = (DateTime)value;
                 TimeSpan t = (dt - new DateTime(2013, 1, 1));
@@ -78,8 +70,6 @@ namespace Budget {
                         return null;
                         
                 }
-             //   if (days % 3 == 0)
-                    //return new SolidColorBrush(Colors.CornflowerBlue);
             }
             return null;
         }
@@ -114,13 +104,10 @@ namespace Budget {
                         br = null;
                     }
                     DateDict.Add(dt, br);
+                
                     return br;
 
                 }
-                //TimeSpan t = (dt - new DateTime(2013, 1, 1));
-                //int days = (int)t.TotalDays + 1;
-                //if (days % 2 == 0)
-                //    return new SolidColorBrush(Colors.CornflowerBlue);
             }
             return null;
         }
@@ -136,13 +123,10 @@ namespace Budget {
     public class ConverterForParentTags : MarkupExtension, IValueConverter {
         public ConverterForParentTags() { }
         public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture) {
-            //  ComboBoxEdit cmb = value as ComboBoxEdit;
             if (value != null) {
                 string st = EnterViewModel.AllTags.Where(x => x.Id == (int)value).First().TagName;
                 return st;
             }
-            //  Debug.Print(value.ToString());
-            //cmb.IsEnabled;
             return value;
         }
 

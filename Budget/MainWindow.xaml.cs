@@ -27,25 +27,8 @@ namespace Budget {
             DataContext = ViewModel;
         }
 
-
         OrderViewModel ViewModel;
 
-       
-
-    
-
-     
-
-     
-
-       
-
-       
-
-
-        //void col_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) {
-        //    throw new NotImplementedException();
-        //}
     }
     public class ObservableListConverter : MarkupExtension, IValueConverter {
         public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture) {
@@ -70,20 +53,6 @@ namespace Budget {
         public override object ProvideValue(IServiceProvider serviceProvider) {
             return this;
         }
-
-        //public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture) {
-        //    throw new NotImplementedException();
-        //}
-
-        //public object ConvertBack(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture) {
-        //    throw new NotImplementedException();
-        //}
     }
-    //public class MyTableView : TableView {
-    //    protected override string GetGroupRowDisplayText(int rowHandle) {
-    //        return (string)GetGroupDisplayValue(rowHandle);
-    //    }
-    //}
-
 
 }

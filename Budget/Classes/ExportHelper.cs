@@ -36,9 +36,6 @@ namespace Budget {
             } catch {
 
             }
-          //  ExportHelper.SetExportProperty(tv, null);
-            //Binding bd = new Binding("ExportXLSXCommand");
-            //tv.SetBinding(ExportHelper.ExportPropertyProperty, bd);
         }
 
 

@@ -29,13 +29,12 @@ namespace Budget.Views {
         private void GridControl_Loaded_1(object sender, RoutedEventArgs e) {
             GridControl gc = sender as GridControl;
             (gc.View as TableView).MoveLastRow();
-            //    ObservableCollection<Order> col = gc.ItemsSource as ObservableCollection<Order>;
-            //     col.CollectionChanged += col_CollectionChanged;
 
         }
 
         private void TableView_ShowFilterPopup(object sender, FilterPopupEventArgs e) {
-            if (e.Column.FieldName != "DateOrder") return;
+            if (e.Column.FieldName != "DateOrder")
+                return;
 
             var v1 = e.ComboBoxEdit.ItemsSource as List<object>;
 
@@ -50,7 +49,7 @@ namespace Budget.Views {
 
             var listMonth = v1.Cast<CustomComboBoxItem>().Where(x => x.EditValue is DateTime).Select(x => new { dt = ((DateTime)x.EditValue) }).Select(x => new { mnt = new DateTime(x.dt.Year, x.dt.Month, 1) }).GroupBy(x => x.mnt).Select(y => new { vl = (DateTime)y.Key }).Select(x => new { Display = x.vl.ToString("MMM yyyy"), v1 = x.vl, v2 = x.vl.AddMonths(1) }).Select(x => new CustomComboBoxItem() { DisplayValue = x.Display, EditValue = CriteriaOperator.Parse(string.Format("[DateOrder]>=#{0}# and [DateOrder]<#{1}#", x.v1, x.v2)) }).ToList();
             e.ComboBoxEdit.ItemsSource = listMonth;
-          
+
         }
     }
 }

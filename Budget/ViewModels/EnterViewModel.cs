@@ -200,7 +200,6 @@ namespace Budget {
         void AddTag() {
             addtgwnd = new AddTagWindow();
             addtgwnd.DataContext = this;
-           // CurrentTag = new Tag();
             CurrentTag = OrderViewModel.generalEntity.Tags.Create();
             addtgwnd.ShowDialog();
         }
@@ -208,7 +207,6 @@ namespace Budget {
             OrderViewModel.generalEntity.Tags.Add(CurrentTag);
             OrderViewModel.generalEntity.SaveChanges();
             AllTags.Add(CurrentTag);
-         //   UpdateTags();
             CurrentOrder.ParentTag = CurrentTag.Id;
             addtgwnd.Close();
         }
@@ -234,7 +232,6 @@ namespace Budget {
 
         private void PreviewKeyHandler(KeyEventArgs e) {
             if (e.Key == Key.Enter && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))) {
-                //var v = 5;
                 IsValueTextEditFocused = false;
                 EnterOrder();
             }

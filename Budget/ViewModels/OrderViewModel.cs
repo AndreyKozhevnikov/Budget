@@ -28,12 +28,8 @@ namespace Budget {
   
 
         public OrderViewModel() {
-          //  string st = "test string";
-            
             ConnectToDataBase();
-         
             UpdateOrders(); //+
-
             PieChartVM = new PieChartViewModel(this);
             SummaryVM = new SummaryViewModel(this);
             EnterVM = new EnterViewModel(this);
