@@ -194,7 +194,7 @@ namespace Budget {
         }
 
         void SetFocusOnTextEditValue() {
-            IsValueTextEditFocused = true;// !IsValueTextEditFocused;
+            IsValueTextEditFocused =  !IsValueTextEditFocused;
         }
 
         void AddTag() {
