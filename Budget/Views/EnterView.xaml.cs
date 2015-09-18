@@ -37,7 +37,7 @@ namespace Budget.Views {
                 return;
 
             var v1 = e.ComboBoxEdit.ItemsSource as List<object>;
-
+            //ppp
             //List<CustomComboBoxItem> listItems = v1.Cast<CustomComboBoxItem>().ToList();
 
             //var listMonth1 = listItems.Where(x => x.EditValue is DateTime).ToList();
