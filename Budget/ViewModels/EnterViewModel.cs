@@ -15,7 +15,7 @@ namespace Budget {
             MakeLists();//+
             UpdateTags(); //+
 
-            CreateNewCurrentOrder();//
+            CreateNewCurrentOrder();//te
             SetFocusOnTextEditValue();
 
 
