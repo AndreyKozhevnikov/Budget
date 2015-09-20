@@ -97,7 +97,7 @@
                     </dxg:GridControl.Columns>
                     <dxg:GridControl.View>
                         <dxg:TableView ShowFilterPopup="TableView_ShowFilterPopup" local:ExportHelper.ExportProperty="{Binding ExportProperty}" 
-                                       ShowTotalSummary="True"
+                                       ShowTotalSummary="True" ShowGroupedColumns="True" 
                                        >
                             <dxg:TableView.RowStyle>
                                 <Style TargetType="{x:Type dxg:RowControl}" BasedOn="{StaticResource {x:Type dxg:RowControl}}">
