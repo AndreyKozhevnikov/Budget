@@ -96,6 +96,16 @@ namespace Budget {
             }
         }
 
+        public bool IsJourney {
+            get {
+                return parentOrderEntity.IsJourney;
+            }
+            set {
+                parentOrderEntity.IsJourney = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public DateTime MonthDateOrder { get; set; }
         #endregion
 

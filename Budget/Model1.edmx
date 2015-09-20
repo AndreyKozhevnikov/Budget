@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="BudgetModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BudgetModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Orders">
           <Key>
             <PropertyRef Name="Id" />
@@ -17,6 +17,8 @@
           <Property Name="Tags" Type="nvarchar(max)" />
           <Property Name="Source" Type="int" Nullable="false" />
           <Property Name="Ignore" Type="bit" Nullable="false" />
+          <Property Name="OldParentTag" Type="int" />
+          <Property Name="IsJourney" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Sources">
           <Key>
@@ -87,6 +89,8 @@
           <Property Name="Ignore" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Source1" Relationship="Self.FK_Orders_Sources" FromRole="Orders" ToRole="Sources" />
           <NavigationProperty Name="Tag" Relationship="Self.FK_Orders_Tags" FromRole="Orders" ToRole="Tags" />
+          <Property Name="OldParentTag" Type="Int32" />
+          <Property Name="IsJourney" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Source">
           <Key>
@@ -150,6 +154,8 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="BudgetModel.Order">
               <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="IsJourney" ColumnName="IsJourney" />
+                <ScalarProperty Name="OldParentTag" ColumnName="OldParentTag" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="DateOrder" ColumnName="DateOrder" />
                 <ScalarProperty Name="Value" ColumnName="Value" />

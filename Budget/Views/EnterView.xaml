@@ -93,6 +93,7 @@
 
                         </dxg:GridColumn>
                         <dxg:GridColumn FieldName="Tags"/>
+                        <dxg:GridColumn FieldName="IsJourney"/>
                     </dxg:GridControl.Columns>
                     <dxg:GridControl.View>
                         <dxg:TableView ShowFilterPopup="TableView_ShowFilterPopup" local:ExportHelper.ExportProperty="{Binding ExportProperty}" 

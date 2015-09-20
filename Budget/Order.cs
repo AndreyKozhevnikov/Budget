@@ -22,6 +22,8 @@ namespace Budget
         public string Tags { get; set; }
         public int Source { get; set; }
         public bool Ignore { get; set; }
+        public Nullable<int> OldParentTag { get; set; }
+        public bool IsJourney { get; set; }
     
         public virtual Source Source1 { get; set; }
         public virtual Tag Tag { get; set; }
