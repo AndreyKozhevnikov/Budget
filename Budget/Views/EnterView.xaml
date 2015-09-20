@@ -76,12 +76,12 @@
                             </dxg:GridColumn.DisplayTemplate>
                         </dxg:GridColumn>
                         <dxg:GridColumn FieldName="Value" Width="90"/>
-                        <dxg:GridColumn FieldName="ParentTag" ColumnFilterMode="DisplayText" FilterPopupMode="CheckedList" >
+                        <dxg:GridColumn FieldName="ParentTag" ColumnFilterMode="DisplayText" FilterPopupMode="CheckedList">
                             <dxg:GridColumn.CellTemplate>
                                 <DataTemplate>
-                                    <dxe:ComboBoxEdit x:Name="PART_Editor" 
+                                    <dxe:ComboBoxEdit x:Name="PART_Editor" IsTextEditable="False" 
                                                               ItemsSource="{Binding DataContext.AllTags, RelativeSource={RelativeSource AncestorType={x:Type dxg:GridControl}, Mode=FindAncestor}}"
-                                                              DisplayMember="TagName" ValueMember="Id"/>
+                                                              DisplayMember="TagName" ValueMember="Id" FocusPopupOnOpen="True"/>
                                 </DataTemplate>
                             </dxg:GridColumn.CellTemplate>
                             <dxg:GridColumn.EditSettings>
