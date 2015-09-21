@@ -120,26 +120,7 @@ namespace Budget {
             return this;
         }
     }
-    public class ConverterForParentTags : MarkupExtension, IValueConverter {
-        public ConverterForParentTags() { }
-        public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture) {
-            if (value != null) {
-                string st = EnterViewModel.AllTags.Where(x => x.Id == (int)value).First().TagName;
-                return st;
-            }
-            return value;
-        }
-
-        public object ConvertBack(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture) {
-            throw new NotImplementedException();
-        }
-
-
-
-        public override object ProvideValue(IServiceProvider serviceProvider) {
-            return this;
-        }
-    }
+ 
     public class ConverterGroupDataToTitle : MarkupExtension, IValueConverter {
         public ConverterGroupDataToTitle() { }
         public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture) {
