@@ -2,10 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+
 
 namespace Budget {
     public class EnterViewModel : MyBindableBase {
@@ -96,8 +98,9 @@ namespace Budget {
 
         public string ExportProperty {
             get { return _exportProperty; }
-            set { _exportProperty = value;
-            RaisePropertyChanged();
+            set {
+                _exportProperty = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -153,7 +156,7 @@ namespace Budget {
             }
         }
 
-      
+
         void UpdateOrders() {
             SelectedOrders = new ObservableCollection<MyOrder>();
             SelectedOrders.CollectionChanged += SelectedOrders_CollectionChanged;
@@ -194,7 +197,7 @@ namespace Budget {
         }
 
         void SetFocusOnTextEditValue() {
-            IsValueTextEditFocused =  !IsValueTextEditFocused;
+            IsValueTextEditFocused = !IsValueTextEditFocused;
         }
 
         void AddTag() {
@@ -213,7 +216,18 @@ namespace Budget {
 
         void UpdateTags() {
             var v = OrderViewModel.generalEntity.Tags.ToList();
-            AllTags = new ObservableCollection<Tag>(v);
+
+            var lst = ParentViewModel.Orders.Select(x => new { pTag = x.ParentTag, vl = x.Value }).ToList();
+            var lst2 = lst.GroupBy(x => x.pTag).ToList();
+            //var lst3=lst2.Select(x=>new{pn=x.Key,vl=x.Sum(y=>y.vl)}).ToList();
+            var lst3 = lst2.Select(x => new { pn = x.Key, vl = x.Count() }).ToList();
+            var lst4 = lst3.OrderByDescending(x => x.vl).ToList();
+            var lst5 = lst4.Select(x => x.pn).ToList();
+            MyComparer<int> comp = new MyComparer<int>(lst5);
+            var v2 = v.OrderBy(x => x.Id, comp).ToList();
+
+            AllTags = new ObservableCollection<Tag>(v2);
+
             RaisePropertyChanged("AllTags");
         }
         void MakeLists() {
@@ -225,10 +239,10 @@ namespace Budget {
             OrderViewModel.generalEntity.SaveChanges();
         }
         void ExportXLSX() {
-            string path =OrderViewModel.DropboxPath + @"common\BudgetExport.xlsx";
+            string path = OrderViewModel.DropboxPath + @"common\BudgetExport.xlsx";
             ExportProperty = path;
             ExportProperty = null; //говнокод
-         }
+        }
 
         private void PreviewKeyHandler(KeyEventArgs e) {
             if (e.Key == Key.Enter && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))) {
@@ -237,5 +251,21 @@ namespace Budget {
             }
         }
 
+    }
+
+    class MyComparer<T> : IComparer<int> {
+        public MyComparer(List<int> _innerList) {
+            innerList = _innerList;
+        }
+
+        List<int> innerList;
+        public int Compare(int x, int y) {
+            var index1 = innerList.IndexOf(x);
+            var index2 = innerList.IndexOf(y);
+            var res = Comparer<int>.Default.Compare(index1, index2);
+
+            Debug.Print(string.Format("{0} {1}  - {2} ", index1, index2, res));
+            return res;
+        }
     }
 }
