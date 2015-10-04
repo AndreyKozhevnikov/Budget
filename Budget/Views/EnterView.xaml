@@ -25,9 +25,6 @@
                     <dxlc:LayoutItem Label="Sum of eat">
                         <Label Content="{Binding SelectedItemsSumEat}" />
                     </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="Sum by card">
-                        <Label Content="{Binding SelectedItemsSumCard}"/>
-                    </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
                     <dxlc:LayoutGroup Orientation="Vertical" >
                     <dxlc:LayoutGroup>

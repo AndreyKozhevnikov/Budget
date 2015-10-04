@@ -6,9 +6,7 @@
     <edmx:Diagrams>
       <Diagram DiagramId="ec6a25c45740451bb36506d30c6a74dc" Name="Diagram1">
         <EntityTypeShape EntityType="BudgetModel.Order" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="BudgetModel.Source" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
         <EntityTypeShape EntityType="BudgetModel.Tag" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
-        <AssociationConnector Association="BudgetModel.FK_Orders_Sources" ManuallyRouted="false" />
         <AssociationConnector Association="BudgetModel.FK_Orders_Tags" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>

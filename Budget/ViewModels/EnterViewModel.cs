@@ -14,7 +14,6 @@ namespace Budget {
         public EnterViewModel(OrderViewModel vm) {
             ParentViewModel = vm;
             UpdateOrders();
-            MakeLists();//+
             UpdateTags(); //+
 
             CreateNewCurrentOrder();//te
@@ -44,7 +43,6 @@ namespace Budget {
 
         public OrderViewModel ParentViewModel { get; set; }
         public ObservableCollection<MyOrder> SelectedOrders { get; set; }
-        public ObservableCollection<Source> Sources { get; set; }
         public static ObservableCollection<Tag> AllTags { get; set; }
         public int? SelectedItemsSumAll {
             get {
@@ -56,11 +54,7 @@ namespace Budget {
                 return SelectedOrders.Where(x => x.ParentTag == 1).Sum(x => x.Value);
             }
         }
-        public int? SelectedItemsSumCard {
-            get {
-                return SelectedOrders.Where(x => x.Source == 3).Sum(x => x.Value);
-            }
-        }
+       
         public DateTime CurrentDate {
             get { return _currentDate; }
             set {
@@ -166,7 +160,6 @@ namespace Budget {
         void SelectedOrders_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) {
             RaisePropertyChanged("SelectedItemsSumAll");
             RaisePropertyChanged("SelectedItemsSumEat");
-            RaisePropertyChanged("SelectedItemsSumCard");
         }
 
         void ChangeCurrentOrderDateMethod(string st) {
@@ -190,7 +183,6 @@ namespace Budget {
             var par = OrderViewModel.generalEntity.Orders.Create();
             CurrentOrder = new MyOrder() { parentOrderEntity = par };
             CurrentOrder.DateOrder = CurrentDate;
-            CurrentOrder.Source = Sources[1].Id;
             CurrentOrder.ParentTag = AllTags[0].Id;
             CurrentOrder.Ignore = false;
 
@@ -230,11 +222,7 @@ namespace Budget {
 
             RaisePropertyChanged("AllTags");
         }
-        void MakeLists() {
-
-            var tmpSources = OrderViewModel.generalEntity.Sources.ToList();
-            Sources = new ObservableCollection<Source>(tmpSources);
-        }
+       
         void SaveNotSavedOrdersInBaseMehtod() {
             OrderViewModel.generalEntity.SaveChanges();
         }

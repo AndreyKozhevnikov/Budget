@@ -26,7 +26,6 @@ namespace Budget
         }
     
         public virtual DbSet<Order> Orders { get; set; }
-        public virtual DbSet<Source> Sources { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
     }
 }
