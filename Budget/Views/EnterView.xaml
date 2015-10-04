@@ -85,9 +85,12 @@
                         <dxg:GridColumn FieldName="IsJourney"/>
                     </dxg:GridControl.Columns>
                     <dxg:GridControl.View>
-                        <dxg:TableView ShowFilterPopup="TableView_ShowFilterPopup" local:ExportHelper.ExportProperty="{Binding ExportProperty}" 
+                        <dxg:TableView  local:ExportHelper.ExportProperty="{Binding ExportProperty}" 
                                        ShowTotalSummary="True" ShowGroupedColumns="True"
                                        >
+                            <dxmvvm:Interaction.Behaviors>
+                                <dxmvvm:EventToCommand EventName="ShowFilterPopup" Command="{Binding ShowFilterPopupCommand}" PassEventArgsToCommand="True"/>
+                            </dxmvvm:Interaction.Behaviors>
                             <dxg:TableView.RowStyle>
                                 <Style TargetType="{x:Type dxg:RowControl}" BasedOn="{StaticResource {x:Type dxg:RowControl}}">
                                     <Setter Property="Background" Value="{Binding Row.DateOrder, Converter={local:DatetoColorConverter}}"/>

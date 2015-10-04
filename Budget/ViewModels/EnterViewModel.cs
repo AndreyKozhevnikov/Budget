@@ -1,4 +1,6 @@
-﻿using DevExpress.Mvvm;
+﻿using DevExpress.Data.Filtering;
+using DevExpress.Mvvm;
+using DevExpress.Xpf.Grid;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -31,7 +33,7 @@ namespace Budget {
         ICommand _saveNotSavedTagsInBaseCommand;
         ICommand _exportXLSXCommand;
         ICommand _previewKeyHandlerCommand;
-
+        ICommand _showFilterPopupCommand;
         DateTime _currentDate;
         MyOrder _currentOrder;
         MyOrder _focusedInOutLayGridOrder;
@@ -149,6 +151,16 @@ namespace Budget {
                 return _previewKeyHandlerCommand;
             }
         }
+        public ICommand ShowFilterPopupCommand {
+            get {
+                if (_showFilterPopupCommand == null)
+                    _showFilterPopupCommand = new DelegateCommand<FilterPopupEventArgs>(ShowFilterPopup);
+                    return _showFilterPopupCommand;
+            }
+        }
+
+     
+
 
 
         void UpdateOrders() {
@@ -238,6 +250,30 @@ namespace Budget {
                 EnterOrder();
             }
         }
+        private void ShowFilterPopup(FilterPopupEventArgs e) {
+            //throw new NotImplementedException();
+            if (e.Column.FieldName == "DateOrder") {
+
+                var v1 = e.ComboBoxEdit.ItemsSource as List<object>;
+                //ppp
+                //List<CustomComboBoxItem> listItems = v1.Cast<CustomComboBoxItem>().ToList();
+
+                //var listMonth1 = listItems.Where(x => x.EditValue is DateTime).ToList();
+                //var listMonth2 = listMonth1.Select(x => new { dt = ((DateTime)x.EditValue) }).ToList();
+                //var listMonth3 = listMonth2.Select(x => new { mnt = new DateTime(x.dt.Year, x.dt.Month,1) }).ToList();
+                //var listMonth4 = listMonth3.GroupBy(x => x.mnt).Select(y => new { vl =(DateTime) y.Key }).ToList();
+                //var listMonth5 = listMonth4.Select(x => new { Display = x.vl.ToString("MMM yyyy"), v1 = x.vl, v2 = x.vl.AddMonths(1) }).ToList();
+                //var listMonth6 = listMonth5.Select(x => new CustomComboBoxItem() { DisplayValue = x.Display, EditValue = CriteriaOperator.Parse(string.Format("[DateOrder]>=#{0}# and [DateOrder]<#{1}#", x.v1, x.v2)) }).ToList();
+
+                var listMonth = v1.Cast<CustomComboBoxItem>().Where(x => x.EditValue is DateTime).Select(x => new { dt = ((DateTime)x.EditValue) }).Select(x => new { mnt = new DateTime(x.dt.Year, x.dt.Month, 1) }).GroupBy(x => x.mnt).Select(y => new { vl = (DateTime)y.Key }).Select(x => new { Display = x.vl.ToString("MMM yyyy"), v1 = x.vl, v2 = x.vl.AddMonths(1) }).Select(x => new CustomComboBoxItem() { DisplayValue = x.Display, EditValue = CriteriaOperator.Parse(string.Format("[DateOrder]>=#{0}# and [DateOrder]<#{1}#", x.v1, x.v2)) }).ToList();
+                e.ComboBoxEdit.ItemsSource = listMonth;
+            }
+            if (e.Column.FieldName == "ParentTag") {
+                var l = AllTags.Select(x => new CustomComboBoxItem() { DisplayValue = x.TagName, EditValue = x.TagName }).ToList();
+                e.ComboBoxEdit.ItemsSource = l;
+            }
+        }
+
 
     }
 
