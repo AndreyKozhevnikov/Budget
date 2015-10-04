@@ -77,15 +77,7 @@ namespace Budget {
             }
         }
 
-        //public int Source {
-        //    get {
-        //        return parentOrderEntity.Source;
-        //    }
-        //    set {
-        //        parentOrderEntity.Source = value;
-        //        RaisePropertyChanged();
-        //    }
-        //}
+
         public bool Ignore {
             get {
                 return parentOrderEntity.Ignore;

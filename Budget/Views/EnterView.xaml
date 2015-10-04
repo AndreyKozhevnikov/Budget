@@ -63,8 +63,6 @@
                         <dxg:GridSummaryItem FieldName="Value" SummaryType="Sum" />
                     </dxg:GridControl.GroupSummary>
                     <dxg:GridControl.Columns>
-                        <dxg:GridColumn FieldName="Id" Width="30"/>
-                        <dxg:GridColumn FieldName="IsSavedInBase" ReadOnly="True" Width="30"/>
                         <dxg:GridColumn FieldName="DateOrder" SortIndex="0" Width="90" FilterPopupMode="List" >
                             <dxg:GridColumn.DisplayTemplate>
                                 <ControlTemplate>

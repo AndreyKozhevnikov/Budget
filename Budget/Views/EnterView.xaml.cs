@@ -23,9 +23,7 @@ namespace Budget.Views {
         public EnterView() {
             InitializeComponent();
         }
-        private void Button_Click_1(object sender, RoutedEventArgs e) {
-            OrderViewModel.generalEntity.SaveChanges();
-        }
+       
         private void GridControl_Loaded_1(object sender, RoutedEventArgs e) {
             GridControl gc = sender as GridControl;
             (gc.View as TableView).MoveLastRow();
