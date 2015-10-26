@@ -191,19 +191,6 @@ namespace Budget {
             IsValueTextEditFocused = !IsValueTextEditFocused;
         }
 
-        //void AddTag() {
-        //    addtgwnd = new AddTagWindow();
-        //    addtgwnd.DataContext = this;
-        //    CurrentTag = OrderViewModel.generalEntity.Tags.Create();
-        //    addtgwnd.ShowDialog();
-        //}
-        //void SaveTag() {
-        //    OrderViewModel.generalEntity.Tags.Add(CurrentTag);
-        //    OrderViewModel.generalEntity.SaveChanges();
-        //    AllTags.Add(CurrentTag);
-        //    CurrentOrder.ParentTag = CurrentTag.Id;
-        //    addtgwnd.Close();
-        //}
 
         void UpdateTags() {
             var v = OrderViewModel.generalEntity.Tags.ToList();
