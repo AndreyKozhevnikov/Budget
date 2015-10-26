@@ -114,20 +114,7 @@ namespace Budget {
                 return _enterOrderCommand;
             }
         }
-        public ICommand SaveTagCommand {
-            get {
-                if (_saveTagCommand == null)
-                    _saveTagCommand = new DelegateCommand(SaveTag);
-                return _saveTagCommand;
-            }
-        }
-        public ICommand AddTagCommand {
-            get {
-                if (_addTagCommand == null)
-                    _addTagCommand = new DelegateCommand(AddTag);
-                return _addTagCommand;
-            }
-        }
+ 
         public ICommand SaveNotSavedOrdersInBaseCommand {
             get {
                 if (_saveNotSavedTagsInBaseCommand == null)
@@ -204,19 +191,19 @@ namespace Budget {
             IsValueTextEditFocused = !IsValueTextEditFocused;
         }
 
-        void AddTag() {
-            addtgwnd = new AddTagWindow();
-            addtgwnd.DataContext = this;
-            CurrentTag = OrderViewModel.generalEntity.Tags.Create();
-            addtgwnd.ShowDialog();
-        }
-        void SaveTag() {
-            OrderViewModel.generalEntity.Tags.Add(CurrentTag);
-            OrderViewModel.generalEntity.SaveChanges();
-            AllTags.Add(CurrentTag);
-            CurrentOrder.ParentTag = CurrentTag.Id;
-            addtgwnd.Close();
-        }
+        //void AddTag() {
+        //    addtgwnd = new AddTagWindow();
+        //    addtgwnd.DataContext = this;
+        //    CurrentTag = OrderViewModel.generalEntity.Tags.Create();
+        //    addtgwnd.ShowDialog();
+        //}
+        //void SaveTag() {
+        //    OrderViewModel.generalEntity.Tags.Add(CurrentTag);
+        //    OrderViewModel.generalEntity.SaveChanges();
+        //    AllTags.Add(CurrentTag);
+        //    CurrentOrder.ParentTag = CurrentTag.Id;
+        //    addtgwnd.Close();
+        //}
 
         void UpdateTags() {
             var v = OrderViewModel.generalEntity.Tags.ToList();
