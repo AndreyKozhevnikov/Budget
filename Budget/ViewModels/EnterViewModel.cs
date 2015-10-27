@@ -262,7 +262,7 @@ namespace Budget {
             var index2 = innerList.IndexOf(y);
             var res = Comparer<int>.Default.Compare(index1, index2);
 
-            Debug.Print(string.Format("{0} {1}  - {2} ", index1, index2, res));
+         //   Debug.Print(string.Format("{0} {1}  - {2} ", index1, index2, res));
             return res;
         }
     }

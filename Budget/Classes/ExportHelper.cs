@@ -26,6 +26,8 @@ namespace Budget {
 
         private static void ExportChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             if (e.NewValue == null) return;
+            if (OrderViewModel.IsTestMode)
+                return;
             TableView tv = d as TableView;
             GridControl gc = tv.DataControl as GridControl;
             gc.Columns["DateOrder"].SortOrder = ColumnSortOrder.Descending;
