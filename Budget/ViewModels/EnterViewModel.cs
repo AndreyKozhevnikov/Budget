@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 
 namespace Budget {
-    public class EnterViewModel : MyBindableBase {
+    public class EnterViewModel : MyBindableBase, ISupportServices {
         public EnterViewModel(OrderViewModel vm) {
             ParentViewModel = vm;
             UpdateOrders();
@@ -214,8 +214,8 @@ namespace Budget {
         }
         void ExportXLSX() {
             string path = OrderViewModel.DropboxPath + @"common\BudgetExport.xlsx";
-            ExportProperty = path;
-            ExportProperty = null; //говнокод
+            TableViewExportToExcelService.ExportToExcel(path);
+        
         }
 
         private void PreviewKeyHandler(KeyEventArgs e) {
@@ -225,7 +225,7 @@ namespace Budget {
             }
         }
         private void ShowFilterPopup(FilterPopupEventArgs e) {
-            //throw new NotImplementedException();
+           
             if (e.Column.FieldName == "DateOrder") {
 
                 var v1 = e.ComboBoxEdit.ItemsSource as List<object>;
@@ -249,6 +249,18 @@ namespace Budget {
         }
 
 
+
+        IServiceContainer serviceContainer = null;
+        protected IServiceContainer ServiceContainer {
+            get {
+                if (serviceContainer == null)
+                    serviceContainer = new ServiceContainer(this);
+                return serviceContainer;
+            }
+        }
+        IServiceContainer ISupportServices.ServiceContainer { get { return ServiceContainer; } }
+
+        ITableViewExportToExcelService TableViewExportToExcelService { get { return ServiceContainer.GetService<ITableViewExportToExcelService>(); } }
     }
 
     class MyComparer<T> : IComparer<int> {

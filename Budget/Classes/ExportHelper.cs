@@ -1,4 +1,5 @@
 ﻿using DevExpress.Data;
+using DevExpress.Mvvm.UI;
 using DevExpress.Xpf.Grid;
 using System;
 using System.Collections.Generic;
@@ -9,37 +10,38 @@ using System.Windows;
 using System.Windows.Data;
 
 namespace Budget {
-    public class ExportHelper {
+    
+
+    public interface ITableViewExportToExcelService {
+        void ExportToExcel(string path);
+    }
+
+    public class TableViewExportToExcelService : ServiceBase, ITableViewExportToExcelService {
 
 
-        public static string GetExportProperty(DependencyObject obj) {
-            return (string)obj.GetValue(ExportPropertyProperty);
+        public TableView ExportTableView {
+            get { return (TableView)GetValue(ExportTableViewProperty); }
+            set { SetValue(ExportTableViewProperty, value); }
         }
 
-        public static void SetExportProperty(DependencyObject obj, string value) {
-            obj.SetValue(ExportPropertyProperty, value);
-        }
+        // Using a DependencyProperty as the backing store for ExportTableView.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ExportTableViewProperty =
+            DependencyProperty.Register("ExportTableView", typeof(TableView), typeof(TableViewExportToExcelService), new PropertyMetadata(null));
 
-        // Using a DependencyProperty as the backing store for ExportProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ExportPropertyProperty =
-            DependencyProperty.RegisterAttached("ExportProperty", typeof(string), typeof(ExportHelper), new PropertyMetadata(null, new PropertyChangedCallback(ExportChanged)));
 
-        private static void ExportChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-            if (e.NewValue == null) return;
+
+        public void ExportToExcel(string path) {
             if (OrderViewModel.IsTestMode)
                 return;
-            TableView tv = d as TableView;
-            GridControl gc = tv.DataControl as GridControl;
+            GridControl gc = ExportTableView.DataControl as GridControl;
             gc.Columns["DateOrder"].SortOrder = ColumnSortOrder.Descending;
-            gc.Columns["DateOrder"].SortIndex = 0;//говнокод
-            string path = e.NewValue.ToString();
+            gc.Columns["DateOrder"].SortIndex = 0;
             try {
-                tv.ExportToXlsx(path);
-            } catch {
-
+                ExportTableView.ExportToXlsx(path);
+            }
+            catch {
+                MessageBox.Show("Export error");
             }
         }
-
-
     }
 }

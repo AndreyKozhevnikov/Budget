@@ -85,11 +85,12 @@
                         <dxg:GridColumn FieldName="IsJourney"/>
                     </dxg:GridControl.Columns>
                     <dxg:GridControl.View>
-                        <dxg:TableView  local:ExportHelper.ExportProperty="{Binding ExportProperty}" 
+                        <dxg:TableView   x:Name="AllOrdersTableView"
                                        ShowTotalSummary="True" ShowGroupedColumns="True"
                                        >
                             <dxmvvm:Interaction.Behaviors>
                                 <dxmvvm:EventToCommand EventName="ShowFilterPopup" Command="{Binding ShowFilterPopupCommand}" PassEventArgsToCommand="True"/>
+                                <local:TableViewExportToExcelService ExportTableView="{Binding ElementName=AllOrdersTableView}"/>
                             </dxmvvm:Interaction.Behaviors>
                             <dxg:TableView.RowStyle>
                                 <Style TargetType="{x:Type dxg:RowControl}" BasedOn="{StaticResource {x:Type dxg:RowControl}}">
