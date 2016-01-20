@@ -35,4 +35,8 @@ namespace Budget {
             OrderViewModel.generalEntity.SaveChanges();
         }
     }
+
+    public partial class Tag {
+        public string ComplexValue { get; set; }
+    }
 }

@@ -198,13 +198,19 @@ namespace Budget {
             var lst = ParentViewModel.Orders.Select(x => new { pTag = x.ParentTag, vl = x.Value }).ToList();
             var lst2 = lst.GroupBy(x => x.pTag).ToList();
             //var lst3=lst2.Select(x=>new{pn=x.Key,vl=x.Sum(y=>y.vl)}).ToList();
-            var lst3 = lst2.Select(x => new { pn = x.Key, vl = x.Count() }).ToList();
+            var lst3 = lst2.Select(x => new { pn = x.Key, vl = x.Count() ,sm=x.Sum(y=>y.vl)}).ToList();
             var lst4 = lst3.OrderByDescending(x => x.vl).ToList();
             var lst5 = lst4.Select(x => x.pn).ToList();
             MyComparer<int> comp = new MyComparer<int>(lst5);
             var v2 = v.OrderBy(x => x.Id, comp).ToList();
 
             AllTags = new ObservableCollection<Tag>(v2);
+
+            foreach (Tag tg in AllTags) {
+                var tmp = lst3.Where(x => x.pn == tg.Id).First();
+                tg.ComplexValue =string.Format("{0} - {1} - {2}",tg.TagName, tmp.vl,tmp.sm);
+            }
+
 
             RaisePropertyChanged("AllTags");
         }
@@ -278,4 +284,6 @@ namespace Budget {
             return res;
         }
     }
+
+  
 }
