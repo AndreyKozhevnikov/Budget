@@ -12,7 +12,7 @@
             >
     <dxmvvm:Interaction.Behaviors>
         <dxmvvm:EventToCommand EventName="PreviewKeyDown" Command="{Binding PreviewKeyHandlerCommand}" PassEventArgsToCommand="True">
-            
+
         </dxmvvm:EventToCommand>
     </dxmvvm:Interaction.Behaviors>
     <dxlc:LayoutGroup Orientation="Horizontal">
@@ -26,7 +26,7 @@
                         <Label Content="{Binding SelectedItemsSumEat}" />
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
-                    <dxlc:LayoutGroup Orientation="Vertical" >
+                <dxlc:LayoutGroup Orientation="Vertical" PreviewKeyDown="LayoutGroup_PreviewKeyDown" >
                     <dxlc:LayoutGroup>
                         <Button Content="Down" Height="22" Width="50" Command="{Binding ChangeCurrentOrderDate}" CommandParameter="Down"/>
                         <dxlc:LayoutItem Label="Date:">
