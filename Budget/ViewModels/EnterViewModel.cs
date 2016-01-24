@@ -226,7 +226,6 @@ namespace Budget {
 
         private void PreviewKeyHandler(KeyEventArgs e) {
             if (e.Key == Key.Enter && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))) {
-                IsValueTextEditFocused = false;
                 if (CurrentOrder.Value == 0)
                     return;
                 EnterOrder();
