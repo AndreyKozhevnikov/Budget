@@ -4,6 +4,7 @@
                 xmlns:local="clr-namespace:Budget"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                  xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
                  xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
                  xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
@@ -28,6 +29,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition />
                     <RowDefinition Height="4*"/>
+                    <RowDefinition Height="75"/>
 
                 </Grid.RowDefinitions>
                 <Button Content="GetValues" Height="25" Command="{Binding CreateGroupCollectionCommand}"/>
@@ -48,6 +50,17 @@
                         <dxg:GridColumn FieldName="Tags"  />
                     </dxg:GridControl.Columns>
                 </dxg:GridControl>
+                <StackPanel Grid.Row="3">
+                    <dxlc:LayoutItem Label="Sum" >
+                        <Label Content="{Binding SelectedGroup.Value}"/>
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="Count" >
+                        <Label Content="{Binding SelectedGroup.Count}"/>
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="Average" >
+                        <Label Content="{Binding SelectedGroup.Average}"/>
+                    </dxlc:LayoutItem>
+                </StackPanel>
             </Grid>
             <dxc:ChartControl Name="chart"
                         Grid.Column="1" DataSource="{Binding GroupCollection}"

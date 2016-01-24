@@ -47,7 +47,7 @@ namespace Budget {
         }
 
         public void CreateGroupCollection() {
-            var v3 = SelectedGroups.Select(y => new GroupData { ParentTagName = y.TagName, ParentTagId = y.Id, Value = y.Orders.Sum(x => x.Value) }).ToList();
+            var v3 = SelectedGroups.Select(y => new GroupData { ParentTagName = y.TagName, ParentTagId = y.Id, Value = y.Orders.Sum(x => x.Value),Count=y.Orders.Count() }).ToList();
             GroupCollection = new ObservableCollection<GroupData>(v3);
             RaisePropertyChanged("GroupCollection");
         }

@@ -10,5 +10,14 @@ namespace Budget {
       public string ParentTagName { get; set; }
       public int ParentTagId { get; set; }
       public int Value { get; set; }
+
+      public int Count { get; set; }
+      public int Average {
+          get {
+              if (Count>0)
+              return Value / Count;
+              return 0;
+          }
+      }
     }
 }
