@@ -14,6 +14,7 @@
         <dxmvvm:EventToCommand EventName="PreviewKeyDown" Command="{Binding PreviewKeyHandlerCommand}" PassEventArgsToCommand="True">
 
         </dxmvvm:EventToCommand>
+        <!--<local:SetFocusOnValueTextEditService MyTargerProperty="{Binding Path=., ElementName=ValueEditor1,Converter={local:custConverter}}"/>-->
     </dxmvvm:Interaction.Behaviors>
     <dxlc:LayoutGroup Orientation="Horizontal">
         <dxlc:LayoutGroup Orientation="Vertical">
@@ -35,7 +36,12 @@
                         <Button Content="Up" Height="22" Width="50" Command="{Binding ChangeCurrentOrderDate}" CommandParameter="Up"/>
                     </dxlc:LayoutGroup>
                     <dxlc:LayoutItem Label="Value:">
-                        <dxe:TextEdit  EditValue="{Binding CurrentOrder.Value, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectAllOnGotFocus="True"  local:FocusExtension.IsFocused="{Binding IsValueTextEditFocused}" />
+                        <dxe:TextEdit x:Name="ValueEditor1" EditValue="{Binding CurrentOrder.Value, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectAllOnGotFocus="True"   >
+                            <dxmvvm:Interaction.Behaviors>
+                                <local:SetFocusOnValueTextEditService MyTargerProperty="{Binding Path=., ElementName=ValueEditor1,Converter={local:custConverter}}"/>
+                                <dxmvvm:FocusBehavior/>
+                            </dxmvvm:Interaction.Behaviors>
+                            </dxe:TextEdit>
                     </dxlc:LayoutItem>
                     <dxlc:LayoutItem Label="ParentTag:">
                         <dxe:ComboBoxEdit  DisplayMember="ComplexValue" EditValue="{Binding CurrentOrder.ParentTag, Mode=TwoWay}" ItemsSource="{Binding AllTags}" ValueMember="Id"   />

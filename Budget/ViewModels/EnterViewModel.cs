@@ -19,7 +19,6 @@ namespace Budget {
             UpdateTags(); //+
 
             CreateNewCurrentOrder();//te
-            SetFocusOnTextEditValue();
 
 
 
@@ -37,7 +36,6 @@ namespace Budget {
         DateTime _currentDate;
         MyOrder _currentOrder;
         MyOrder _focusedInOutLayGridOrder;
-        bool _isValueTextEditFocused;
         AddTagWindow addtgwnd;
         Tag _currentTag;
         string _exportProperty;
@@ -77,13 +75,6 @@ namespace Budget {
             get { return _focusedInOutLayGridOrder; }
             set {
                 _focusedInOutLayGridOrder = value;
-                RaisePropertyChanged();
-            }
-        }
-        public bool IsValueTextEditFocused {
-            get { return _isValueTextEditFocused; }
-            set {
-                _isValueTextEditFocused = value;
                 RaisePropertyChanged();
             }
         }
@@ -177,6 +168,8 @@ namespace Budget {
             OrderViewModel.generalEntity.SaveChanges();
         }
 
+  
+
         void CreateNewCurrentOrder() {
 
             var par = OrderViewModel.generalEntity.Orders.Create();
@@ -186,9 +179,8 @@ namespace Budget {
             CurrentOrder.Ignore = false;
 
         }
-
-        void SetFocusOnTextEditValue() {
-            IsValueTextEditFocused = !IsValueTextEditFocused;
+        private void SetFocusOnTextEditValue() {
+            SetFocusOnValueTextEditService.SetFocus();
         }
 
 
@@ -268,6 +260,7 @@ namespace Budget {
         IServiceContainer ISupportServices.ServiceContainer { get { return ServiceContainer; } }
 
         ITableViewExportToExcelService TableViewExportToExcelService { get { return ServiceContainer.GetService<ITableViewExportToExcelService>(); } }
+        ISetFocusOnValueTextEdit SetFocusOnValueTextEditService { get { return ServiceContainer.GetService<ISetFocusOnValueTextEdit>(); } }
     }
 
     class MyComparer<T> : IComparer<int> {

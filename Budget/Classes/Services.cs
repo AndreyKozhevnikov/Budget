@@ -1,5 +1,6 @@
 ﻿using DevExpress.Data;
 using DevExpress.Mvvm.UI;
+using DevExpress.Xpf.Editors;
 using DevExpress.Xpf.Grid;
 using System;
 using System.Collections.Generic;
@@ -42,6 +43,28 @@ namespace Budget {
             catch {
                 MessageBox.Show("Export error");
             }
+        }
+    }
+
+
+    public interface ISetFocusOnValueTextEdit {
+        void SetFocus();
+    }
+    public class SetFocusOnValueTextEditService : ServiceBase, ISetFocusOnValueTextEdit {
+
+
+        public TextEdit MyTargerProperty {
+            get { return (TextEdit)GetValue(MyTargerPropertyProperty); }
+            set { SetValue(MyTargerPropertyProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyTargerProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MyTargerPropertyProperty =
+            DependencyProperty.Register("MyTargerProperty", typeof(TextEdit), typeof(SetFocusOnValueTextEditService), new PropertyMetadata(null));
+
+        
+        public void SetFocus() {
+            MyTargerProperty.Focus();
         }
     }
 }
