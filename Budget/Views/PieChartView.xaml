@@ -27,7 +27,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition />
                     <RowDefinition Height="4*"/>
-                    <RowDefinition Height="75"/>
+                    <RowDefinition Height="125"/>
 
                 </Grid.RowDefinitions>
                 <Button Content="GetValues" Height="25" Command="{Binding CreateGroupCollectionCommand}"/>
@@ -57,6 +57,12 @@
                     </dxlc:LayoutItem>
                     <dxlc:LayoutItem Label="Average" >
                         <Label Content="{Binding SelectedGroup.Average}"/>
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="MaxValue" >
+                        <Label Content="{Binding SelectedGroup.MaxValue}"/>
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="MinValue" >
+                        <Label Content="{Binding SelectedGroup.MinValue}"/>
                     </dxlc:LayoutItem>
                 </StackPanel>
             </Grid>

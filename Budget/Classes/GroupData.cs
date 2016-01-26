@@ -19,5 +19,7 @@ namespace Budget {
               return 0;
           }
       }
+      public int MaxValue { get; set; }
+      public int MinValue { get; set; }
     }
 }
