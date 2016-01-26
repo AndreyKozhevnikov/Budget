@@ -69,13 +69,22 @@
                     <dxc:XYDiagram2D.SecondaryAxesY>
                         <dxc:SecondaryAxisY2D Name="secondaryAxisY"  />
                     </dxc:XYDiagram2D.SecondaryAxesY>
-                    <dxc:LineSeries2D  ValueDataMember="SumOfEat" ArgumentDataMember="DayDate"  DataSource="{Binding DateChartCollection}"
-                                        dxc:XYDiagram2D.SeriesAxisY="{Binding ElementName=secondaryAxisY}" 
+                    <dxc:LineSeries2D  ValueDataMember="SumOfEat"
+                                       ArgumentDataMember="DayDate"
+                                       DisplayName="Eat"
+                                       DataSource="{Binding DateChartCollection}"
+                                       dxc:XYDiagram2D.SeriesAxisY="{Binding ElementName=secondaryAxisY}" 
                                        >
                     </dxc:LineSeries2D>
-                    <dxc:LineSeries2D  ValueDataMember="SumAll" ArgumentDataMember="DayDate" DataSource="{Binding DateChartCollection}">
+                    <dxc:LineSeries2D  ValueDataMember="SumAll"
+                                       DisplayName="All"
+                                       ArgumentDataMember="DayDate" 
+                                       DataSource="{Binding DateChartCollection}">
                     </dxc:LineSeries2D>
                 </dxc:XYDiagram2D>
+                <dxc:ChartControl.Legend>
+                    <dxc:Legend/>
+                </dxc:ChartControl.Legend>
             </dxc:ChartControl>
         </dxlc:LayoutGroup>
     </dxlc:LayoutGroup>
