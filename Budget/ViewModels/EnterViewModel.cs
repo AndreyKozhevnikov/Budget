@@ -27,8 +27,6 @@ namespace Budget {
         }
         ICommand _changeCurrentOrderDateCommand;
         ICommand _enterOrderCommand;
-        ICommand _saveTagCommand;
-        ICommand _addTagCommand;
         ICommand _saveNotSavedTagsInBaseCommand;
         ICommand _exportXLSXCommand;
         ICommand _previewKeyHandlerCommand;
@@ -36,7 +34,6 @@ namespace Budget {
         DateTime _currentDate;
         MyOrder _currentOrder;
         MyOrder _focusedInOutLayGridOrder;
-        AddTagWindow addtgwnd;
         Tag _currentTag;
         string _exportProperty;
 
