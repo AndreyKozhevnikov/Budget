@@ -42,7 +42,7 @@
                             </dxe:TextEdit>
                     </dxlc:LayoutItem>
                     <dxlc:LayoutItem Label="ParentTag:">
-                        <dxe:ComboBoxEdit  DisplayMember="ComplexValue" EditValue="{Binding CurrentOrder.ParentTag, Mode=TwoWay}" ItemsSource="{Binding AllTags}" ValueMember="Id"   />
+                        <dxe:ComboBoxEdit  DisplayMember="ComplexValue" EditValue="{Binding CurrentOrder.ParentTag, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AllTags}" ValueMember="Id"   />
                     </dxlc:LayoutItem>
                     <dxlc:LayoutItem Label="Description:">
                         <dxe:TextEdit  EditValue="{Binding CurrentOrder.Description, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
