@@ -9,59 +9,12 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Budget {
-    public class SummaryViewModel : MyBindableBase {
-        public  const int NORMEATTOONEDAY=220;
+    public partial class SummaryViewModel : MyBindableBase {
+       
         public SummaryViewModel(OrderViewModel vm) {
             ParentViewModel = vm;
             DateCollection = new ObservableCollection<DayData>();
         }
-        bool isLightOrders;
-
-        string _normToThisMonth;
-        int _spentThisMonth;
-        int _balance;
-  
-        ICommand _createDateCollectionCommand;
- 
-
-        public OrderViewModel ParentViewModel { get; set; }
-        public ObservableCollection<DayData> DateCollection { get; set; }
-        public ObservableCollection<DayData> DateChartCollection { get; set; }
-        public bool IsLightOrders {
-            get { return isLightOrders; }
-            set { isLightOrders = value; }
-        }
-
-        public string NormToThisMonth {
-            get { return _normToThisMonth; }
-            set { _normToThisMonth = value;
-            RaisePropertyChanged();
-            }
-        }
-        public int SpentThisMonth {
-            get { return _spentThisMonth; }
-            set { _spentThisMonth = value;
-            RaisePropertyChanged();
-            }
-        }
-        public int Balance {
-            get { return _balance; }
-            set { _balance = value;
-            RaisePropertyChanged();
-            }
-        }
-        public ICommand CreateDateCollectionCommand {
-            get {
-                if (_createDateCollectionCommand == null)
-                    _createDateCollectionCommand = new DelegateCommand(CreateDateCollection);
-                return _createDateCollectionCommand;
-            }
-        }
-
-
-
-
-
         public void CreateDateCollection() {
             DateCollection.Clear();
             DateTime? tmpDate = ParentViewModel.Orders.Min(x => x.DateOrder);
@@ -71,9 +24,6 @@ namespace Budget {
             } else {
                 Orders = ParentViewModel.Orders.Where(x => x.Ignore == false).ToList();
             }
-
-
-            // 
 
             var sumAll = Orders.GroupBy(s => s.DateOrder).Select(g => new { mid = g.Key, mall = g.Sum(s => s.Value) }).ToList();
             //var sumEat = ParentViewModel.Orders.Where(x => x.Ignore == false && x.ParentTag == 1).GroupBy(s => s.DateOrder).Select(g => new { mid = g.Key, mall = g.Sum(s => s.Value) }).ToList();
@@ -95,6 +45,7 @@ namespace Budget {
                            })
                                .ToList();
 
+            //magic?
             DateCollection = new ObservableCollection<DayData>((from pd in dates join od in summall on
                                      pd.Date equals od.date
                                      into t
@@ -106,11 +57,8 @@ namespace Budget {
                                                                 }
                                    ).ToList());
             RaisePropertyChanged("DateCollection");
-
-
             CreateDateChartCollection();
             CalculateEatStatistic();
-
         }
 
         void CreateDateChartCollection() {
@@ -138,14 +86,57 @@ namespace Budget {
             int d = DateTime.Now.Day;
             int norm = d * NORMEATTOONEDAY;
             NormToThisMonth = string.Format("{0} ({1})",norm,d);
-
             DateTime curMonth = new DateTime(DateTime.Now.Year,DateTime.Now.Month,1);
             DayData currentDayData = DateChartCollection.Where(x => x.DayDate == curMonth).First();
-
             SpentThisMonth = currentDayData.SumOfEat;
-
             Balance = norm - SpentThisMonth;
+        }
+    }
 
+    public partial class SummaryViewModel {
+        public const int NORMEATTOONEDAY = 220;
+
+        bool isLightOrders;
+        string _normToThisMonth;
+        int _spentThisMonth;
+        int _balance;
+        
+        ICommand _createDateCollectionCommand;
+
+        public OrderViewModel ParentViewModel { get; set; }
+        public ObservableCollection<DayData> DateCollection { get; set; }
+        public ObservableCollection<DayData> DateChartCollection { get; set; }
+        public bool IsLightOrders {
+            get { return isLightOrders; }
+            set { isLightOrders = value; }
+        }
+        public string NormToThisMonth {
+            get { return _normToThisMonth; }
+            set {
+                _normToThisMonth = value;
+                RaisePropertyChanged();
+            }
+        }
+        public int SpentThisMonth {
+            get { return _spentThisMonth; }
+            set {
+                _spentThisMonth = value;
+                RaisePropertyChanged();
+            }
+        }
+        public int Balance {
+            get { return _balance; }
+            set {
+                _balance = value;
+                RaisePropertyChanged();
+            }
+        }
+        public ICommand CreateDateCollectionCommand {
+            get {
+                if (_createDateCollectionCommand == null)
+                    _createDateCollectionCommand = new DelegateCommand(CreateDateCollection);
+                return _createDateCollectionCommand;
+            }
         }
     }
 }

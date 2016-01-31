@@ -8,44 +8,11 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Budget {
-   public class PieChartViewModel : MyBindableBase {
+   public partial class PieChartViewModel : MyBindableBase {
        public PieChartViewModel( OrderViewModel vm) {
            ParentViewModel = vm;
            MakePieChartList();
        }
-        GroupData _selectedGroup;
-
-
-        public OrderViewModel ParentViewModel { get; set; }
-        public ObservableCollection<Tag> SelectedGroups { get; set; }
-        public ObservableCollection<Tag> GroupList { get; set; }
-        public ObservableCollection<GroupData> GroupCollection { get; set; }
-        public ObservableCollection<Order> GroupsOrderCollection { get; set; }
-        public ObservableCollection<DayOrderData> DateOrderCollection { get; set; }
-
-        public GroupData SelectedGroup {
-            get { return _selectedGroup; }
-            set {
-                _selectedGroup = value;
-                if (_selectedGroup != null) {
-                    CreateGroupsOrderCollection();
-                    CreateDateOrderCollection();
-                }
-                RaisePropertyChanged("SelectedGroup");
-            }
-        }
-
-        ICommand _createGroupCollectionCommand;
-
-        public ICommand CreateGroupCollectionCommand {
-            get {
-                if (_createGroupCollectionCommand == null)
-                    _createGroupCollectionCommand = new DelegateCommand(CreateGroupCollection);
-                return _createGroupCollectionCommand;
-            }
-
-        }
-
         public void CreateGroupCollection() {
             var v3 = SelectedGroups.Select(y => new GroupData { ParentTagName = y.TagName, ParentTagId = y.Id, Value = y.Orders.Sum(x => x.Value),Count=y.Orders.Count(),MaxValue=y.Orders.Max(x=>x.Value),MinValue=y.Orders.Min(x=>x.Value) }).ToList();
             GroupCollection = new ObservableCollection<GroupData>(v3);
@@ -89,4 +56,36 @@ namespace Budget {
             RaisePropertyChanged("DateOrderCollection");
         }
     }
+
+   public partial class PieChartViewModel {
+       GroupData _selectedGroup;
+       ICommand _createGroupCollectionCommand;
+       public OrderViewModel ParentViewModel { get; set; }
+       public ObservableCollection<Tag> SelectedGroups { get; set; }
+       public ObservableCollection<Tag> GroupList { get; set; }
+       public ObservableCollection<GroupData> GroupCollection { get; set; }
+       public ObservableCollection<Order> GroupsOrderCollection { get; set; }
+       public ObservableCollection<DayOrderData> DateOrderCollection { get; set; }
+
+       public GroupData SelectedGroup {
+           get { return _selectedGroup; }
+           set {
+               _selectedGroup = value;
+               if (_selectedGroup != null) {
+                   CreateGroupsOrderCollection();
+                   CreateDateOrderCollection();
+               }
+               RaisePropertyChanged("SelectedGroup");
+           }
+       }
+
+       public ICommand CreateGroupCollectionCommand {
+           get {
+               if (_createGroupCollectionCommand == null)
+                   _createGroupCollectionCommand = new DelegateCommand(CreateGroupCollection);
+               return _createGroupCollectionCommand;
+           }
+
+       }
+   }
 }

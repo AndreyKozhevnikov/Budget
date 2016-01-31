@@ -18,15 +18,7 @@ using DevExpress.Xpf.LayoutControl;
 
 
 namespace Budget {
-    public class OrderViewModel : MyBindableBase {
-        public static bool IsTestMode = false;
-        public static BudgetEntities generalEntity;
-        public static string DropboxPath;
-
-        ICommand _onChangeTabCommand;
-
-  
-
+    public partial class OrderViewModel : MyBindableBase {
         public OrderViewModel() {
             ConnectToDataBase();
             UpdateOrders(); //+
@@ -34,25 +26,6 @@ namespace Budget {
             SummaryVM = new SummaryViewModel(this);
             EnterVM = new EnterViewModel(this);
         }
-
-     
-
-        public PieChartViewModel PieChartVM { get; set; }
-        public SummaryViewModel SummaryVM { get; set; }
-        public EnterViewModel EnterVM { get; set; }
-
-        public ICommand OnChangeTabCommand {
-            get {
-                if (_onChangeTabCommand == null)
-                    _onChangeTabCommand = new DelegateCommand<object>(OnChangeTab);
-                return _onChangeTabCommand; }
-           
-        }
-   
-      
-       
-        public ObservableCollection<MyOrder> Orders { get; set; }
-
         void UpdateOrders() {
             var v = generalEntity.Orders.Select(x => new MyOrder() { parentOrderEntity = x }).ToList();
             Orders = new ObservableCollection<MyOrder>(v);
@@ -90,5 +63,29 @@ namespace Budget {
                     generalEntity = new BudgetEntities("BudgetEntitiesHomeTest");
             }
         }
+    }
+
+    public partial class OrderViewModel {
+        public static bool IsTestMode = false;
+        public static BudgetEntities generalEntity;
+        public static string DropboxPath;
+
+        ICommand _onChangeTabCommand;
+
+        public PieChartViewModel PieChartVM { get; set; }
+        public SummaryViewModel SummaryVM { get; set; }
+        public EnterViewModel EnterVM { get; set; }
+        public ObservableCollection<MyOrder> Orders { get; set; }
+
+        public ICommand OnChangeTabCommand {
+            get {
+                if (_onChangeTabCommand == null)
+                    _onChangeTabCommand = new DelegateCommand<object>(OnChangeTab);
+                return _onChangeTabCommand;
+            }
+
+        }
+   
+
     }
 }

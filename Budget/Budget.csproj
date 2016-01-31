@@ -138,6 +138,7 @@
     </Compile>
     <Compile Include="Classes\BudgetEntities.cs" />
     <Compile Include="Classes\Converters.cs" />
+    <Compile Include="Classes\MyIntInListPositionComparer.cs" />
     <Compile Include="Classes\Services.cs" />
     <Compile Include="Classes\GroupData.cs" />
     <Compile Include="Model1.cs">

@@ -12,131 +12,15 @@ using System.Windows.Input;
 
 
 namespace Budget {
-    public class EnterViewModel : MyBindableBase, ISupportServices {
+    public partial class EnterViewModel : MyBindableBase, ISupportServices {
         public EnterViewModel(OrderViewModel vm) {
             ParentViewModel = vm;
             UpdateOrders();
             UpdateTags(); //+
-
             CreateNewCurrentOrder();//te
-
-
-
             CurrentDate = DateTime.Today;
 
         }
-        ICommand _changeCurrentOrderDateCommand;
-        ICommand _enterOrderCommand;
-        ICommand _saveNotSavedTagsInBaseCommand;
-        ICommand _exportXLSXCommand;
-        ICommand _previewKeyHandlerCommand;
-        ICommand _showFilterPopupCommand;
-        DateTime _currentDate;
-        MyOrder _currentOrder;
-        MyOrder _focusedInOutLayGridOrder;
-        Tag _currentTag;
-        string _exportProperty;
-
-
-        public OrderViewModel ParentViewModel { get; set; }
-        public ObservableCollection<MyOrder> SelectedOrders { get; set; }
-        public static ObservableCollection<Tag> AllTags { get; set; }
-        public int? SelectedItemsSumAll {
-            get {
-                return SelectedOrders.Sum(x => x.Value);
-            }
-        }
-        public int? SelectedItemsSumEat {
-            get {
-                return SelectedOrders.Where(x => x.ParentTag == 1).Sum(x => x.Value);
-            }
-        }
-       
-        public DateTime CurrentDate {
-            get { return _currentDate; }
-            set {
-                _currentDate = value;
-                CurrentOrder.DateOrder = value;
-                RaisePropertyChanged();
-
-            }
-        }
-        public MyOrder CurrentOrder {
-            get { return _currentOrder; }
-            set {
-                _currentOrder = value;
-                RaisePropertyChanged();
-            }
-        }
-        public MyOrder FocusedInOutLayGridOrder {
-            get { return _focusedInOutLayGridOrder; }
-            set {
-                _focusedInOutLayGridOrder = value;
-                RaisePropertyChanged();
-            }
-        }
-        public Tag CurrentTag {
-            get { return _currentTag; }
-            set { _currentTag = value; }
-        }
-
-        public string ExportProperty {
-            get { return _exportProperty; }
-            set {
-                _exportProperty = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        public ICommand ChangeCurrentOrderDate {
-            get {
-                if (_changeCurrentOrderDateCommand == null)
-                    _changeCurrentOrderDateCommand = new DelegateCommand<string>(ChangeCurrentOrderDateMethod, true);
-                return _changeCurrentOrderDateCommand;
-            }
-        }
-        public ICommand EnterOrderCommand {
-            get {
-                if (_enterOrderCommand == null)
-                    _enterOrderCommand = new DelegateCommand(EnterOrder);
-                return _enterOrderCommand;
-            }
-        }
- 
-        public ICommand SaveNotSavedOrdersInBaseCommand {
-            get {
-                if (_saveNotSavedTagsInBaseCommand == null)
-                    _saveNotSavedTagsInBaseCommand = new DelegateCommand(SaveNotSavedOrdersInBaseMehtod);
-                return _saveNotSavedTagsInBaseCommand;
-            }
-        }
-
-        public ICommand ExportXLSXCommand {
-            get {
-                if (_exportXLSXCommand == null)
-                    _exportXLSXCommand = new DelegateCommand(ExportXLSX);
-                return _exportXLSXCommand;
-            }
-        }
-
-        public ICommand PreviewKeyHandlerCommand {
-            get {
-                if (_previewKeyHandlerCommand == null)
-                    _previewKeyHandlerCommand = new DelegateCommand<KeyEventArgs>(PreviewKeyHandler);
-                return _previewKeyHandlerCommand;
-            }
-        }
-        public ICommand ShowFilterPopupCommand {
-            get {
-                if (_showFilterPopupCommand == null)
-                    _showFilterPopupCommand = new DelegateCommand<FilterPopupEventArgs>(ShowFilterPopup);
-                    return _showFilterPopupCommand;
-            }
-        }
-
-     
-
-
 
         void UpdateOrders() {
             SelectedOrders = new ObservableCollection<MyOrder>();
@@ -190,7 +74,7 @@ namespace Budget {
             var lst3 = lst2.Select(x => new { pn = x.Key, vl = x.Count() ,sm=x.Sum(y=>y.vl)}).ToList();
             var lst4 = lst3.OrderByDescending(x => x.vl).ToList();
             var lst5 = lst4.Select(x => x.pn).ToList();
-            MyComparer<int> comp = new MyComparer<int>(lst5);
+            MyIntInListPositionComparer<int> comp = new MyIntInListPositionComparer<int>(lst5);
             var v2 = v.OrderBy(x => x.Id, comp).ToList();
 
             AllTags = new ObservableCollection<Tag>(v2);
@@ -246,6 +130,121 @@ namespace Budget {
 
 
 
+       
+    }
+
+
+    public partial class EnterViewModel {
+        ICommand _changeCurrentOrderDateCommand;
+        ICommand _enterOrderCommand;
+        ICommand _saveNotSavedTagsInBaseCommand;
+        ICommand _exportXLSXCommand;
+        ICommand _previewKeyHandlerCommand;
+        ICommand _showFilterPopupCommand;
+
+        DateTime _currentDate;
+        MyOrder _currentOrder;
+        MyOrder _focusedInOutLayGridOrder;
+        Tag _currentTag;
+        string _exportProperty;
+
+        public OrderViewModel ParentViewModel { get; set; }
+        public ObservableCollection<MyOrder> SelectedOrders { get; set; }
+        public static ObservableCollection<Tag> AllTags { get; set; }
+        public int? SelectedItemsSumAll {
+            get {
+                return SelectedOrders.Sum(x => x.Value);
+            }
+        }
+        public int? SelectedItemsSumEat {
+            get {
+                return SelectedOrders.Where(x => x.ParentTag == 1).Sum(x => x.Value);
+            }
+        }
+
+        public DateTime CurrentDate {
+            get { return _currentDate; }
+            set {
+                _currentDate = value;
+                CurrentOrder.DateOrder = value;
+                RaisePropertyChanged();
+
+            }
+        }
+        public MyOrder CurrentOrder {
+            get { return _currentOrder; }
+            set {
+                _currentOrder = value;
+                RaisePropertyChanged();
+            }
+        }
+        public MyOrder FocusedInOutLayGridOrder {
+            get { return _focusedInOutLayGridOrder; }
+            set {
+                _focusedInOutLayGridOrder = value;
+                RaisePropertyChanged();
+            }
+        }
+        public Tag CurrentTag {
+            get { return _currentTag; }
+            set { _currentTag = value; }
+        }
+
+        public string ExportProperty {
+            get { return _exportProperty; }
+            set {
+                _exportProperty = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public ICommand ChangeCurrentOrderDate {
+            get {
+                if (_changeCurrentOrderDateCommand == null)
+                    _changeCurrentOrderDateCommand = new DelegateCommand<string>(ChangeCurrentOrderDateMethod, true);
+                return _changeCurrentOrderDateCommand;
+            }
+        }
+        public ICommand EnterOrderCommand {
+            get {
+                if (_enterOrderCommand == null)
+                    _enterOrderCommand = new DelegateCommand(EnterOrder);
+                return _enterOrderCommand;
+            }
+        }
+
+        public ICommand SaveNotSavedOrdersInBaseCommand {
+            get {
+                if (_saveNotSavedTagsInBaseCommand == null)
+                    _saveNotSavedTagsInBaseCommand = new DelegateCommand(SaveNotSavedOrdersInBaseMehtod);
+                return _saveNotSavedTagsInBaseCommand;
+            }
+        }
+
+        public ICommand ExportXLSXCommand {
+            get {
+                if (_exportXLSXCommand == null)
+                    _exportXLSXCommand = new DelegateCommand(ExportXLSX);
+                return _exportXLSXCommand;
+            }
+        }
+
+        public ICommand PreviewKeyHandlerCommand {
+            get {
+                if (_previewKeyHandlerCommand == null)
+                    _previewKeyHandlerCommand = new DelegateCommand<KeyEventArgs>(PreviewKeyHandler);
+                return _previewKeyHandlerCommand;
+            }
+        }
+        public ICommand ShowFilterPopupCommand {
+            get {
+                if (_showFilterPopupCommand == null)
+                    _showFilterPopupCommand = new DelegateCommand<FilterPopupEventArgs>(ShowFilterPopup);
+                return _showFilterPopupCommand;
+            }
+        }
+
+
         IServiceContainer serviceContainer = null;
         protected IServiceContainer ServiceContainer {
             get {
@@ -258,23 +257,9 @@ namespace Budget {
 
         ITableViewExportToExcelService TableViewExportToExcelService { get { return ServiceContainer.GetService<ITableViewExportToExcelService>(); } }
         ISetFocusOnValueTextEdit SetFocusOnValueTextEditService { get { return ServiceContainer.GetService<ISetFocusOnValueTextEdit>(); } }
+     
     }
-
-    class MyComparer<T> : IComparer<int> {
-        public MyComparer(List<int> _innerList) {
-            innerList = _innerList;
-        }
-
-        List<int> innerList;
-        public int Compare(int x, int y) {
-            var index1 = innerList.IndexOf(x);
-            var index2 = innerList.IndexOf(y);
-            var res = Comparer<int>.Default.Compare(index1, index2);
-
-         //   Debug.Print(string.Format("{0} {1}  - {2} ", index1, index2, res));
-            return res;
-        }
-    }
+   
 
   
 }
