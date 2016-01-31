@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace Budget {
     [DebuggerDisplay("TagName-{TagName} Id-{Id}")]
     public class MyTag2 {
+        //test
         public Tag parentTagEntity;
 
         public MyTag2() { }
