@@ -55,5 +55,19 @@ namespace Budget.Views {
                 e.Handled = true;
             }
         }
+
+        private void GridControl_CopyingToClipboard(object sender, CopyingToClipboardEventArgs e) {
+            Clipboard.Clear();
+            List<string> lstString = new List<string>();
+            foreach (int rh in e.RowHandles) {
+                GridControl gc = (e.Source as TableView).DataControl as GridControl;
+                MyOrder ord = gc.GetRow(rh) as MyOrder;
+                string tmpString = string.Format("{0}\t{1}\t{2}", ord.DateOrder, ord.Value, ord.Description);
+                lstString.Add(tmpString);
+            }
+            string st = string.Join("\r\n", lstString);
+            Clipboard.SetText(st);
+            e.Handled = true;
+        }
     }
 }

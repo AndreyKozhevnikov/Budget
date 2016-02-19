@@ -58,7 +58,9 @@
                 </dxlc:LayoutGroup>
             </dxlc:LayoutGroup>
             <dxlc:LayoutGroup>
-                <dxg:GridControl ItemsSource="{Binding ParentViewModel.Orders}" AutoGenerateColumns="None"  Grid.ColumnSpan="2"
+                <dxg:GridControl ItemsSource="{Binding ParentViewModel.Orders}" 
+                                 CopyingToClipboard="GridControl_CopyingToClipboard"
+                                 AutoGenerateColumns="None"  Grid.ColumnSpan="2"
                                          Loaded="GridControl_Loaded_1"
                                          SelectedItems="{Binding SelectedOrders}"
                                          SelectionMode="Row"
