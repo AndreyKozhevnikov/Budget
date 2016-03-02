@@ -50,19 +50,19 @@
                 </dxg:GridControl>
                 <StackPanel Grid.Row="3">
                     <dxlc:LayoutItem Label="Sum" >
-                        <Label Content="{Binding SelectedGroup.Value}"/>
+                        <Label Content="{Binding SelectedGroup.Value, FallbackValue=0}"/>
                     </dxlc:LayoutItem>
                     <dxlc:LayoutItem Label="Count" >
-                        <Label Content="{Binding SelectedGroup.Count}"/>
+                        <Label Content="{Binding SelectedGroup.Coun, FallbackValue=0t}"/>
                     </dxlc:LayoutItem>
                     <dxlc:LayoutItem Label="Average" >
-                        <Label Content="{Binding SelectedGroup.Average}"/>
+                        <Label Content="{Binding SelectedGroup.Average, FallbackValue=0}"/>
                     </dxlc:LayoutItem>
                     <dxlc:LayoutItem Label="MaxValue" >
-                        <Label Content="{Binding SelectedGroup.MaxValue}"/>
+                        <Label Content="{Binding SelectedGroup.MaxValue, FallbackValue=0}"/>
                     </dxlc:LayoutItem>
                     <dxlc:LayoutItem Label="MinValue" >
-                        <Label Content="{Binding SelectedGroup.MinValue}"/>
+                        <Label Content="{Binding SelectedGroup.MinValue, FallbackValue=0}"/>
                     </dxlc:LayoutItem>
                 </StackPanel>
             </Grid>
