@@ -80,8 +80,13 @@ namespace Budget {
             AllTags = new ObservableCollection<Tag>(v2);
 
             foreach (Tag tg in AllTags) {
-                var tmp = lst3.Where(x => x.pn == tg.Id).First();
-                tg.ComplexValue =string.Format("{0} - {1} - {2}",tg.TagName, tmp.vl,tmp.sm);
+                var tmp = lst3.Where(x => x.pn == tg.Id).FirstOrDefault();
+                if (tmp != null) {
+                    tg.ComplexValue = string.Format("{0} - {1} - {2}", tg.TagName, tmp.vl, tmp.sm);
+                }
+                else {
+                    tg.ComplexValue = string.Format("{0} - {1} - {2}", tg.TagName, 0, 0);
+                }
             }
 
 
