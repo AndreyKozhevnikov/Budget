@@ -36,7 +36,7 @@
                     <dxlc:LayoutItem Label="Value:">
                         <dxe:TextEdit x:Name="ValueEditor1" EditValue="{Binding CurrentOrder.Value, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectAllOnGotFocus="True"   >
                             <dxmvvm:Interaction.Behaviors>
-                                <local:SetFocusOnValueTextEditService MyTargerProperty="{Binding Path=., ElementName=ValueEditor1,Converter={local:custConverter}}"/>
+                                <local:SetFocusOnValueTextEditService />
                                 <dxmvvm:FocusBehavior/>
                             </dxmvvm:Interaction.Behaviors>
                             </dxe:TextEdit>

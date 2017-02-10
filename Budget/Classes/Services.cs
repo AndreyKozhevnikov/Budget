@@ -52,19 +52,17 @@ namespace Budget {
     }
     public class SetFocusOnValueTextEditService : ServiceBase, ISetFocusOnValueTextEdit {
 
-
-        public TextEdit MyTargerProperty {
-            get { return (TextEdit)GetValue(MyTargerPropertyProperty); }
-            set { SetValue(MyTargerPropertyProperty, value); }
+        protected override void OnAttached() {
+            base.OnAttached();
+            targeTextEdit = this.AssociatedObject as TextEdit;
         }
 
-        // Using a DependencyProperty as the backing store for MyTargerProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty MyTargerPropertyProperty =
-            DependencyProperty.Register("MyTargerProperty", typeof(TextEdit), typeof(SetFocusOnValueTextEditService), new PropertyMetadata(null));
+        TextEdit targeTextEdit;
 
-        
+
+      
         public void SetFocus() {
-            MyTargerProperty.Focus();
+            targeTextEdit.Focus();
         }
     }
 }

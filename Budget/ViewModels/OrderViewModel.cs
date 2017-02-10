@@ -49,7 +49,7 @@ namespace Budget {
         private static void ConnectToDataBase() {
 
             string machineName = System.Environment.MachineName;
-            if (machineName == "KOZHEVNIKOV-W8") {
+            if (machineName == "KOZHEVNIKOV-W10") {
                 generalEntity = new BudgetEntities("BudgetEntitiesWork");
                 DropboxPath = @"d:\dropbox\";
             } else {
@@ -57,7 +57,7 @@ namespace Budget {
                 DropboxPath = @"f:\dropbox\";
             }
             if (IsTestMode) {
-                if (machineName == "KOZHEVNIKOV-W8")
+                if (machineName == "KOZHEVNIKOV-W10")
                     generalEntity = new BudgetEntities("BudgetEntitiesWork");
                 else
                     generalEntity = new BudgetEntities("BudgetEntitiesHomeTest");
