@@ -17,7 +17,7 @@ using System.Windows.Markup;
 using DevExpress.Xpf.Editors;
 using System.Diagnostics;
 using System.Windows.Threading;
-
+using System.Reflection;
 
 namespace Budget {
     public partial class MainWindow : DXWindow {
@@ -25,6 +25,12 @@ namespace Budget {
             InitializeComponent();
             ViewModel = new OrderViewModel();
             DataContext = ViewModel;
+            var v = Assembly.GetExecutingAssembly().GetName().Version;
+            var st = this.Title + " - " + v;
+#if DEBUG
+           st  = st + " Debug mode";
+#endif
+            this.Title = st;
         }
 
         OrderViewModel ViewModel;
