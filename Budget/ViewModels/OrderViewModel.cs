@@ -54,7 +54,7 @@ namespace Budget {
                 DropboxPath = @"d:\dropbox\";
             } else {
                 generalEntity = new BudgetEntities("BudgetEntitiesHome");
-                DropboxPath = @"f:\dropbox\";
+                DropboxPath = @"d:\dropbox\";
             }
             if (IsTestMode) {
                 if (machineName == "KOZHEVNIKOV-W10")
