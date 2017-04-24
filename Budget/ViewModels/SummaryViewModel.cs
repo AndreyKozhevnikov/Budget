@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace Budget {
     public partial class SummaryViewModel : MyBindableBase {
-       
+
         public SummaryViewModel(OrderViewModel vm) {
             ParentViewModel = vm;
             DateCollection = new ObservableCollection<DayData>();
@@ -21,12 +21,12 @@ namespace Budget {
             List<MyOrder> Orders = null;
             if (IsLightOrders) {
                 Orders = ParentViewModel.Orders.Where(x => x.Ignore == false && x.ParentTag != 23 && x.ParentTag != 6 && x.ParentTag != 21 && x.ParentTag != 24).ToList();
-            } else {
+            }
+            else {
                 Orders = ParentViewModel.Orders.Where(x => x.Ignore == false).ToList();
             }
 
             var sumAll = Orders.GroupBy(s => s.DateOrder).Select(g => new { mid = g.Key, mall = g.Sum(s => s.Value) }).ToList();
-            //var sumEat = ParentViewModel.Orders.Where(x => x.Ignore == false && x.ParentTag == 1).GroupBy(s => s.DateOrder).Select(g => new { mid = g.Key, mall = g.Sum(s => s.Value) }).ToList();
             var sumEat = Orders.Where(x => x.ParentTag == 1).GroupBy(s => s.DateOrder).Select(g => new { mid = g.Key, mall = g.Sum(s => s.Value) }).ToList();
 
             DateTime tmpDateFinish = DateTime.Today;
@@ -45,10 +45,11 @@ namespace Budget {
                            })
                                .ToList();
 
-            //magic?
-            DateCollection = new ObservableCollection<DayData>((from pd in dates join od in summall on
-                                     pd.Date equals od.date
-                                     into t
+            
+            DateCollection = new ObservableCollection<DayData>((from pd in dates
+                                                                join od in summall on
+                    pd.Date equals od.date
+                    into t
                                                                 from rt in t.DefaultIfEmpty(new { date = DateTime.Today, sumofall = 0, sumofeat = 0 })
                                                                 orderby pd.Date
                                                                 select new DayData(pd.Date) {
@@ -72,9 +73,10 @@ namespace Budget {
 
             var dateDataToMonth = dateData.GroupBy(x => x.DayDate).Select(g => new DayData() { DayDate = g.Key, SumAll = g.Sum(s => s.SumAll), SumOfEat = g.Sum(s => s.SumOfEat) }).ToList();
 
-            var v = (from pd in dates join od in dateDataToMonth on
-                                      pd.Date equals od.DayDate
-                                      into t
+            var v = (from pd in dates
+                     join od in dateDataToMonth on
+                     pd.Date equals od.DayDate
+                     into t
                      from rt in t.DefaultIfEmpty(new DayData() { DayDate = pd.Date, SumAll = 0, SumOfEat = 0 })
                      select new DayData() { DayDate = pd.Date, SumAll = rt.SumAll, SumOfEat = rt.SumOfEat }).ToList();
             DateChartCollection = new ObservableCollection<DayData>(v);
@@ -85,8 +87,8 @@ namespace Budget {
         void CalculateEatStatistic() {
             int d = DateTime.Now.Day;
             int norm = d * NORMEATTOONEDAY;
-            NormToThisMonth = string.Format("{0} ({1})",norm,d);
-            DateTime curMonth = new DateTime(DateTime.Now.Year,DateTime.Now.Month,1);
+            NormToThisMonth = string.Format("{0} ({1})", norm, d);
+            DateTime curMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             DayData currentDayData = DateChartCollection.Where(x => x.DayDate == curMonth).First();
             SpentThisMonth = currentDayData.SumOfEat;
             Balance = norm - SpentThisMonth;
@@ -100,7 +102,7 @@ namespace Budget {
         string _normToThisMonth;
         int _spentThisMonth;
         int _balance;
-        
+
         ICommand _createDateCollectionCommand;
 
         public OrderViewModel ParentViewModel { get; set; }
