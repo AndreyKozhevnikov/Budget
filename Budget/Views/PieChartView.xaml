@@ -64,6 +64,9 @@
                     <dxlc:LayoutItem Label="MinValue" >
                         <Label Content="{Binding SelectedGroup.MinValue, FallbackValue=0}"/>
                     </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="AverageInMonth">
+                        <Label Content="{Binding SelectedGroup.AverageInMonth, FallbackValue=0}"/>
+                    </dxlc:LayoutItem>
                 </StackPanel>
             </Grid>
             <dxc:ChartControl Name="chart"
