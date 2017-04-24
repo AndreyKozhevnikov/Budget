@@ -32,8 +32,6 @@ namespace Budget {
 
 
         public void ExportToExcel(string path) {
-            if (OrderViewModel.IsTestMode)
-                return;
             GridControl gc = ExportTableView.DataControl as GridControl;
             gc.Columns["DateOrder"].SortOrder = ColumnSortOrder.Descending;
             gc.Columns["DateOrder"].SortIndex = 0;

@@ -52,21 +52,23 @@ namespace Budget {
             if (machineName == "KOZHEVNIKOV-W10") {
                 generalEntity = new BudgetEntities("BudgetEntitiesWork");
                 DropboxPath = @"d:\dropbox\";
-            } else {
+            }
+            else {
                 generalEntity = new BudgetEntities("BudgetEntitiesHome");
                 DropboxPath = @"d:\dropbox\";
             }
-            if (IsTestMode) {
-                if (machineName == "KOZHEVNIKOV-W10")
-                    generalEntity = new BudgetEntities("BudgetEntitiesWork");
-                else
-                    generalEntity = new BudgetEntities("BudgetEntitiesHomeTest");
-            }
+#if DEBUG
+            if (machineName == "KOZHEVNIKOV-W10")
+                generalEntity = new BudgetEntities("BudgetEntitiesWork");
+            else
+                generalEntity = new BudgetEntities("BudgetEntitiesHomeTest");
+
+#endif
+
         }
     }
 
     public partial class OrderViewModel {
-        public static bool IsTestMode = false;
         public static BudgetEntities generalEntity;
         public static string DropboxPath;
 
@@ -85,7 +87,7 @@ namespace Budget {
             }
 
         }
-   
+
 
     }
 }

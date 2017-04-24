@@ -13,9 +13,7 @@ namespace Budget {
     /// </summary>
     public partial class App : Application {
         private void Application_Startup_1(object sender, StartupEventArgs e) {
-            if (e.Args.Count() > 0 && e.Args[0] == "-testBase") {
-                OrderViewModel.IsTestMode = true;
-            }
+        
         }
         public App() {
             CultureInfo newCI = (CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
