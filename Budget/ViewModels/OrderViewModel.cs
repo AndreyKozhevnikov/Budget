@@ -51,7 +51,7 @@ namespace Budget {
             string machineName = System.Environment.MachineName;
             if (machineName == "KOZHEVNIKOV-W10") {
                 generalEntity = new BudgetEntities("BudgetEntitiesWork");
-                DropboxPath = @"d:\dropbox\";
+                DropboxPath = @"c:\dropbox\";
             }
             else {
                 generalEntity = new BudgetEntities("BudgetEntitiesHome");
