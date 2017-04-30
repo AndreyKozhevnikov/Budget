@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -87,5 +88,23 @@ namespace Budget {
            }
 
        }
-   }
+        public ICommand ExportSummaryCommand {
+            get {
+                if (_exportSummaryCommand == null)
+                    _exportSummaryCommand = new DelegateCommand(ExportSummary);
+                return _exportSummaryCommand;
+            }
+
+        }
+        ICommand _exportSummaryCommand;
+        public void ExportSummary() {
+            var sw = new StreamWriter("summary.txt");
+            sw.WriteLine("Name, Average, Sum, Counnt");
+            foreach (var sum in GroupCollection) {
+                var st = sum.ToExportString();
+                sw.WriteLine(st);
+            }
+            sw.Close();
+        }
+    }
 }

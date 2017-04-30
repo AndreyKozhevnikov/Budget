@@ -33,9 +33,14 @@ namespace Budget {
                 CalcAverageInMonth();
             }
         }
+        int countOfMonths;
         public void CalcAverageInMonth() {
-            var m1 = FinishDate.Subtract(StartDate).Days / (365.25 / 12);
-            AverageInMonth = (int)(Value / m1);
+            countOfMonths = (int)Math.Ceiling((FinishDate.Subtract(StartDate).Days / (365.25 / 12)));
+            AverageInMonth = (Value / countOfMonths);
+        }
+        public string ToExportString() {
+            var st = string.Format("{0},  {1},  {2},  {3} ", ParentTagName, AverageInMonth, Value, countOfMonths);
+            return st;
         }
     }
 

@@ -67,6 +67,7 @@
                     <dxlc:LayoutItem Label="AverageInMonth">
                         <Label Content="{Binding SelectedGroup.AverageInMonth, FallbackValue=0}"/>
                     </dxlc:LayoutItem>
+                    <Button Content="export summary" Command="{Binding ExportSummaryCommand}"/>
                 </StackPanel>
             </Grid>
             <dxc:ChartControl Name="chart"
