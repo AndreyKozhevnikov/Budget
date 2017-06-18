@@ -112,7 +112,9 @@
             <dxc:XYDiagram2D  EnableAxisYNavigation="True" EnableAxisXNavigation="True">
                 <dxc:LineSeries2D  ValueDataMember="Value" ArgumentDataMember="DayDate"
                                                DataSource="{Binding DateOrderCollection}">
-
+                    <dxc:LineSeries2D.Indicators>
+                        <dxc:SimpleMovingAverage PointsCount="12" ShowInLegend="True" />
+                    </dxc:LineSeries2D.Indicators>
                 </dxc:LineSeries2D>
 
             </dxc:XYDiagram2D>
