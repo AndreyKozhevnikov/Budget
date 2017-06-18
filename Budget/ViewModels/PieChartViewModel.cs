@@ -17,6 +17,9 @@ namespace Budget {
         public void CreateGroupCollection() {
             var v3 = SelectedGroups.Select(y => new GroupData { ParentTagName = y.TagName, ParentTagId = y.Id, Value = y.Orders.Sum(x => x.Value),Count=y.Orders.Count(),MaxValue=y.Orders.Max(x=>x.Value),MinValue=y.Orders.Min(x=>x.Value),StartDate=y.Orders.Select(z=>z.DateOrder).Min(), FinishDate = y.Orders.Select(z => z.DateOrder).Max() }).ToList();
             GroupCollection = new ObservableCollection<GroupData>(v3);
+            var utilitiesGD = GroupCollection.Where(x => x.ParentTagId ==25).FirstOrDefault();
+            if (utilitiesGD != null)
+                utilitiesGD.StartDate = new DateTime(2016, 1, 1);
             RaisePropertyChanged("GroupCollection");
         }
         public void CreateGroupsOrderCollection() {
