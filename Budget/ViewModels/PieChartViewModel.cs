@@ -17,9 +17,6 @@ namespace Budget {
         public void CreateGroupCollection() {
             var v3 = SelectedGroups.Select(y => new GroupData { ParentTagName = y.TagName, ParentTagId = y.Id, Value = y.Orders.Sum(x => x.Value),Count=y.Orders.Count(),MaxValue=y.Orders.Max(x=>x.Value),MinValue=y.Orders.Min(x=>x.Value),StartDate=y.Orders.Select(z=>z.DateOrder).Min(), FinishDate = y.Orders.Select(z => z.DateOrder).Max() }).ToList();
             GroupCollection = new ObservableCollection<GroupData>(v3);
-            var utilitiesGD = GroupCollection.Where(x => x.ParentTagId ==25).FirstOrDefault();
-            if (utilitiesGD != null)
-                utilitiesGD.StartDate = new DateTime(2016, 1, 1);
             RaisePropertyChanged("GroupCollection");
         }
         public void CreateGroupsOrderCollection() {
@@ -33,6 +30,8 @@ namespace Budget {
             var tmpGroups =OrderViewModel.generalEntity.Tags.ToList();
             GroupList = new ObservableCollection<Tag>(tmpGroups);
             var tmpSelectedGroups = GroupList.Where(x => x.Id != 21 && x.Id != 22).ToList(); //remove credit & capital 
+            var utilitiesGroup = tmpSelectedGroups.Where(x => x.Id == 25).First();
+            utilitiesGroup.Orders = utilitiesGroup.Orders.Where(x => x.DateOrder >= new DateTime(2016, 1, 1)).ToList();
             SelectedGroups = new ObservableCollection<Tag>(tmpSelectedGroups);
         }
 
