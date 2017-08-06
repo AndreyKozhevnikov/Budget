@@ -95,6 +95,10 @@ namespace Budget {
         }
        
         void SaveNotSavedOrdersInBaseMehtod() {
+ //           var ch = OrderViewModel.generalEntity.ChangeTracker.Entries().Where(x => x.State == System.Data.Entity.EntityState.Modified
+ //      || x.State == System.Data.Entity.EntityState.Added)
+ //.Select(x => x.Entity).ToList();
+            
             OrderViewModel.generalEntity.SaveChanges();
         }
         void ExportXLSX() {

@@ -48,7 +48,7 @@
                         <dxe:TextEdit  EditValue="{Binding CurrentOrder.Description, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                     </dxlc:LayoutItem>
                     <dxlc:LayoutItem Label="Tags:">
-                        <dxe:TextEdit EditValue="{Binding CurrentOrder.Tags}"/>
+                        <dxe:TextEdit EditValue="{Binding CurrentOrder.Tags,UpdateSourceTrigger=PropertyChanged}"/>
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
                 <dxlc:LayoutGroup Orientation="Vertical" Width="350">

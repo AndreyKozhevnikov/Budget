@@ -30,8 +30,8 @@ namespace Budget {
             var tmpGroups =OrderViewModel.generalEntity.Tags.ToList();
             GroupList = new ObservableCollection<Tag>(tmpGroups);
             var tmpSelectedGroups = GroupList.Where(x => x.Id != 21 && x.Id != 22).ToList(); //remove credit & capital 
-            var utilitiesGroup = tmpSelectedGroups.Where(x => x.Id == 25).First();
-            utilitiesGroup.Orders = utilitiesGroup.Orders.Where(x => x.DateOrder >= new DateTime(2016, 1, 1)).ToList();
+            //var utilitiesGroup = tmpSelectedGroups.Where(x => x.Id == 25).First();
+            //utilitiesGroup.Orders = utilitiesGroup.Orders.Where(x => x.DateOrder >= new DateTime(2016, 1, 1)).ToList();
             SelectedGroups = new ObservableCollection<Tag>(tmpSelectedGroups);
         }
 
