@@ -113,6 +113,14 @@ namespace Budget {
                     return;
                 EnterOrder();
             }
+            if (e.Key == Key.Add) {
+                CurrentDate = CurrentDate.AddDays(1);
+                e.Handled = true;
+            }
+            if (e.Key == Key.Subtract) {
+                CurrentDate= CurrentDate.AddDays(-1);
+                e.Handled = true;
+            }
         }
         private void ShowFilterPopup(FilterPopupEventArgs e) {
            
