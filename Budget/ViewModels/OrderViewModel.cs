@@ -25,6 +25,7 @@ namespace Budget {
             PieChartVM = new PieChartViewModel(this);
             SummaryVM = new SummaryViewModel(this);
             EnterVM = new EnterViewModel(this);
+            DayChartVM = new DayChartViewModel(this);
         }
         void UpdateOrders() {
             var v = generalEntity.Orders.Select(x => new MyOrder() { parentOrderEntity = x }).ToList();
@@ -49,7 +50,7 @@ namespace Budget {
         private static void ConnectToDataBase() {
 
             string machineName = System.Environment.MachineName;
-            if (machineName == "KOZHEVNIKOV-W10") {
+            if (machineName == "KOZHEVNIKOV-NB") {
                 generalEntity = new BudgetEntities("BudgetEntitiesWork");
                 DropboxPath = @"c:\dropbox\";
             }
@@ -58,7 +59,7 @@ namespace Budget {
                 DropboxPath = @"d:\dropbox\";
             }
 #if DEBUG
-            if (machineName == "KOZHEVNIKOV-W10")
+            if (machineName == "KOZHEVNIKOV-NB")
                 generalEntity = new BudgetEntities("BudgetEntitiesWork");
             else
                 generalEntity = new BudgetEntities("BudgetEntitiesHomeTest");
@@ -77,6 +78,7 @@ namespace Budget {
         public PieChartViewModel PieChartVM { get; set; }
         public SummaryViewModel SummaryVM { get; set; }
         public EnterViewModel EnterVM { get; set; }
+        public DayChartViewModel DayChartVM { get; set; }
         public ObservableCollection<MyOrder> Orders { get; set; }
 
         public ICommand OnChangeTabCommand {

@@ -96,8 +96,9 @@ namespace Budget {
                     _exportSummaryCommand = new DelegateCommand(ExportSummary);
                 return _exportSummaryCommand;
             }
-
         }
+
+
         ICommand _exportSummaryCommand;
         public void ExportSummary() {
             var sw = new StreamWriter("summary.txt");

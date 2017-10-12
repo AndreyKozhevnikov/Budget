@@ -43,6 +43,9 @@
             <dxlc:LayoutGroup Header="Chart" >
                 <views:PieChartView DataContext="{Binding PieChartVM}"/>
             </dxlc:LayoutGroup>
+            <dxlc:LayoutGroup Header="DayChart">
+                <views:DayChartView DataContext="{Binding DayChartVM}"/>
+            </dxlc:LayoutGroup>
         </dxlc:LayoutGroup>
     </dxlc:LayoutControl>
 </dx:DXWindow>
