@@ -24,7 +24,8 @@ namespace Budget {
             var fullOrderList = ParentViewModel.Orders.Where(x => x.DateOrder >= targetDate);
             var groupList = fullOrderList.GroupBy(x => x.DateOrder).Select(g => new { dt = g.Key, all = g.Sum(x => x.Value) }).OrderBy(x=>x.dt).ToList();
 
-            var finishDate = targetDate.AddMonths(1).AddDays(-1);
+            //  var finishDate = targetDate.AddMonths(1).AddDays(-1);
+            var finishDate = DateTime.Today;
             var dates = Enumerable.Range(0, finishDate.Subtract(targetDate).Days+1).Select(offset => targetDate.AddDays(offset)).ToList();
             DaySummaryCollection = new List<DaySummaryData>();
             int allSum=0;
