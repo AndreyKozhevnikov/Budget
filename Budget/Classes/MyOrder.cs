@@ -98,7 +98,7 @@ namespace Budget {
             }
         }
 
-        public DateTime MonthDateOrder { get; set; }
+    
         #endregion
 
 

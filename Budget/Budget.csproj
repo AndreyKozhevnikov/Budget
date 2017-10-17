@@ -130,6 +130,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Classes\BudgetEntities.cs" />
+    <Compile Include="Classes\ChartDateBounds.cs" />
     <Compile Include="Classes\Converters.cs" />
     <Compile Include="Classes\MyIntInListPositionComparer.cs" />
     <Compile Include="Classes\Services.cs" />
@@ -273,32 +274,32 @@
   <ItemGroup>
     <PublishFile Include="DevExpress.Charts.v16.2.Core">
       <Visible>False</Visible>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
     <PublishFile Include="DevExpress.Xpf.Charts.v16.2">
       <Visible>False</Visible>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
     <PublishFile Include="DevExpress.Xpf.Printing.v16.2">
       <Visible>False</Visible>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
   </ItemGroup>
