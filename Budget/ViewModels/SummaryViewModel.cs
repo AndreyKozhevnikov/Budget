@@ -96,7 +96,7 @@ namespace Budget {
     }
 
     public partial class SummaryViewModel {
-        public const int NORMEATTOONEDAY = 330;
+        public const int NORMEATTOONEDAY = 350;
 
         bool isLightOrders;
         string _normToThisMonth;

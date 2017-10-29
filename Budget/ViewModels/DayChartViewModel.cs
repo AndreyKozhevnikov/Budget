@@ -11,7 +11,7 @@ namespace Budget {
     public class DayChartViewModel: MyBindableBase {
         OrderViewModel ParentViewModel;
         const int idealComPerDay= 1500;
-        const int idealEatPerDay = 350;
+        const int idealEatPerDay = SummaryViewModel.NORMEATTOONEDAY;
         public DayChartViewModel(OrderViewModel vm) {
             ParentViewModel = vm;
         }
