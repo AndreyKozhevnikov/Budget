@@ -1,33 +1,34 @@
-﻿ <UserControl x:Class="Budget.Views.SummaryView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-                 xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
-                 xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
-                  xmlns:local="clr-namespace:Budget"
+﻿<UserControl
+    x:Class="Budget.Views.SummaryView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:local="clr-namespace:Budget"
     xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
-                 xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
-             mc:Ignorable="d" 
-             >
+    xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
+    mc:Ignorable="d">
+
     <dxlc:LayoutGroup Orientation="Vertical">
         <dxlc:LayoutGroup Height="76">
-            <Button Content="GetDays" Command="{Binding CreateDateCollectionCommand}"/>
-            <dxe:CheckEdit EditValue="{Binding IsLightOrders}" Content="Withot repair,journey,credit"/>
+            <Button Command="{Binding CreateDateCollectionCommand}" Content="GetDays" />
+            <dxe:CheckEdit Content="Withot repair,journey,credit" EditValue="{Binding IsLightOrders}" />
             <StackPanel>
-                <dxlc:LayoutItem  Label="Norm to this month" AddColonToLabel="True">
-                    <Label Content="{Binding NormToThisMonth}"/>
+                <dxlc:LayoutItem AddColonToLabel="True" Label="Norm to this month">
+                    <Label Content="{Binding NormToThisMonth}" />
                 </dxlc:LayoutItem>
-                <dxlc:LayoutItem Label="Spent this month" AddColonToLabel="True">
-                    <Label Content="{Binding SpentThisMonth}"/>
+                <dxlc:LayoutItem AddColonToLabel="True" Label="Spent this month">
+                    <Label Content="{Binding SpentThisMonth}" />
                 </dxlc:LayoutItem>
                 <dxlc:LayoutItem Label="Balance">
                     <Label Content="{Binding Balance}">
                         <Label.Style>
                             <Style TargetType="Label">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Content,Converter={local:ConverterIntToIsNegative},RelativeSource={RelativeSource Self}}" Value="True">
-                                        <Setter Property="Foreground" Value="Red"/>
+                                    <DataTrigger Value="True" Binding="{Binding Content,Converter={local:ConverterIntToIsNegative},RelativeSource={RelativeSource Self}}">
+                                        <Setter Property="Foreground" Value="Red" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -37,55 +38,94 @@
             </StackPanel>
         </dxlc:LayoutGroup>
         <dxlc:LayoutGroup>
-            <dxg:GridControl  ItemsSource="{Binding DateCollection}" AutoGenerateColumns="None" SelectionMode="Row" 
-                                      ItemsSourceChanged="GridControl_ItemsSourceChanged_1"
-                                      >
+            <dxg:GridControl
+                AutoGenerateColumns="None"
+                ItemsSource="{Binding DateCollection}"
+                ItemsSourceChanged="GridControl_ItemsSourceChanged_1"
+                SelectionMode="Row">
                 <dxg:GridControl.Columns>
-                    <dxg:GridColumn FieldName="DayDate"  GroupIndex="0" GroupInterval="DateMonth" Width="200" />
-                    <dxg:GridColumn FieldName="SumOfEat" Width="200"/>
-                    <dxg:GridColumn FieldName="SumAll" Width="200"/>
+                    <dxg:GridColumn
+                        Width="200"
+                        FieldName="DayDate"
+                        GroupIndex="0"
+                        GroupInterval="DateMonth" />
+                    <dxg:GridColumn Width="200" FieldName="SumOfEat" />
+                    <dxg:GridColumn Width="200" FieldName="SumAll" />
                 </dxg:GridControl.Columns>
                 <dxg:GridControl.GroupSummary>
-                    <dxg:GridSummaryItem FieldName="SumOfEat" SummaryType="Sum" ShowInColumn="SumOfEat" />
-                    <dxg:GridSummaryItem FieldName="SumOfEat" SummaryType="Average" ShowInColumn="SumOfEat" DisplayFormat="0"/>
-                    <dxg:GridSummaryItem FieldName="SumAll" SummaryType="Sum"  ShowInColumn="SumAll"/>
-                    <dxg:GridSummaryItem FieldName="SumAll" SummaryType="Average"  ShowInColumn="SumAll" DisplayFormat="0"/>
+                    <dxg:GridSummaryItem
+                        FieldName="SumOfEat"
+                        ShowInColumn="SumOfEat"
+                        SummaryType="Sum" />
+                    <dxg:GridSummaryItem
+                        DisplayFormat="0"
+                        FieldName="SumOfEat"
+                        ShowInColumn="SumOfEat"
+                        SummaryType="Average" />
+                    <dxg:GridSummaryItem
+                        FieldName="SumAll"
+                        ShowInColumn="SumAll"
+                        SummaryType="Sum" />
+                    <dxg:GridSummaryItem
+                        DisplayFormat="0"
+                        FieldName="SumAll"
+                        ShowInColumn="SumAll"
+                        SummaryType="Average" />
                 </dxg:GridControl.GroupSummary>
                 <dxg:GridControl.TotalSummary>
-                    <dxg:GridSummaryItem FieldName="SumOfEat" SummaryType="Average" DisplayFormat="0"/>
-                    <dxg:GridSummaryItem FieldName="SumAll" SummaryType="Average" DisplayFormat="0"/>
+                    <dxg:GridSummaryItem
+                        DisplayFormat="0"
+                        FieldName="SumOfEat"
+                        SummaryType="Average" />
+                    <dxg:GridSummaryItem
+                        DisplayFormat="0"
+                        FieldName="SumAll"
+                        SummaryType="Average" />
                 </dxg:GridControl.TotalSummary>
                 <dxg:GridControl.View>
-                    <dxg:TableView ShowTotalSummary="True" ShowGroupedColumns="True" GroupSummaryDisplayMode="AlignByColumns"/>
+                    <dxg:TableView
+                        GroupSummaryDisplayMode="AlignByColumns"
+                        ShowGroupedColumns="True"
+                        ShowTotalSummary="True" />
                 </dxg:GridControl.View>
             </dxg:GridControl>
         </dxlc:LayoutGroup>
         <dxlc:LayoutGroup>
-            <dxc:ChartControl  >
+            <dxc:ChartControl>
                 <dxc:ChartControl.CrosshairOptions>
-                    <dxc:CrosshairOptions GroupHeaderPattern="{}{A:MMM yy}"/>
+                    <dxc:CrosshairOptions GroupHeaderPattern="{}{A:MMM yy}" />
                 </dxc:ChartControl.CrosshairOptions>
-                <dxc:XYDiagram2D  EnableAxisYNavigation="True" EnableAxisXNavigation="True" >
+                <dxc:XYDiagram2D EnableAxisXNavigation="True" EnableAxisYNavigation="True">
+                    <dxc:XYDiagram2D.DefaultPane>
+                        <dxc:Pane>
+                            <dxc:Pane.AxisXScrollBarOptions>
+                                <dxc:ScrollBarOptions Visible="False" />
+                            </dxc:Pane.AxisXScrollBarOptions>
+                            <dxc:Pane.AxisYScrollBarOptions>
+                                <dxc:ScrollBarOptions Visible="False" />
+                            </dxc:Pane.AxisYScrollBarOptions>
+                        </dxc:Pane>
+                    </dxc:XYDiagram2D.DefaultPane>
                     <dxc:XYDiagram2D.SecondaryAxesY>
-                        <dxc:SecondaryAxisY2D Name="secondaryAxisY"  />
+                        <dxc:SecondaryAxisY2D Name="secondaryAxisY" />
                     </dxc:XYDiagram2D.SecondaryAxesY>
-                    <dxc:LineSeries2D  ValueDataMember="SumOfEat"
-                                       ArgumentDataMember="DayDate"
-                                       DisplayName="Eat"
-                                       DataSource="{Binding DateChartCollection}"
-                                       dxc:XYDiagram2D.SeriesAxisY="{Binding ElementName=secondaryAxisY}" 
-                                       >
-                    </dxc:LineSeries2D>
-                    <dxc:LineSeries2D  ValueDataMember="SumAll"
-                                       DisplayName="All"
-                                       ArgumentDataMember="DayDate" 
-                                       DataSource="{Binding DateChartCollection}">
-                    </dxc:LineSeries2D>
+                    <dxc:LineSeries2D
+                        ArgumentDataMember="DayDate"
+                        DataSource="{Binding DateChartCollection}"
+                        DisplayName="Eat"
+                        dxc:XYDiagram2D.SeriesAxisY="{Binding ElementName=secondaryAxisY}"
+                        ValueDataMember="SumOfEat" />
+                    <dxc:LineSeries2D
+                        ArgumentDataMember="DayDate"
+                        DataSource="{Binding DateChartCollection}"
+                        DisplayName="All"
+                        ValueDataMember="SumAll" />
                 </dxc:XYDiagram2D>
                 <dxc:ChartControl.Legend>
-                    <dxc:Legend/>
+                    <dxc:Legend />
                 </dxc:ChartControl.Legend>
             </dxc:ChartControl>
         </dxlc:LayoutGroup>
     </dxlc:LayoutGroup>
+
 </UserControl>

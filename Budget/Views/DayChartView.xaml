@@ -25,25 +25,63 @@
         </StackPanel>
         <dxc:ChartControl Grid.Row="2">
             <dxc:XYDiagram2D EnableAxisXNavigation="True" EnableAxisYNavigation="True">
+                <dxc:XYDiagram2D.DefaultPane>
+                    <dxc:Pane>
+                        <dxc:Pane.AxisXScrollBarOptions>
+                            <dxc:ScrollBarOptions Visible="False" />
+                        </dxc:Pane.AxisXScrollBarOptions>
+                        <dxc:Pane.AxisYScrollBarOptions>
+                            <dxc:ScrollBarOptions Visible="False" />
+                        </dxc:Pane.AxisYScrollBarOptions>
+                    </dxc:Pane>
+                </dxc:XYDiagram2D.DefaultPane>
+                <dxc:XYDiagram2D.AxisY>
+                    <dxc:AxisY2D Brush="Red" />
+                </dxc:XYDiagram2D.AxisY>
+                <dxc:XYDiagram2D.SecondaryAxesY>
+                    <dxc:SecondaryAxisY2D Brush="Blue" Name="secondaryAxisY" />
+                </dxc:XYDiagram2D.SecondaryAxesY>
                 <dxc:LineSeries2D
                     ArgumentDataMember="Day"
+                    Brush="Red"
                     DataSource="{Binding DaySummaryCollection}"
                     DisplayName="Common"
                     ValueDataMember="SumCommon" />
                 <dxc:LineSeries2D
                     ArgumentDataMember="Day"
+                    Brush="Red"
                     DataSource="{Binding DaySummaryCollection}"
                     DisplayName="Ideal"
-                    ValueDataMember="IdealCommon" />
+                    ValueDataMember="IdealCommon">
+                    <dxc:LineSeries2D.LineStyle>
+                        <dxc:LineStyle>
+                            <dxc:LineStyle.DashStyle>
+                                <DashStyle Dashes="1,5" />
+                            </dxc:LineStyle.DashStyle>
+                        </dxc:LineStyle>
+                    </dxc:LineSeries2D.LineStyle>
+                </dxc:LineSeries2D>
                 <dxc:LineSeries2D
                     ArgumentDataMember="Day"
+                    Brush="Blue"
                     DataSource="{Binding DaySummaryCollection}"
                     DisplayName="IdealEat"
-                    ValueDataMember="IdealEat" />
+                    dxc:XYDiagram2D.SeriesAxisY="{Binding ElementName=secondaryAxisY}"
+                    ValueDataMember="IdealEat">
+                    <dxc:LineSeries2D.LineStyle>
+                        <dxc:LineStyle>
+                            <dxc:LineStyle.DashStyle>
+                                <DashStyle Dashes="1,5" />
+                            </dxc:LineStyle.DashStyle>
+                        </dxc:LineStyle>
+                    </dxc:LineSeries2D.LineStyle>
+                </dxc:LineSeries2D>
                 <dxc:LineSeries2D
                     ArgumentDataMember="Day"
+                    Brush="Blue"
                     DataSource="{Binding DaySummaryCollection}"
                     DisplayName="Eat"
+                    dxc:XYDiagram2D.SeriesAxisY="{Binding ElementName=secondaryAxisY}"
                     ValueDataMember="SumEat" />
             </dxc:XYDiagram2D>
         </dxc:ChartControl>
