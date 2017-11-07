@@ -42,6 +42,6 @@ using System.Windows;
 //
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
-// [assembly: AssemblyVersion("17.10.29.2151")]
-[assembly: AssemblyVersion("17.10.29.2151")]
-[assembly: AssemblyFileVersion("17.10.29.2151")]
+// [assembly: AssemblyVersion("17.11.7.0837")]
+[assembly: AssemblyVersion("17.11.7.0837")]
+[assembly: AssemblyFileVersion("17.11.7.0837")]

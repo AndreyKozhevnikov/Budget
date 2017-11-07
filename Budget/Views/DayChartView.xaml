@@ -13,18 +13,22 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <Button
             Grid.Row="0"
             Command="{Binding MakeChartCommand}"
             Content="Make chart" />
-        <dxc:ChartControl Grid.Row="1">
+        <StackPanel Grid.Row="1">
+            <CheckBox Content="Full month" IsChecked="{Binding IsFullMonth,Mode=TwoWay}" />
+        </StackPanel>
+        <dxc:ChartControl Grid.Row="2">
             <dxc:XYDiagram2D EnableAxisXNavigation="True" EnableAxisYNavigation="True">
                 <dxc:LineSeries2D
                     ArgumentDataMember="Day"
                     DataSource="{Binding DaySummaryCollection}"
-                     DisplayName="Common"
+                    DisplayName="Common"
                     ValueDataMember="SumCommon" />
                 <dxc:LineSeries2D
                     ArgumentDataMember="Day"
