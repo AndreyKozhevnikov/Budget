@@ -47,7 +47,7 @@
                         <dxe:CheckedListBoxEditStyleSettings />
                     </dxe:ListBoxEdit.StyleSettings>
                 </dxe:ListBoxEdit>
-                <dxg:GridControl Grid.Row="3" ItemsSource="{Binding GroupsOrderCollection}" >
+                <dxg:GridControl Grid.Row="3" ItemsSource="{Binding SelectedGroup.Orders}" >
                   
                     <dxg:GridControl.View>
                         <dxg:TableView ShowTotalSummary="False"  />

@@ -25,13 +25,7 @@ namespace Budget {
             GroupCollection = new ObservableCollection<GroupData>(v3);
             RaisePropertyChanged("GroupCollection");
         }
-        public void CreateGroupsOrderCollection() {
-            var id = SelectedGroup.ParentTagName;
-            var v = OrderViewModel.generalEntity.Orders.Where(x => x.Tag.TagName == id && x.DateOrder >= targetDateItem.StartDate && x.DateOrder < targetDateItem.FinishDate).OrderBy(x => x.DateOrder).ToList();
-            GroupsOrderCollection = new ObservableCollection<Order>(v);
-            RaisePropertyChanged("GroupsOrderCollection");
-
-        }
+        
         public void MakePieChartList() {
             var tmpGroups = OrderViewModel.generalEntity.Tags.ToList();
             GroupList = new ObservableCollection<Tag>(tmpGroups);
@@ -88,7 +82,6 @@ namespace Budget {
         public ObservableCollection<Tag> SelectedGroups { get; set; }
         public ObservableCollection<Tag> GroupList { get; set; }
         public ObservableCollection<GroupData> GroupCollection { get; set; }
-        public ObservableCollection<Order> GroupsOrderCollection { get; set; }
         public ObservableCollection<DayOrderData> DateOrderCollection { get; set; }
         public List<CustomComboBoxItem> AvailableDates { get; set; }
         ChartDateBounds targetDateItem;
@@ -108,7 +101,6 @@ namespace Budget {
             set {
                 _selectedGroup = value;
                 if(_selectedGroup != null) {
-                    CreateGroupsOrderCollection();
                     CreateDateOrderCollection();
                 }
                 RaisePropertyChanged("SelectedGroup");
