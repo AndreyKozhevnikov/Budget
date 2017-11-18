@@ -35,9 +35,9 @@ namespace Budget {
 
         void CreateDateOrderCollection() {
             var count = (int)(targetDateItem.FinishDate - targetDateItem.StartDate).TotalDays;
-            var orders = ParentViewModel.Orders.Where(x => x.ParentTag == SelectedGroup.ParentTagId && x.DateOrder >= targetDateItem.StartDate && x.DateOrder < targetDateItem.FinishDate);
+            var orders = SelectedGroup.Orders;
             IEnumerable<DateTime> datesList;
-            IEnumerable<IGrouping<DateTime, MyOrder>> groupOrdersByDate;
+            IEnumerable<IGrouping<DateTime, Order>> groupOrdersByDate;
             if(count < 32) {
                 datesList = Enumerable.Range(0, count + 1).Select(offset => targetDateItem.StartDate.AddDays(offset));
                 groupOrdersByDate = orders.GroupBy(x => x.DateOrder);
