@@ -17,14 +17,13 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Button
-            Grid.Row="0"
-            Command="{Binding MakeChartCommand}"
-            Content="Make chart" />
-        <StackPanel Grid.Row="1">
-            <CheckBox Content="Full month" IsChecked="{Binding IsFullMonth,Mode=TwoWay}" />
-            <dxe:ComboBoxEdit ItemsSource="{Binding MonthsList}" EditValue="{Binding SelectedMonth,UpdateSourceTrigger=PropertyChanged}" IsTextEditable="False"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <Button
+            Command="{Binding UpdateMonthsCommand}"
+            Content="Update months" />
+            <CheckBox Content="Full month" IsChecked="{Binding IsFullMonth,Mode=TwoWay}" Margin="20,0,0,0" />
         </StackPanel>
+        <dxe:ComboBoxEdit  Grid.Row="1" ItemsSource="{Binding MonthsList}" EditValue="{Binding SelectedMonth,UpdateSourceTrigger=PropertyChanged}" IsTextEditable="False"/>
         <dxc:ChartControl Grid.Row="2">
             <dxc:XYDiagram2D EnableAxisXNavigation="True" EnableAxisYNavigation="True">
                 <dxc:XYDiagram2D.DefaultPane>

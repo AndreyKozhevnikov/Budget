@@ -33,14 +33,25 @@ namespace Budget {
             set {
                 _selectedMonth = value;
                 MakeChart();
+                RaisePropertyChanged("SelectedMonth");
             }
         }
-        public List<CustomComboBoxItem> MonthsList { get; set; }
+        List<CustomComboBoxItem> monthsList;
+        public List<CustomComboBoxItem> MonthsList {
+            get {
+                return monthsList;
+            }
+            set {
+                monthsList = value;
+                RaisePropertyChanged("MonthsList");
+            }
+        }
         public bool IsFullMonth { get; set; }
         public List<DaySummaryData> DaySummaryCollection { get; set; }
-        ICommand _makeChartCommand;
+        ICommand _updateMonthsCommand;
 
         void MakeChart() {
+           
             var targetDate = SelectedMonth;
             var fullOrderList = ParentViewModel.Orders.Where(x => x.DateOrder >= targetDate);
             var groupList = fullOrderList.GroupBy(x => x.DateOrder).Select(g => new { dt = g.Key, all = g.Sum(x => x.Value), eat = g.Where(t => t.ParentTag == 1).Sum(m => m.Value) }).OrderBy(x => x.dt).ToList();
@@ -70,11 +81,11 @@ namespace Budget {
 
             RaisePropertyChanged("DaySummaryCollection");
         }
-        public ICommand MakeChartCommand {
+        public ICommand UpdateMonthsCommand {
             get {
-                if (_makeChartCommand == null)
-                    _makeChartCommand = new DelegateCommand(MakeChart);
-                return _makeChartCommand;
+                if (_updateMonthsCommand == null)
+                    _updateMonthsCommand = new DelegateCommand(MakeMonthsList);
+                return _updateMonthsCommand;
             }
         }
     }
