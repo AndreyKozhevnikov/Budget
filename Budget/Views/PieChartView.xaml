@@ -9,140 +9,140 @@
     xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
     xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"
     mc:Ignorable="d">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="2*" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition />
-                    <RowDefinition Height="4*" />
-                    <RowDefinition Height="125" />
-                </Grid.RowDefinitions>
-                <dxe:ComboBoxEdit
+    <dxdo:DockLayoutManager x:Name="dockManager">
+        <dxdo:LayoutGroup Orientation="Vertical">
+            <dxdo:LayoutGroup Orientation="Horizontal" ItemHeight="2*">
+                <dxdo:LayoutPanel>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                            <RowDefinition Height="4*" />
+                            <RowDefinition Height="125" />
+                        </Grid.RowDefinitions>
+                        <dxe:ComboBoxEdit
                     Grid.Row="0"
                     EditValue="{Binding TargetDateItem,UpdateSourceTrigger=PropertyChanged}"
                     ItemsSource="{Binding AvailableDates}" IsTextEditable="False" />
-                <Button
+                        <Button
                     Grid.Row="1"
                     Height="25"
                     Command="{Binding CreateGroupCollectionCommand}"
                     Content="GetValues" />
-                <dxe:ListBoxEdit
+                        <dxe:ListBoxEdit
                     Grid.Row="2"
                     DisplayMember="TagName"
                     EditValue="{Binding SelectedGroups,Converter={local:ObjectToTagConverter}}"
                     ItemsSource="{Binding GroupList}">
-                    <dxe:ListBoxEdit.StyleSettings>
-                        <dxe:CheckedListBoxEditStyleSettings />
-                    </dxe:ListBoxEdit.StyleSettings>
-                </dxe:ListBoxEdit>
-                <dxg:GridControl Grid.Row="3" ItemsSource="{Binding SelectedGroup.Orders}" >
-                  
-                    <dxg:GridControl.View>
-                        <dxg:TableView ShowTotalSummary="False"  />
-                    </dxg:GridControl.View>
-                    <dxg:GridControl.Columns>
-                        <dxg:GridColumn FieldName="DateOrder" />
-                        <dxg:GridColumn FieldName="Value" />
-                        <dxg:GridColumn FieldName="Description" />
-                        <dxg:GridColumn FieldName="Tags" />
-                    </dxg:GridControl.Columns>
-                </dxg:GridControl>
-                <StackPanel Grid.Row="4">
-                    <dxlc:LayoutItem Label="Sum">
-                        <Label Content="{Binding SelectedGroup.Value, FallbackValue=0}" />
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="Count">
-                        <Label Content="{Binding SelectedGroup.Count, FallbackValue=0t}" />
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="Average">
-                        <Label Content="{Binding SelectedGroup.Average, FallbackValue=0}" />
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="MaxValue">
-                        <Label Content="{Binding SelectedGroup.MaxValue, FallbackValue=0}" />
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="MinValue">
-                        <Label Content="{Binding SelectedGroup.MinValue, FallbackValue=0}" />
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="AverageInMonth">
-                        <Label Content="{Binding SelectedGroup.AverageInMonth, FallbackValue=0}" />
-                    </dxlc:LayoutItem>
-                    <Button Command="{Binding ExportSummaryCommand}" Content="export summary" />
-                </StackPanel>
-            </Grid>
-            <dxc:ChartControl
+                            <dxe:ListBoxEdit.StyleSettings>
+                                <dxe:CheckedListBoxEditStyleSettings />
+                            </dxe:ListBoxEdit.StyleSettings>
+                        </dxe:ListBoxEdit>
+                        <dxg:GridControl Grid.Row="3" ItemsSource="{Binding SelectedGroup.Orders}" >
+
+                            <dxg:GridControl.View>
+                                <dxg:TableView ShowTotalSummary="False"  />
+                            </dxg:GridControl.View>
+                            <dxg:GridControl.Columns>
+                                <dxg:GridColumn FieldName="DateOrder" />
+                                <dxg:GridColumn FieldName="Value" />
+                                <dxg:GridColumn FieldName="Description" />
+                                <dxg:GridColumn FieldName="Tags" />
+                            </dxg:GridControl.Columns>
+                        </dxg:GridControl>
+                        <StackPanel Grid.Row="4">
+                            <dxlc:LayoutItem Label="Sum">
+                                <Label Content="{Binding SelectedGroup.Value, FallbackValue=0}" />
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="Count">
+                                <Label Content="{Binding SelectedGroup.Count, FallbackValue=0t}" />
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="Average">
+                                <Label Content="{Binding SelectedGroup.Average, FallbackValue=0}" />
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="MaxValue">
+                                <Label Content="{Binding SelectedGroup.MaxValue, FallbackValue=0}" />
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="MinValue">
+                                <Label Content="{Binding SelectedGroup.MinValue, FallbackValue=0}" />
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="AverageInMonth">
+                                <Label Content="{Binding SelectedGroup.AverageInMonth, FallbackValue=0}" />
+                            </dxlc:LayoutItem>
+                            <Button Command="{Binding ExportSummaryCommand}" Content="export summary" />
+                        </StackPanel>
+                    </Grid>
+                </dxdo:LayoutPanel>
+                <dxdo:LayoutPanel>
+                    <dxc:ChartControl
                 Grid.Column="1"
                 AnimationMode="OnDataChanged"
                 DataSource="{Binding GroupCollection}"
                 Name="chart"
                 SelectedItem="{Binding SelectedGroup,Mode=TwoWay}"
                 SelectionMode="Single">
-                <dxc:ChartControl.Palette>
-                    <dxc:BlueWarmPalette />
-                </dxc:ChartControl.Palette>
-                <dxc:ChartControl.Diagram>
-                    <dxc:SimpleDiagram2D>
-                        <dxc:SimpleDiagram2D.Series>
-                            <dxc:PieSeries2D
+                        <dxc:ChartControl.Palette>
+                            <dxc:BlueWarmPalette />
+                        </dxc:ChartControl.Palette>
+                        <dxc:ChartControl.Diagram>
+                            <dxc:SimpleDiagram2D>
+                                <dxc:SimpleDiagram2D.Series>
+                                    <dxc:PieSeries2D
                                 x:Name="Series"
                                 ArgumentDataMember="ParentTagName"
                                 LabelsVisibility="True"
                                 ValueDataMember="Value">
-                                <dxc:PieSeries2D.LegendPointOptions>
-                                    <dxc:PointOptions PointView="Argument" />
-                                </dxc:PieSeries2D.LegendPointOptions>
-                                <dxc:PieSeries2D.PointAnimation>
-                                    <dxc:Pie2DFlyInAnimation Duration="0:0:1.5" PointOrder="Random" />
-                                </dxc:PieSeries2D.PointAnimation>
-                                <dxc:PieSeries2D.Label>
-                                    <dxc:SeriesLabel RenderMode="RectangleConnectedToCenter" TextPattern="{}{A}: {V:N0}" />
-                                </dxc:PieSeries2D.Label>
-                            </dxc:PieSeries2D>
-                        </dxc:SimpleDiagram2D.Series>
-                    </dxc:SimpleDiagram2D>
-                </dxc:ChartControl.Diagram>
-                <dxc:ChartControl.Titles>
-                    <dxc:Title
+                                        <dxc:PieSeries2D.LegendPointOptions>
+                                            <dxc:PointOptions PointView="Argument" />
+                                        </dxc:PieSeries2D.LegendPointOptions>
+                                        <dxc:PieSeries2D.PointAnimation>
+                                            <dxc:Pie2DFlyInAnimation Duration="0:0:1.5" PointOrder="Random" />
+                                        </dxc:PieSeries2D.PointAnimation>
+                                        <dxc:PieSeries2D.Label>
+                                            <dxc:SeriesLabel RenderMode="RectangleConnectedToCenter" TextPattern="{}{A}: {V:N0}" />
+                                        </dxc:PieSeries2D.Label>
+                                    </dxc:PieSeries2D>
+                                </dxc:SimpleDiagram2D.Series>
+                            </dxc:SimpleDiagram2D>
+                        </dxc:ChartControl.Diagram>
+                        <dxc:ChartControl.Titles>
+                            <dxc:Title
                         HorizontalAlignment="Center"
                         Content="{Binding SelectedGroup,Converter={local:ConverterGroupDataToTitle}}"
                         Dock="Top"
                         FontSize="24" />
-                </dxc:ChartControl.Titles>
-            </dxc:ChartControl>
-        </Grid>
-        <dxc:ChartControl Grid.Row="1">
-            <dxc:XYDiagram2D EnableAxisXNavigation="True" EnableAxisYNavigation="True">
-                <dxc:XYDiagram2D.DefaultPane>
-                    <dxc:Pane>
-                        <dxc:Pane.AxisXScrollBarOptions>
-                            <dxc:ScrollBarOptions Visible="False" />
-                        </dxc:Pane.AxisXScrollBarOptions>
-                        <dxc:Pane.AxisYScrollBarOptions>
-                            <dxc:ScrollBarOptions Visible="False" />
-                        </dxc:Pane.AxisYScrollBarOptions>
-                    </dxc:Pane>
-                </dxc:XYDiagram2D.DefaultPane>
-                <dxc:LineSeries2D
+                        </dxc:ChartControl.Titles>
+                    </dxc:ChartControl>
+                </dxdo:LayoutPanel>
+            </dxdo:LayoutGroup>
+            <dxdo:LayoutPanel>
+                <dxc:ChartControl Grid.Row="1">
+                    <dxc:XYDiagram2D EnableAxisXNavigation="True" EnableAxisYNavigation="True">
+                        <dxc:XYDiagram2D.DefaultPane>
+                            <dxc:Pane>
+                                <dxc:Pane.AxisXScrollBarOptions>
+                                    <dxc:ScrollBarOptions Visible="False" />
+                                </dxc:Pane.AxisXScrollBarOptions>
+                                <dxc:Pane.AxisYScrollBarOptions>
+                                    <dxc:ScrollBarOptions Visible="False" />
+                                </dxc:Pane.AxisYScrollBarOptions>
+                            </dxc:Pane>
+                        </dxc:XYDiagram2D.DefaultPane>
+                        <dxc:LineSeries2D
                     ArgumentDataMember="DayDate"
                     DataSource="{Binding DateOrderCollection}"
                     ValueDataMember="Value">
-                    <dxc:LineSeries2D.Indicators>
-                        <dxc:SimpleMovingAverage PointsCount="12" ShowInLegend="True" />
-                    </dxc:LineSeries2D.Indicators>
-                </dxc:LineSeries2D>
-            </dxc:XYDiagram2D>
-        </dxc:ChartControl>
-    </Grid>
-
+                            <dxc:LineSeries2D.Indicators>
+                                <dxc:SimpleMovingAverage PointsCount="12" ShowInLegend="True" />
+                            </dxc:LineSeries2D.Indicators>
+                        </dxc:LineSeries2D>
+                    </dxc:XYDiagram2D>
+                </dxc:ChartControl>
+            </dxdo:LayoutPanel>
+        </dxdo:LayoutGroup>
+    </dxdo:DockLayoutManager>
 </UserControl>
