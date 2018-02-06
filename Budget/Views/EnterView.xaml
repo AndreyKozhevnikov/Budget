@@ -14,6 +14,7 @@
             >
     <dxmvvm:Interaction.Behaviors>
         <dxmvvm:EventToCommand EventName="PreviewKeyDown" Command="{Binding PreviewKeyHandlerCommand}" PassEventArgsToCommand="True"/>
+        <local:ShowWebListWindow/>
     </dxmvvm:Interaction.Behaviors>
     <dxlc:LayoutGroup Orientation="Horizontal">
         <dxlc:LayoutGroup Orientation="Vertical">
@@ -56,6 +57,7 @@
                     <Button Content="ExportXLSX" Command="{Binding ExportXLSXCommand}" Height="30"/>
                     <Button Content="Enter"  Command="{Binding EnterOrderCommand}" Height="60" />
                     <Button Content="UpdateBase" Command="{Binding SaveNotSavedOrdersInBaseCommand}" Height="30"/>
+                    <Button Content="ImportFromWeb" Command="{Binding ImportFromWebCommand}"/>
                 </dxlc:LayoutGroup>
             </dxlc:LayoutGroup>
             <dxlc:LayoutGroup>

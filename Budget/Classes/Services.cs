@@ -1,4 +1,6 @@
-﻿using DevExpress.Data;
+﻿using Budget.Classes;
+using Budget.Views;
+using DevExpress.Data;
 using DevExpress.Mvvm.UI;
 using DevExpress.Xpf.Editors;
 using DevExpress.Xpf.Grid;
@@ -43,7 +45,19 @@ namespace Budget {
             }
         }
     }
-
+    public interface IShowWebListWindow {
+        List<WebOrder> ShowWindow(List<WebOrder> originalList);
+    }
+    public class ShowWebListWindow : ServiceBase, IShowWebListWindow {
+        public List<WebOrder> ShowWindow(List<WebOrder> originalList) {
+            WebOrdersWindow wnd = new WebOrdersWindow();
+            wnd.DataContext = originalList;
+            if (wnd.ShowDialog() == true) {
+                return wnd.FinalList;
+            }
+            return new List<WebOrder>();
+        }
+    }
 
     public interface ISetFocusOnValueTextEdit {
         void SetFocus();

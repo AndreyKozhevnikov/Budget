@@ -1,11 +1,14 @@
-﻿using DevExpress.Data.Filtering;
+﻿using Budget.Classes;
+using DevExpress.Data.Filtering;
 using DevExpress.Mvvm;
 using DevExpress.Xpf.Editors;
 using DevExpress.Xpf.Grid;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,7 +53,7 @@ namespace Budget {
             OrderViewModel.generalEntity.SaveChanges();
         }
 
-  
+
 
         void CreateNewCurrentOrder() {
 
@@ -72,7 +75,7 @@ namespace Budget {
             var lst = ParentViewModel.Orders.Select(x => new { pTag = x.ParentTag, vl = x.Value }).ToList();
             var lst2 = lst.GroupBy(x => x.pTag).ToList();
             //var lst3=lst2.Select(x=>new{pn=x.Key,vl=x.Sum(y=>y.vl)}).ToList();
-            var lst3 = lst2.Select(x => new { pn = x.Key, vl = x.Count() ,sm=x.Sum(y=>y.vl)}).ToList();
+            var lst3 = lst2.Select(x => new { pn = x.Key, vl = x.Count(), sm = x.Sum(y => y.vl) }).ToList();
             var lst4 = lst3.OrderByDescending(x => x.vl).ToList();
             var lst5 = lst4.Select(x => x.pn).ToList();
             MyIntInListPositionComparer<int> comp = new MyIntInListPositionComparer<int>(lst5);
@@ -93,20 +96,38 @@ namespace Budget {
 
             RaisePropertyChanged("AllTags");
         }
-       
+
         void SaveNotSavedOrdersInBaseMehtod() {
- //           var ch = OrderViewModel.generalEntity.ChangeTracker.Entries().Where(x => x.State == System.Data.Entity.EntityState.Modified
- //      || x.State == System.Data.Entity.EntityState.Added)
- //.Select(x => x.Entity).ToList();
-            
+            //           var ch = OrderViewModel.generalEntity.ChangeTracker.Entries().Where(x => x.State == System.Data.Entity.EntityState.Modified
+            //      || x.State == System.Data.Entity.EntityState.Added)
+            //.Select(x => x.Entity).ToList();
+
             OrderViewModel.generalEntity.SaveChanges();
         }
         void ExportXLSX() {
             string path = OrderViewModel.DropboxPath + @"common\BudgetExport.xlsx";
             TableViewExportToExcelService.ExportToExcel(path);
-        
+
+        }
+        private void ImportFromWeb() {
+            List<WebOrder> listWebOrders = GetWebOrders();
+            
+            var finalList = ShowWebListWindowService.ShowWindow(listWebOrders);
+
+
+
+
         }
 
+        List<WebOrder> GetWebOrders() {
+            using (var webClient = new System.Net.WebClient()) {
+                webClient.Encoding = Encoding.UTF8;
+                //  var json = webClient.DownloadString("https://budgetweb.herokuapp.com/catalog/orders/export");
+                var json = webClient.DownloadString("http://localhost:3000/catalog/orders/export");
+                List<WebOrder> webOrderList = JsonConvert.DeserializeObject<List<WebOrder>>(json);
+                return webOrderList;
+            }
+        }
         private void PreviewKeyHandler(KeyEventArgs e) {
             if (e.Key == Key.Enter && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))) {
                 if (CurrentOrder.Value == 0)
@@ -118,12 +139,12 @@ namespace Budget {
                 e.Handled = true;
             }
             if (e.Key == Key.Subtract) {
-                CurrentDate= CurrentDate.AddDays(-1);
+                CurrentDate = CurrentDate.AddDays(-1);
                 e.Handled = true;
             }
         }
         private void ShowFilterPopup(FilterPopupEventArgs e) {
-           
+
             if (e.Column.FieldName == "DateOrder") {
 
                 var v1 = e.ComboBoxEdit.ItemsSource as List<object>;
@@ -138,7 +159,7 @@ namespace Budget {
                 //var listMonth6 = listMonth5.Select(x => new CustomComboBoxItem() { DisplayValue = x.Display, EditValue = CriteriaOperator.Parse(string.Format("[DateOrder]>=#{0}# and [DateOrder]<#{1}#", x.v1, x.v2)) }).ToList();
 
                 //   var listMonth = v1.Cast<ICustomItem>().Where(x => x.EditValue is DateTime).Select(x => new { dt = ((DateTime)x.EditValue) }).Select(x => new { mnt = new DateTime(x.dt.Year, x.dt.Month, 1) }).GroupBy(x => x.mnt).Select(y => new { vl = (DateTime)y.Key }).Select(x => new { Display = x.vl.ToString("MMM yyyy"), v1 = x.vl, v2 = x.vl.AddMonths(1) }).Select(x => new CustomComboBoxItem() { DisplayValue = x.Display, EditValue = CriteriaOperator.Parse(string.Format("[DateOrder]>=#{0}# and [DateOrder]<#{1}#", x.v1, x.v2)) }).ToList();
-                var listMonth = v1.Cast<ICustomItem>().Where(x => x.EditValue is DateTime).Distinct().Select(x=>(DateTime)x.EditValue).Select(x => new { mnt = new DateTime(x.Year, x.Month, 1) }).GroupBy(x => x.mnt).Select(x => new { Display = x.Key.ToString("MMM yyyy"), v1 = x.Key, v2 = x.Key.AddMonths(1) }).Select(x => new CustomComboBoxItem() { DisplayValue = x.Display, EditValue = CriteriaOperator.Parse(string.Format("[DateOrder]>=#{0}# and [DateOrder]<#{1}#", x.v1, x.v2)) }).ToList();
+                var listMonth = v1.Cast<ICustomItem>().Where(x => x.EditValue is DateTime).Distinct().Select(x => (DateTime)x.EditValue).Select(x => new { mnt = new DateTime(x.Year, x.Month, 1) }).GroupBy(x => x.mnt).Select(x => new { Display = x.Key.ToString("MMM yyyy"), v1 = x.Key, v2 = x.Key.AddMonths(1) }).Select(x => new CustomComboBoxItem() { DisplayValue = x.Display, EditValue = CriteriaOperator.Parse(string.Format("[DateOrder]>=#{0}# and [DateOrder]<#{1}#", x.v1, x.v2)) }).ToList();
                 e.ComboBoxEdit.ItemsSource = listMonth;
             }
             if (e.Column.FieldName == "ParentTag") {
@@ -149,7 +170,7 @@ namespace Budget {
 
 
 
-       
+
     }
 
 
@@ -160,6 +181,7 @@ namespace Budget {
         ICommand _exportXLSXCommand;
         ICommand _previewKeyHandlerCommand;
         ICommand _showFilterPopupCommand;
+        ICommand _importFromWebCommand;
 
         DateTime _currentDate;
         MyOrder _currentOrder;
@@ -248,6 +270,16 @@ namespace Budget {
             }
         }
 
+        public ICommand ImportFromWebCommand {
+            get {
+                if (_importFromWebCommand == null)
+                    _importFromWebCommand = new DelegateCommand(ImportFromWeb);
+                return _importFromWebCommand;
+            }
+        }
+
+
+
         public ICommand PreviewKeyHandlerCommand {
             get {
                 if (_previewKeyHandlerCommand == null)
@@ -276,9 +308,10 @@ namespace Budget {
 
         ITableViewExportToExcelService TableViewExportToExcelService { get { return ServiceContainer.GetService<ITableViewExportToExcelService>(); } }
         ISetFocusOnValueTextEdit SetFocusOnValueTextEditService { get { return ServiceContainer.GetService<ISetFocusOnValueTextEdit>(); } }
-     
-    }
-   
+        IShowWebListWindow ShowWebListWindowService { get { return ServiceContainer.GetService<IShowWebListWindow>(); } }
 
-  
+    }
+
+
+
 }
