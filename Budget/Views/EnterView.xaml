@@ -90,9 +90,6 @@
                             </dxg:GridColumn.EditSettings>
                         </dxg:GridColumn>
                         <dxg:GridColumn FieldName="Description"/>
-                        <dxg:GridColumn FieldName="Ignore">
-
-                        </dxg:GridColumn>
                         <dxg:GridColumn FieldName="Tags"/>
                         <dxg:GridColumn FieldName="IsJourney"/>
                     </dxg:GridControl.Columns>
