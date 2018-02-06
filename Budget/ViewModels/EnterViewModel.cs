@@ -111,12 +111,27 @@ namespace Budget {
         }
         private void ImportFromWeb() {
             List<WebOrder> listWebOrders = GetWebOrders();
-            
+            if (listWebOrders.Count == 0)
+                return;
             var finalList = ShowWebListWindowService.ShowWindow(listWebOrders);
+            foreach (WebOrder webOrder in finalList) {
+                var localOrder = CreateLocalOrderFromWeb(webOrder);
+                ParentViewModel.Orders.Add(localOrder);
 
+            }
+        }
 
-
-
+        MyOrder CreateLocalOrderFromWeb(WebOrder webOrder) {
+            var par = OrderViewModel.generalEntity.Orders.Create();
+            var localOrder = new MyOrder() { parentOrderEntity = par };
+            localOrder.DateOrder = webOrder.DateOrder;
+            localOrder.Description = webOrder.Description;
+            localOrder.Value = webOrder.Value;
+            localOrder.ParentTag = webOrder.ParentTag.LocalId;
+            localOrder.IsJourney = webOrder.IsJourney;
+            localOrder.Tags = webOrder.Tags;
+            localOrder.AddEntityInstanceToBase();
+            return localOrder;
         }
 
         List<WebOrder> GetWebOrders() {
