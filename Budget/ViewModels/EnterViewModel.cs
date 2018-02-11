@@ -7,9 +7,11 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -17,13 +19,17 @@ using System.Windows.Input;
 
 namespace Budget {
     public partial class EnterViewModel : MyBindableBase, ISupportServices {
+        string budgetWebPath;
         public EnterViewModel(OrderViewModel vm) {
             ParentViewModel = vm;
             UpdateOrders();
             UpdateTags(); //+
             CreateNewCurrentOrder();//te
             CurrentDate = DateTime.Today;
-
+            budgetWebPath = @"https://budgetweb.herokuapp.com/";
+#if DEBUG
+            budgetWebPath = @"http://localhost:3000";
+#endif
         }
 
         void UpdateOrders() {
@@ -114,10 +120,27 @@ namespace Budget {
             if (listWebOrders.Count == 0)
                 return;
             var finalList = ShowWebListWindowService.ShowWindow(listWebOrders);
+            List<Tuple<WebOrder, MyOrder>> listForUPdateWeb = new List<Tuple<WebOrder, MyOrder>>();
             foreach (WebOrder webOrder in finalList) {
                 var localOrder = CreateLocalOrderFromWeb(webOrder);
                 ParentViewModel.Orders.Add(localOrder);
 
+                listForUPdateWeb.Add(new Tuple<WebOrder, MyOrder>(webOrder, localOrder));
+            }
+            OrderViewModel.generalEntity.SaveChanges();
+            foreach (var tuple in listForUPdateWeb) {
+                UpdateLocalIdForWebOrder(tuple.Item1, tuple.Item2);
+            }
+        }
+        void UpdateLocalIdForWebOrder(WebOrder webOrder, MyOrder localOrder) {
+            var localid = localOrder.Id;
+            var webid = webOrder._id;
+            using (var client = new WebClient()) {
+                var values = new NameValueCollection();
+                values["id"] = webid;
+                values["localid"] = localid.ToString();
+                var response = client.UploadValues(budgetWebPath+ "/catalog/update/order", values);
+                var responseString = Encoding.Default.GetString(response);
             }
         }
 
@@ -135,10 +158,10 @@ namespace Budget {
         }
 
         List<WebOrder> GetWebOrders() {
-            using (var webClient = new System.Net.WebClient()) {
+            using (var webClient = new WebClient()) {
                 webClient.Encoding = Encoding.UTF8;
                 //  var json = webClient.DownloadString("https://budgetweb.herokuapp.com/catalog/orders/export");
-                var json = webClient.DownloadString("http://localhost:3000/catalog/orders/export");
+                var json = webClient.DownloadString(budgetWebPath+"/catalog/orders/export");
                 List<WebOrder> webOrderList = JsonConvert.DeserializeObject<List<WebOrder>>(json);
                 return webOrderList;
             }
