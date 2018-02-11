@@ -26,7 +26,7 @@ namespace Budget {
             UpdateTags(); //+
             CreateNewCurrentOrder();//te
             CurrentDate = DateTime.Today;
-            budgetWebPath = @"https://budgetweb.herokuapp.com/";
+            budgetWebPath = @"https://budgetweb.herokuapp.com";
 #if DEBUG
             budgetWebPath = @"http://localhost:3000";
 #endif

@@ -57,7 +57,7 @@
                     <Button Content="ExportXLSX" Command="{Binding ExportXLSXCommand}" Height="30"/>
                     <Button Content="Enter"  Command="{Binding EnterOrderCommand}" Height="60" />
                     <Button Content="UpdateBase" Command="{Binding SaveNotSavedOrdersInBaseCommand}" Height="30"/>
-                    <Button Content="ImportFromWeb" Command="{Binding ImportFromWebCommand}"/>
+                    <Button Content="ImportFromWeb" Command="{Binding ImportFromWebCommand}" Height="30"/>
                 </dxlc:LayoutGroup>
             </dxlc:LayoutGroup>
             <dxlc:LayoutGroup>
