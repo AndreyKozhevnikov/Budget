@@ -44,9 +44,9 @@ namespace Budget {
         }
 
         void ChangeCurrentOrderDateMethod(string st) {
-            if (st == "Up")
+            if(st == "Up")
                 CurrentDate += new TimeSpan(1, 0, 0, 0);
-            if (st == "Down")
+            if(st == "Down")
                 CurrentDate -= new TimeSpan(1, 0, 0, 0);
         }
 
@@ -89,12 +89,11 @@ namespace Budget {
 
             AllTags = new ObservableCollection<Tag>(v2);
 
-            foreach (Tag tg in AllTags) {
+            foreach(Tag tg in AllTags) {
                 var tmp = lst3.Where(x => x.pn == tg.Id).FirstOrDefault();
-                if (tmp != null) {
+                if(tmp != null) {
                     tg.ComplexValue = string.Format("{0} - {1} - {2}", tg.TagName, tmp.vl, tmp.sm);
-                }
-                else {
+                } else {
                     tg.ComplexValue = string.Format("{0} - {1} - {2}", tg.TagName, 0, 0);
                 }
             }
@@ -117,29 +116,43 @@ namespace Budget {
         }
         private void ImportFromWeb() {
             List<WebOrder> listWebOrders = GetWebOrders();
-            if (listWebOrders.Count == 0)
+            if(listWebOrders.Count == 0)
                 return;
             var finalList = ShowWebListWindowService.ShowWindow(listWebOrders);
+            if (finalList==null)
+                return;
             List<Tuple<WebOrder, MyOrder>> listForUPdateWeb = new List<Tuple<WebOrder, MyOrder>>();
-            foreach (WebOrder webOrder in finalList) {
+            foreach(WebOrder webOrder in finalList) {
                 var localOrder = CreateLocalOrderFromWeb(webOrder);
                 ParentViewModel.Orders.Add(localOrder);
 
                 listForUPdateWeb.Add(new Tuple<WebOrder, MyOrder>(webOrder, localOrder));
             }
             OrderViewModel.generalEntity.SaveChanges();
-            foreach (var tuple in listForUPdateWeb) {
+            var notUpdatedList = listWebOrders.Except(finalList);
+            foreach(var notUpdatedItem in notUpdatedList) {
+                listForUPdateWeb.Add(new Tuple<WebOrder, MyOrder>(notUpdatedItem, null));
+            }
+
+            foreach(var tuple in listForUPdateWeb) {
                 UpdateLocalIdForWebOrder(tuple.Item1, tuple.Item2);
             }
+
+
         }
         void UpdateLocalIdForWebOrder(WebOrder webOrder, MyOrder localOrder) {
-            var localid = localOrder.Id;
+            int idToInsertInWeb;
+            if(localOrder != null) {
+                idToInsertInWeb = localOrder.Id;
+            } else {
+                idToInsertInWeb = -1;
+            }
             var webid = webOrder._id;
-            using (var client = new WebClient()) {
+            using(var client = new WebClient()) {
                 var values = new NameValueCollection();
                 values["id"] = webid;
-                values["localid"] = localid.ToString();
-                var response = client.UploadValues(budgetWebPath+ "/catalog/update/order", values);
+                values["localid"] = idToInsertInWeb.ToString();
+                var response = client.UploadValues(budgetWebPath + "/catalog/update/order", values);
                 var responseString = Encoding.Default.GetString(response);
             }
         }
@@ -158,32 +171,32 @@ namespace Budget {
         }
 
         List<WebOrder> GetWebOrders() {
-            using (var webClient = new WebClient()) {
+            using(var webClient = new WebClient()) {
                 webClient.Encoding = Encoding.UTF8;
                 //  var json = webClient.DownloadString("https://budgetweb.herokuapp.com/catalog/orders/export");
-                var json = webClient.DownloadString(budgetWebPath+"/catalog/orders/export");
+                var json = webClient.DownloadString(budgetWebPath + "/catalog/orders/export");
                 List<WebOrder> webOrderList = JsonConvert.DeserializeObject<List<WebOrder>>(json);
                 return webOrderList;
             }
         }
         private void PreviewKeyHandler(KeyEventArgs e) {
-            if (e.Key == Key.Enter && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))) {
-                if (CurrentOrder.Value == 0)
+            if(e.Key == Key.Enter && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))) {
+                if(CurrentOrder.Value == 0)
                     return;
                 EnterOrder();
             }
-            if (e.Key == Key.Add) {
+            if(e.Key == Key.Add) {
                 CurrentDate = CurrentDate.AddDays(1);
                 e.Handled = true;
             }
-            if (e.Key == Key.Subtract) {
+            if(e.Key == Key.Subtract) {
                 CurrentDate = CurrentDate.AddDays(-1);
                 e.Handled = true;
             }
         }
         private void ShowFilterPopup(FilterPopupEventArgs e) {
 
-            if (e.Column.FieldName == "DateOrder") {
+            if(e.Column.FieldName == "DateOrder") {
 
                 var v1 = e.ComboBoxEdit.ItemsSource as List<object>;
                 //ppp
@@ -200,7 +213,7 @@ namespace Budget {
                 var listMonth = v1.Cast<ICustomItem>().Where(x => x.EditValue is DateTime).Distinct().Select(x => (DateTime)x.EditValue).Select(x => new { mnt = new DateTime(x.Year, x.Month, 1) }).GroupBy(x => x.mnt).Select(x => new { Display = x.Key.ToString("MMM yyyy"), v1 = x.Key, v2 = x.Key.AddMonths(1) }).Select(x => new CustomComboBoxItem() { DisplayValue = x.Display, EditValue = CriteriaOperator.Parse(string.Format("[DateOrder]>=#{0}# and [DateOrder]<#{1}#", x.v1, x.v2)) }).ToList();
                 e.ComboBoxEdit.ItemsSource = listMonth;
             }
-            if (e.Column.FieldName == "ParentTag") {
+            if(e.Column.FieldName == "ParentTag") {
                 var l = AllTags.Select(x => new CustomComboBoxItem() { DisplayValue = x.TagName, EditValue = x.TagName }).ToList();
                 e.ComboBoxEdit.ItemsSource = l;
             }
@@ -279,14 +292,14 @@ namespace Budget {
 
         public ICommand ChangeCurrentOrderDate {
             get {
-                if (_changeCurrentOrderDateCommand == null)
+                if(_changeCurrentOrderDateCommand == null)
                     _changeCurrentOrderDateCommand = new DelegateCommand<string>(ChangeCurrentOrderDateMethod, true);
                 return _changeCurrentOrderDateCommand;
             }
         }
         public ICommand EnterOrderCommand {
             get {
-                if (_enterOrderCommand == null)
+                if(_enterOrderCommand == null)
                     _enterOrderCommand = new DelegateCommand(EnterOrder);
                 return _enterOrderCommand;
             }
@@ -294,7 +307,7 @@ namespace Budget {
 
         public ICommand SaveNotSavedOrdersInBaseCommand {
             get {
-                if (_saveNotSavedTagsInBaseCommand == null)
+                if(_saveNotSavedTagsInBaseCommand == null)
                     _saveNotSavedTagsInBaseCommand = new DelegateCommand(SaveNotSavedOrdersInBaseMehtod);
                 return _saveNotSavedTagsInBaseCommand;
             }
@@ -302,7 +315,7 @@ namespace Budget {
 
         public ICommand ExportXLSXCommand {
             get {
-                if (_exportXLSXCommand == null)
+                if(_exportXLSXCommand == null)
                     _exportXLSXCommand = new DelegateCommand(ExportXLSX);
                 return _exportXLSXCommand;
             }
@@ -310,7 +323,7 @@ namespace Budget {
 
         public ICommand ImportFromWebCommand {
             get {
-                if (_importFromWebCommand == null)
+                if(_importFromWebCommand == null)
                     _importFromWebCommand = new DelegateCommand(ImportFromWeb);
                 return _importFromWebCommand;
             }
@@ -320,14 +333,14 @@ namespace Budget {
 
         public ICommand PreviewKeyHandlerCommand {
             get {
-                if (_previewKeyHandlerCommand == null)
+                if(_previewKeyHandlerCommand == null)
                     _previewKeyHandlerCommand = new DelegateCommand<KeyEventArgs>(PreviewKeyHandler);
                 return _previewKeyHandlerCommand;
             }
         }
         public ICommand ShowFilterPopupCommand {
             get {
-                if (_showFilterPopupCommand == null)
+                if(_showFilterPopupCommand == null)
                     _showFilterPopupCommand = new DelegateCommand<FilterPopupEventArgs>(ShowFilterPopup);
                 return _showFilterPopupCommand;
             }
@@ -337,7 +350,7 @@ namespace Budget {
         IServiceContainer serviceContainer = null;
         protected IServiceContainer ServiceContainer {
             get {
-                if (serviceContainer == null)
+                if(serviceContainer == null)
                     serviceContainer = new ServiceContainer(this);
                 return serviceContainer;
             }

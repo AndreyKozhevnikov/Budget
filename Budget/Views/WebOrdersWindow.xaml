@@ -22,7 +22,7 @@
                 <dxg:TableView ShowCheckBoxSelectorColumn="True" />
             </dxg:GridControl.View>
         </dxg:GridControl>
-        <Button Click="Button_Click" Content="Export" />
+        <Button Click="Button_Click" Content="Import" />
     </StackPanel>
 
 </Window>

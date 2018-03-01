@@ -55,7 +55,7 @@ namespace Budget {
             if (wnd.ShowDialog() == true) {
                 return wnd.FinalList;
             }
-            return new List<WebOrder>();
+            return null;
         }
     }
 
