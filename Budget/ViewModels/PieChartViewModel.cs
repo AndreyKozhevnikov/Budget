@@ -34,19 +34,13 @@ namespace Budget {
         }
 
         void CreateDateOrderCollection() {
-            var count = (int)(targetDateItem.FinishDate - targetDateItem.StartDate).TotalDays;
-            var orders = SelectedGroup.Orders;
+            var orders = ParentViewModel.Orders.Where(x => x.ParentTag == SelectedGroup.ParentTagId);
+            var startDate = orders.Min(x => x.DateOrder);
             IEnumerable<DateTime> datesList;
-            IEnumerable<IGrouping<DateTime, Order>> groupOrdersByDate;
-            if(count < 32) {
-                datesList = Enumerable.Range(0, count + 1).Select(offset => targetDateItem.StartDate.AddDays(offset));
-                groupOrdersByDate = orders.GroupBy(x => x.DateOrder);
-
-            } else {
-                var countMonth = (targetDateItem.FinishDate.Year * 12 + targetDateItem.FinishDate.Month) - (targetDateItem.StartDate.Year * 12 + targetDateItem.StartDate.Month);
-                datesList = Enumerable.Range(0, countMonth + 1).Select(offset => new DateTime(targetDateItem.StartDate.Year, targetDateItem.StartDate.Month, 1).AddMonths(offset));
-                groupOrdersByDate = orders.GroupBy(x => new DateTime(x.DateOrder.Year, x.DateOrder.Month, 1));
-            }
+            IEnumerable<IGrouping<DateTime, MyOrder>> groupOrdersByDate;
+            var countMonth =  (DateTime.Today.Year * 12 + DateTime.Today.Month) - (startDate.Year * 12 + startDate.Month);
+            datesList = Enumerable.Range(0, countMonth + 1).Select(offset => new DateTime(startDate.Year, startDate.Month, 1).AddMonths(offset));
+            groupOrdersByDate = orders.GroupBy(x => new DateTime(x.DateOrder.Year, x.DateOrder.Month, 1));
             var ordersDateWithSum = groupOrdersByDate.Select(g => new { dt = g.Key, ssum = g.Sum(s => s.Value) }).ToList();
             var orderDataList = new List<DayOrderData>();
             foreach(var d in datesList) {
