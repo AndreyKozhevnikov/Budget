@@ -16,104 +16,109 @@
         <dxmvvm:EventToCommand EventName="PreviewKeyDown" Command="{Binding PreviewKeyHandlerCommand}" PassEventArgsToCommand="True"/>
         <local:ShowWebListWindow/>
     </dxmvvm:Interaction.Behaviors>
-    <dxlc:LayoutGroup Orientation="Horizontal">
-        <dxlc:LayoutGroup Orientation="Vertical">
-            <dxlc:LayoutGroup Orientation="Horizontal">
-                <dxlc:LayoutGroup Orientation="Vertical" Width="170">
-                    <dxlc:LayoutItem Label="AllSum:">
-                        <Label Content="{Binding SelectedItemsSumAll}"/>
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="Sum of eat">
-                        <Label Content="{Binding SelectedItemsSumEat}" />
-                    </dxlc:LayoutItem>
-                </dxlc:LayoutGroup>
-                <dxlc:LayoutGroup Orientation="Vertical" PreviewKeyDown="LayoutGroup_PreviewKeyDown" >
-                    <dxlc:LayoutGroup>
-                        <Button Content="Down" Height="22" Width="50" Command="{Binding ChangeCurrentOrderDate}" CommandParameter="Down"/>
-                        <dxlc:LayoutItem Label="Date:">
-                            <dxe:DateEdit EditValue="{Binding CurrentDate, Mode=TwoWay}" DisplayFormatString="dd-MMMM-yyyy, dddd" MaxValue="{x:Static sys:DateTime.Today}"/>
-                        </dxlc:LayoutItem>
-                        <Button Content="Up" Height="22" Width="50" Command="{Binding ChangeCurrentOrderDate}" CommandParameter="Up"/>
-                    </dxlc:LayoutGroup>
-                    <dxlc:LayoutItem Label="Value:">
-                        <dxe:TextEdit x:Name="ValueEditor1" EditValue="{Binding CurrentOrder.Value, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectAllOnGotFocus="True"   >
-                            <dxmvvm:Interaction.Behaviors>
-                                <local:SetFocusOnValueTextEditService />
-                                <dxmvvm:FocusBehavior/>
-                            </dxmvvm:Interaction.Behaviors>
-                            </dxe:TextEdit>
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="ParentTag:">
-                        <dxe:ComboBoxEdit IsTextEditable="False"  DisplayMember="ComplexValue" EditValue="{Binding CurrentOrder.ParentTag, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AllTags}" ValueMember="Id" PopupMinHeight="430"   />
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="Description:">
-                        <dxe:TextEdit  EditValue="{Binding CurrentOrder.Description, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="Tags:">
-                        <dxe:TextEdit EditValue="{Binding CurrentOrder.Tags,UpdateSourceTrigger=PropertyChanged}"/>
-                    </dxlc:LayoutItem>
-                </dxlc:LayoutGroup>
-                <dxlc:LayoutGroup Orientation="Vertical" Width="350">
-                    <Button Content="ExportXLSX" Command="{Binding ExportXLSXCommand}" Height="30"/>
-                    <Button Content="Enter"  Command="{Binding EnterOrderCommand}" Height="60" />
-                    <Button Content="UpdateBase" Command="{Binding SaveNotSavedOrdersInBaseCommand}" Height="30"/>
-                    <Button Content="ImportFromWeb" Command="{Binding ImportFromWebCommand}" Height="30"/>
-                </dxlc:LayoutGroup>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <dxlc:LayoutGroup Orientation="Vertical"  >
+                <dxlc:LayoutItem Label="AllSum:">
+                    <Label Content="{Binding SelectedItemsSumAll}"/>
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem Label="Sum of eat">
+                    <Label Content="{Binding SelectedItemsSumEat}" />
+                </dxlc:LayoutItem>
             </dxlc:LayoutGroup>
-            <dxlc:LayoutGroup>
-                <dxg:GridControl ItemsSource="{Binding ParentViewModel.Orders}" 
+            <dxlc:LayoutGroup Orientation="Vertical" PreviewKeyDown="LayoutGroup_PreviewKeyDown" Grid.Column="1"  >
+                <dxlc:LayoutGroup>
+                    <Button Content="Down" Height="22" Width="50" Command="{Binding ChangeCurrentOrderDate}" CommandParameter="Down"/>
+                    <dxlc:LayoutItem Label="Date:">
+                        <dxe:DateEdit EditValue="{Binding CurrentDate, Mode=TwoWay}" DisplayFormatString="dd-MMMM-yyyy, dddd" MaxValue="{x:Static sys:DateTime.Today}"/>
+                    </dxlc:LayoutItem>
+                    <Button Content="Up" Height="22" Width="50" Command="{Binding ChangeCurrentOrderDate}" CommandParameter="Up"/>
+                </dxlc:LayoutGroup>
+                <dxlc:LayoutItem Label="Value:">
+                    <dxe:TextEdit x:Name="ValueEditor1" EditValue="{Binding CurrentOrder.Value, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectAllOnGotFocus="True"   >
+                        <dxmvvm:Interaction.Behaviors>
+                            <local:SetFocusOnValueTextEditService />
+                            <dxmvvm:FocusBehavior/>
+                        </dxmvvm:Interaction.Behaviors>
+                    </dxe:TextEdit>
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem Label="ParentTag:">
+                    <dxe:ComboBoxEdit IsTextEditable="False"  DisplayMember="ComplexValue" EditValue="{Binding CurrentOrder.ParentTag, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AllTags}" ValueMember="Id" PopupMinHeight="430"   />
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem Label="Description:">
+                    <dxe:TextEdit  EditValue="{Binding CurrentOrder.Description, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem Label="Tags:">
+                    <dxe:TextEdit EditValue="{Binding CurrentOrder.Tags,UpdateSourceTrigger=PropertyChanged}"/>
+                </dxlc:LayoutItem>
+            </dxlc:LayoutGroup>
+            <dxlc:LayoutGroup Orientation="Vertical" Grid.Column="2" >
+                <Button Content="ExportXLSX" Command="{Binding ExportXLSXCommand}" Height="30"/>
+                <Button Content="Enter"  Command="{Binding EnterOrderCommand}" Height="60" />
+                <Button Content="UpdateBase" Command="{Binding SaveNotSavedOrdersInBaseCommand}" Height="30"/>
+                <Button Content="ImportFromWeb" Command="{Binding ImportFromWebCommand}" Height="30"/>
+            </dxlc:LayoutGroup>
+        </Grid>
+        <dxg:GridControl Grid.Row="1" ItemsSource="{Binding ParentViewModel.Orders}" 
                                  CopyingToClipboard="GridControl_CopyingToClipboard"
                                  AutoGenerateColumns="None"  Grid.ColumnSpan="2"
                                          Loaded="GridControl_Loaded_1"
                                          SelectedItems="{Binding SelectedOrders}"
                                          SelectionMode="Row"
                                          CurrentItem="{Binding FocusedInOutLayGridOrder, Mode=TwoWay}" >
-                    <dxg:GridControl.GroupSummary>
-                        <dxg:GridSummaryItem FieldName="Value" SummaryType="Sum" />
-                    </dxg:GridControl.GroupSummary>
-                    <dxg:GridControl.Columns>
-                        <dxg:GridColumn FieldName="DateOrder" SortIndex="0" Width="90" FilterPopupMode="List" >
-                            <dxg:GridColumn.DisplayTemplate>
-                                <ControlTemplate>
-                                    <TextBlock Text="{Binding Value, StringFormat={} {0:dd MMM yy ddd}}"    />
-                                </ControlTemplate>
-                            </dxg:GridColumn.DisplayTemplate>
-                            <dxg:GridColumn.EditSettings>
-                                <dxe:DateEditSettings MaxValue="{x:Static sys:DateTime.Today}"/>
-                            </dxg:GridColumn.EditSettings>
-                        </dxg:GridColumn>
-                        <dxg:GridColumn FieldName="Value" Width="90"/>
-                        <dxg:GridColumn FieldName="ParentTag" ColumnFilterMode="DisplayText" FilterPopupMode="CheckedList">
-                            <dxg:GridColumn.EditSettings>
-                                <dxe:ComboBoxEditSettings IsTextEditable="False" ItemsSource="{Binding AllTags}"
+            <dxg:GridControl.GroupSummary>
+                <dxg:GridSummaryItem FieldName="Value" SummaryType="Sum" />
+            </dxg:GridControl.GroupSummary>
+            <dxg:GridControl.Columns>
+                <dxg:GridColumn FieldName="DateOrder" SortIndex="0" Width="90" FilterPopupMode="List" >
+                    <dxg:GridColumn.DisplayTemplate>
+                        <ControlTemplate>
+                            <TextBlock Text="{Binding Value, StringFormat={} {0:dd MMM yy ddd}}"    />
+                        </ControlTemplate>
+                    </dxg:GridColumn.DisplayTemplate>
+                    <dxg:GridColumn.EditSettings>
+                        <dxe:DateEditSettings MaxValue="{x:Static sys:DateTime.Today}"/>
+                    </dxg:GridColumn.EditSettings>
+                </dxg:GridColumn>
+                <dxg:GridColumn FieldName="Value" Width="90"/>
+                <dxg:GridColumn FieldName="ParentTag" ColumnFilterMode="DisplayText" FilterPopupMode="CheckedList">
+                    <dxg:GridColumn.EditSettings>
+                        <dxe:ComboBoxEditSettings IsTextEditable="False" ItemsSource="{Binding AllTags}"
                                                           DisplayMember="TagName" ValueMember="Id" />
-                            </dxg:GridColumn.EditSettings>
-                        </dxg:GridColumn>
-                        <dxg:GridColumn FieldName="Description"/>
-                        <dxg:GridColumn FieldName="Tags"/>
-                        <dxg:GridColumn FieldName="IsJourney"/>
-                        <dxg:GridColumn FieldName="IsFromWeb"/>
-                    </dxg:GridControl.Columns>
-                    <dxg:GridControl.View>
-                        <dxg:TableView   x:Name="AllOrdersTableView"
+                    </dxg:GridColumn.EditSettings>
+                </dxg:GridColumn>
+                <dxg:GridColumn FieldName="Description"/>
+                <dxg:GridColumn FieldName="Tags"/>
+                <dxg:GridColumn FieldName="IsJourney"/>
+                <dxg:GridColumn FieldName="IsFromWeb"/>
+            </dxg:GridControl.Columns>
+            <dxg:GridControl.View>
+                <dxg:TableView   x:Name="AllOrdersTableView"
                                        ShowTotalSummary="True" ShowGroupedColumns="True"
                                        >
-                            <dxmvvm:Interaction.Behaviors>
-                                <dxmvvm:EventToCommand EventName="ShowFilterPopup" Command="{Binding ShowFilterPopupCommand}" PassEventArgsToCommand="True"/>
-                                <local:TableViewExportToExcelService ExportTableView="{Binding ElementName=AllOrdersTableView}"/>
-                            </dxmvvm:Interaction.Behaviors>
-                            <dxg:TableView.RowStyle>
-                                <Style TargetType="{x:Type dxg:RowControl}" BasedOn="{StaticResource {x:Type dxg:RowControl}}">
-                                    <Setter Property="Background" Value="{Binding Row.DateOrder, Converter={local:DatetoColorConverter}}"/>
-                                </Style>
-                            </dxg:TableView.RowStyle>
-                        </dxg:TableView>
-                    </dxg:GridControl.View>
-                    <dxg:GridControl.TotalSummary>
-                        <dxg:GridSummaryItem FieldName="Value" SummaryType="Sum" DisplayFormat="{}{0:n0}"/>
-                    </dxg:GridControl.TotalSummary>
-                </dxg:GridControl>
-            </dxlc:LayoutGroup>
-        </dxlc:LayoutGroup>
-    </dxlc:LayoutGroup>
+                    <dxmvvm:Interaction.Behaviors>
+                        <dxmvvm:EventToCommand EventName="ShowFilterPopup" Command="{Binding ShowFilterPopupCommand}" PassEventArgsToCommand="True"/>
+                        <local:TableViewExportToExcelService ExportTableView="{Binding ElementName=AllOrdersTableView}"/>
+                    </dxmvvm:Interaction.Behaviors>
+                    <dxg:TableView.RowStyle>
+                        <Style TargetType="{x:Type dxg:RowControl}" BasedOn="{StaticResource {x:Type dxg:RowControl}}">
+                            <Setter Property="Background" Value="{Binding Row.DateOrder, Converter={local:DatetoColorConverter}}"/>
+                        </Style>
+                    </dxg:TableView.RowStyle>
+                </dxg:TableView>
+            </dxg:GridControl.View>
+            <dxg:GridControl.TotalSummary>
+                <dxg:GridSummaryItem FieldName="Value" SummaryType="Sum" DisplayFormat="{}{0:n0}"/>
+            </dxg:GridControl.TotalSummary>
+        </dxg:GridControl>
+    </Grid>
 </UserControl>
