@@ -78,9 +78,8 @@ namespace Budget {
         void UpdateTags() {
             var v = OrderViewModel.generalEntity.Tags.ToList();
 
-            var lst = ParentViewModel.Orders.Select(x => new { pTag = x.ParentTag, vl = x.Value }).ToList();
+            var lst = ParentViewModel.Orders.Where(x=>x.DateOrder>DateTime.Today.AddDays(-90)).Select(x => new { pTag = x.ParentTag, vl = x.Value }).ToList();
             var lst2 = lst.GroupBy(x => x.pTag).ToList();
-            //var lst3=lst2.Select(x=>new{pn=x.Key,vl=x.Sum(y=>y.vl)}).ToList();
             var lst3 = lst2.Select(x => new { pn = x.Key, vl = x.Count(), sm = x.Sum(y => y.vl) }).ToList();
             var lst4 = lst3.OrderByDescending(x => x.vl).ToList();
             var lst5 = lst4.Select(x => x.pn).ToList();
