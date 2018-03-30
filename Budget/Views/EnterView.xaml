@@ -92,6 +92,7 @@
                         <dxg:GridColumn FieldName="Description"/>
                         <dxg:GridColumn FieldName="Tags"/>
                         <dxg:GridColumn FieldName="IsJourney"/>
+                        <dxg:GridColumn FieldName="IsFromWeb"/>
                     </dxg:GridControl.Columns>
                     <dxg:GridControl.View>
                         <dxg:TableView   x:Name="AllOrdersTableView"

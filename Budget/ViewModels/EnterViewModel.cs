@@ -166,6 +166,7 @@ namespace Budget {
             localOrder.IsJourney = webOrder.IsJourney;
             localOrder.Tags = webOrder.Tags;
             localOrder.AddEntityInstanceToBase();
+            localOrder.IsFromWeb = true;
             return localOrder;
         }
 

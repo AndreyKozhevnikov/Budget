@@ -98,6 +98,7 @@ namespace Budget {
             }
         }
 
+       public bool IsFromWeb{ get; set; }
     
         #endregion
 
