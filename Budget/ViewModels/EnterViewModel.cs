@@ -30,6 +30,8 @@ namespace Budget {
 #if DEBUG
             budgetWebPath = @"http://localhost:3000";
 #endif
+
+            SupportDateTable = new UniqueDateKeeper(ParentViewModel.Orders.Select(x=>x.DateOrder));
         }
 
         void UpdateOrders() {
@@ -53,6 +55,7 @@ namespace Budget {
         void EnterOrder() {
             CurrentOrder.AddEntityInstanceToBase();
             ParentViewModel.Orders.Add(CurrentOrder);
+            SupportDateTable.AddDate(CurrentOrder.DateOrder);
             FocusedInOutLayGridOrder = CurrentOrder;
             CreateNewCurrentOrder();
             SetFocusOnTextEditValue();
@@ -241,6 +244,7 @@ namespace Budget {
         string _exportProperty;
 
         public OrderViewModel ParentViewModel { get; set; }
+        public UniqueDateKeeper SupportDateTable { get; set; }
         public ObservableCollection<MyOrder> SelectedOrders { get; set; }
         public static ObservableCollection<Tag> AllTags { get; set; }
         public int? SelectedItemsSumAll {

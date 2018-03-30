@@ -111,7 +111,14 @@
                     </dxmvvm:Interaction.Behaviors>
                     <dxg:TableView.RowStyle>
                         <Style TargetType="{x:Type dxg:RowControl}" BasedOn="{StaticResource {x:Type dxg:RowControl}}">
-                            <Setter Property="Background" Value="{Binding Row.DateOrder, Converter={local:DatetoColorConverter}}"/>
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <MultiBinding Converter="{local:DatetoColorConverter2}">
+                                        <Binding Path="Row.DateOrder"/>
+                                        <Binding Path="View.DataContext.SupportDateTable.UniqueDateCollection"/>
+                                    </MultiBinding>
+                                </Setter.Value>
+                            </Setter>
                         </Style>
                     </dxg:TableView.RowStyle>
                 </dxg:TableView>
