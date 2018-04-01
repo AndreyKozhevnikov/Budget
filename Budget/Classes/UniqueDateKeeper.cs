@@ -31,8 +31,9 @@ namespace Budget.Classes {
 
         void CreateIndexes(IEnumerable<DateTime> list) {
             if(list == null){
-                list =new List<DateTime>( UniqueDateCollection.Keys.OrderBy(x => x));
+                list =new List<DateTime>(UniqueDateCollection.Keys);
             }
+            list = list.OrderBy(x => x);
             UniqueDateCollection.Clear();
             int index = 0;
             foreach(var dt in list) {
@@ -97,6 +98,4 @@ namespace Budget.Classes {
 
         }
     }
-
-
 }
