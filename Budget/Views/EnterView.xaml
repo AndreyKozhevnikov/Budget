@@ -39,7 +39,7 @@
                 <dxlc:LayoutGroup>
                     <Button Content="Down" Height="22" Width="50" Command="{Binding ChangeCurrentOrderDate}" CommandParameter="Down"/>
                     <dxlc:LayoutItem Label="Date:">
-                        <dxe:DateEdit EditValue="{Binding CurrentDate, Mode=TwoWay}" DisplayFormatString="dd-MMMM-yyyy, dddd" MaxValue="{x:Static sys:DateTime.Today}"/>
+                        <dxe:DateEdit EditValue="{Binding CurrentDate, Mode=TwoWay}" DisplayFormatString="dd-MMMM-yyyy, dddd" MaxValue="{x:Static sys:DateTime.Today}" IsTextEditable="False"/>
                     </dxlc:LayoutItem>
                     <Button Content="Up" Height="22" Width="50" Command="{Binding ChangeCurrentOrderDate}" CommandParameter="Up"/>
                 </dxlc:LayoutGroup>
