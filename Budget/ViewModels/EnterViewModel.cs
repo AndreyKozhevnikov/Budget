@@ -1,4 +1,5 @@
 ﻿using Budget.Classes;
+using Budget.Properties;
 using DevExpress.Data.Filtering;
 using DevExpress.Mvvm;
 using DevExpress.Xpf.Editors;
@@ -31,7 +32,7 @@ namespace Budget {
             budgetWebPath = @"http://localhost:3000";
 #endif
 
-            SupportDateTable = new UniqueDateKeeper(ParentViewModel.Orders.Select(x=>x.DateOrder));
+            SupportDateTable = new UniqueDateKeeper(ParentViewModel.Orders.Select(x => x.DateOrder));
         }
 
         void UpdateOrders() {
@@ -81,7 +82,7 @@ namespace Budget {
         void UpdateTags() {
             var v = OrderViewModel.generalEntity.Tags.ToList();
 
-            var lst = ParentViewModel.Orders.Where(x=>x.DateOrder>DateTime.Today.AddDays(-90)).Select(x => new { pTag = x.ParentTag, vl = x.Value }).ToList();
+            var lst = ParentViewModel.Orders.Where(x => x.DateOrder > DateTime.Today.AddDays(-90)).Select(x => new { pTag = x.ParentTag, vl = x.Value }).ToList();
             var lst2 = lst.GroupBy(x => x.pTag).ToList();
             var lst3 = lst2.Select(x => new { pn = x.Key, vl = x.Count(), sm = x.Sum(y => y.vl) }).ToList();
             var lst4 = lst3.OrderByDescending(x => x.vl).ToList();
@@ -121,7 +122,7 @@ namespace Budget {
             if(listWebOrders.Count == 0)
                 return;
             var finalList = ShowWebListWindowService.ShowWindow(listWebOrders);
-            if (finalList==null)
+            if(finalList == null)
                 return;
             List<Tuple<WebOrder, MyOrder>> listForUPdateWeb = new List<Tuple<WebOrder, MyOrder>>();
             foreach(WebOrder webOrder in finalList) {
@@ -176,9 +177,15 @@ namespace Budget {
         List<WebOrder> GetWebOrders() {
             using(var webClient = new WebClient()) {
                 webClient.Encoding = Encoding.UTF8;
-                //  var json = webClient.DownloadString("https://budgetweb.herokuapp.com/catalog/orders/export");
+                webClient.Headers.Add(HttpRequestHeader.Cookie, "cookiename="+ Resources.settings_log + ";  cookie2=value2");
                 var json = webClient.DownloadString(budgetWebPath + "/catalog/orders/export");
-                List<WebOrder> webOrderList = JsonConvert.DeserializeObject<List<WebOrder>>(json);
+                List<WebOrder> webOrderList;
+                try {
+                    webOrderList = JsonConvert.DeserializeObject<List<WebOrder>>(json);
+                }
+                catch(Exception e) {
+                    return new List<WebOrder>();
+                }
                 return webOrderList;
             }
         }

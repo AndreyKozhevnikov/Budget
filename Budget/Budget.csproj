@@ -338,6 +338,9 @@
       <FileType>Assembly</FileType>
     </PublishFile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\settings.log.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>If $(ConfigurationName) == Release ( xcopy "$(TargetDir)*.exe" "$(SolutionDir)\..\..\..\Deploy\BudgetDeploy" /y  /f
