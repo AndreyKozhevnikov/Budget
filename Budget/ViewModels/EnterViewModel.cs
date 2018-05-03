@@ -128,7 +128,7 @@ namespace Budget {
             foreach(WebOrder webOrder in finalList) {
                 var localOrder = CreateLocalOrderFromWeb(webOrder);
                 ParentViewModel.Orders.Add(localOrder);
-          
+                SupportDateTable.AddDate(localOrder.DateOrder);
                 listForUPdateWeb.Add(new Tuple<WebOrder, MyOrder>(webOrder, localOrder));
             }
             OrderViewModel.generalEntity.SaveChanges();
