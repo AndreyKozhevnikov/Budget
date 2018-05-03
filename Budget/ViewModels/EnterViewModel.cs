@@ -128,7 +128,7 @@ namespace Budget {
             foreach(WebOrder webOrder in finalList) {
                 var localOrder = CreateLocalOrderFromWeb(webOrder);
                 ParentViewModel.Orders.Add(localOrder);
-
+          
                 listForUPdateWeb.Add(new Tuple<WebOrder, MyOrder>(webOrder, localOrder));
             }
             OrderViewModel.generalEntity.SaveChanges();
@@ -152,6 +152,7 @@ namespace Budget {
             }
             var webid = webOrder._id;
             using(var client = new WebClient()) {
+                SetSecurityHeaders(client);
                 var values = new NameValueCollection();
                 values["id"] = webid;
                 values["localid"] = idToInsertInWeb.ToString();
@@ -159,7 +160,9 @@ namespace Budget {
                 var responseString = Encoding.Default.GetString(response);
             }
         }
-
+        void SetSecurityHeaders(WebClient client) {
+            client.Headers.Add(HttpRequestHeader.Cookie, "cookiename=" + Resources.settings_log + ";  cookie2=value2");
+        }
         MyOrder CreateLocalOrderFromWeb(WebOrder webOrder) {
             var par = OrderViewModel.generalEntity.Orders.Create();
             var localOrder = new MyOrder() { parentOrderEntity = par };
@@ -175,9 +178,13 @@ namespace Budget {
         }
 
         List<WebOrder> GetWebOrders() {
+            //var tmplst = new List<WebOrder>();
+            //tmplst.Add(new WebOrder() { DateOrder = DateTime.Today, Description = "test", Value = 33, ParentTag = new WebTag() { LocalId = 3 } });
+            //return tmplst;
+
             using(var webClient = new WebClient()) {
                 webClient.Encoding = Encoding.UTF8;
-                webClient.Headers.Add(HttpRequestHeader.Cookie, "cookiename="+ Resources.settings_log + ";  cookie2=value2");
+                SetSecurityHeaders(webClient);
                 var json = webClient.DownloadString(budgetWebPath + "/catalog/orders/export");
                 List<WebOrder> webOrderList;
                 try {
