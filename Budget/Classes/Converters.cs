@@ -86,17 +86,11 @@ namespace Budget {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) {
             if(!(values[0] is DateTime))
                 return null;
-            var dict =(Dictionary<DateTime,int>) values[1];
-            var date =(DateTime) values[0];
+            var dict = (Dictionary<DateTime, int>)values[1];
+            var date = (DateTime)values[0];
             var index = dict[date];
-            switch(index) {
-                case 0:
-                    return new SolidColorBrush(Colors.CornflowerBlue);
-                case 1:
-                    return new SolidColorBrush(Colors.DarkSeaGreen);
-                 default:
-                    return null;
-
+            if(index == 1) {
+                return new SolidColorBrush(Colors.DarkSeaGreen);
             }
             return null;
         }

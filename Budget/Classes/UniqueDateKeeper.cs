@@ -20,7 +20,7 @@ namespace Budget.Classes {
             bool isLastDate = UniqueDateCollection.Where(x => x.Key > dt).Count() == 0;
             if(isLastDate) {
                 int lastValue = UniqueDateCollection.Last().Value;
-                int newValue = (++lastValue + 3) % 3;
+                int newValue = GenerateNewValue(++lastValue);
                 UniqueDateCollection.Add(dt, newValue);
             } else {
                 UniqueDateCollection.Add(dt, -1);
@@ -28,7 +28,9 @@ namespace Budget.Classes {
             }
 
         }
-
+        int GenerateNewValue(int index) {
+            return (index + 2) % 2;
+        }
         void CreateIndexes(IEnumerable<DateTime> list) {
             if(list == null){
                 list =new List<DateTime>(UniqueDateCollection.Keys);
@@ -37,7 +39,7 @@ namespace Budget.Classes {
             UniqueDateCollection.Clear();
             int index = 0;
             foreach(var dt in list) {
-                UniqueDateCollection.Add(dt, (index++ + 3) % 3);
+                UniqueDateCollection.Add(dt, GenerateNewValue(index++));
             }
         }
     }
