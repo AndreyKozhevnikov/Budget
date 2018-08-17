@@ -156,7 +156,7 @@ namespace Budget {
                 var values = new NameValueCollection();
                 values["id"] = webid;
                 values["localid"] = idToInsertInWeb.ToString();
-                var response = client.UploadValues(budgetWebPath + "/catalog/update/order", values);
+                var response = client.UploadValues(budgetWebPath + "/order/update", values);
                 var responseString = Encoding.Default.GetString(response);
             }
         }
@@ -185,9 +185,9 @@ namespace Budget {
             using(var webClient = new WebClient()) {
                 webClient.Encoding = Encoding.UTF8;
                 SetSecurityHeaders(webClient);
-                var json = webClient.DownloadString(budgetWebPath + "/catalog/orders/export");
                 List<WebOrder> webOrderList;
                 try {
+                    var json = webClient.DownloadString(budgetWebPath + "/order/exportWithEmptyLocalId");
                     webOrderList = JsonConvert.DeserializeObject<List<WebOrder>>(json);
                 }
                 catch(Exception e) {
