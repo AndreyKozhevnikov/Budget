@@ -9,12 +9,14 @@
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              mc:Ignorable="d" 
              
             >
     <dxmvvm:Interaction.Behaviors>
         <dxmvvm:EventToCommand EventName="PreviewKeyDown" Command="{Binding PreviewKeyHandlerCommand}" PassEventArgsToCommand="True"/>
         <local:ShowWebListWindow/>
+        <dx:DXMessageBoxService/>
     </dxmvvm:Interaction.Behaviors>
     <Grid>
         <Grid.RowDefinitions>

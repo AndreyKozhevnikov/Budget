@@ -191,6 +191,7 @@ namespace Budget {
                     webOrderList = JsonConvert.DeserializeObject<List<WebOrder>>(json);
                 }
                 catch(Exception e) {
+                    MessageService.ShowMessage(e.Message);
                     return new List<WebOrder>();
                 }
                 return webOrderList;
@@ -378,6 +379,8 @@ namespace Budget {
         ITableViewExportToExcelService TableViewExportToExcelService { get { return ServiceContainer.GetService<ITableViewExportToExcelService>(); } }
         ISetFocusOnValueTextEdit SetFocusOnValueTextEditService { get { return ServiceContainer.GetService<ISetFocusOnValueTextEdit>(); } }
         IShowWebListWindow ShowWebListWindowService { get { return ServiceContainer.GetService<IShowWebListWindow>(); } }
+
+        IMessageBoxService MessageService { get { return ServiceContainer.GetService<IMessageBoxService>(); } }
 
     }
 
