@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,8 +63,8 @@ namespace Budget.Classes {
             //assert
             Assert.AreEqual(0, keeper.UniqueDateCollection[new DateTime(2018, 3, 20)]);
             Assert.AreEqual(1, keeper.UniqueDateCollection[new DateTime(2018, 3, 21)]);
-            Assert.AreEqual(2, keeper.UniqueDateCollection[new DateTime(2018, 3, 22)]);
-            Assert.AreEqual(0, keeper.UniqueDateCollection[new DateTime(2018, 3, 28)]);
+            Assert.AreEqual(0, keeper.UniqueDateCollection[new DateTime(2018, 3, 22)]);
+            Assert.AreEqual(1, keeper.UniqueDateCollection[new DateTime(2018, 3, 28)]);
 
         }
         [Test]
@@ -77,7 +78,7 @@ namespace Budget.Classes {
             UniqueDateKeeper keeper = new UniqueDateKeeper(lst);
             keeper.AddDate(new DateTime(2018, 3, 29));
             //assert
-            Assert.AreEqual(0, keeper.UniqueDateCollection[new DateTime(2018, 3, 29)]);
+            Assert.AreEqual(1, keeper.UniqueDateCollection[new DateTime(2018, 3, 29)]);
         }
 
         [Test]
@@ -93,9 +94,9 @@ namespace Budget.Classes {
             int firstValueof28 = keeper.UniqueDateCollection[new DateTime(2018, 3, 28)];
             keeper.AddDate(new DateTime(2018, 3, 27));
             //assert
-            Assert.AreEqual(0, firstValueof28);
-            Assert.AreEqual(0, keeper.UniqueDateCollection[new DateTime(2018, 3, 27)]);
-            Assert.AreEqual(1, keeper.UniqueDateCollection[new DateTime(2018, 3, 28)]);
+            Assert.AreEqual(1, firstValueof28);
+            Assert.AreEqual(1, keeper.UniqueDateCollection[new DateTime(2018, 3, 27)]);
+            Assert.AreEqual(0, keeper.UniqueDateCollection[new DateTime(2018, 3, 28)]);
 
 
         }
