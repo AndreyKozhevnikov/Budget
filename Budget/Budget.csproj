@@ -157,7 +157,10 @@
     <Compile Include="Classes\BudgetEntities.cs" />
     <Compile Include="Classes\ChartDateBounds.cs" />
     <Compile Include="Classes\Converters.cs" />
+    <Compile Include="Classes\EntityForUpdateEnum.cs" />
+    <Compile Include="Classes\IHaveId.cs" />
     <Compile Include="Classes\MyIntInListPositionComparer.cs" />
+    <Compile Include="Classes\WebPaymentType.cs" />
     <Compile Include="Classes\Services.cs" />
     <Compile Include="Classes\GroupData.cs" />
     <Compile Include="Classes\UniqueDateKeeper.cs" />
@@ -169,6 +172,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Order.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaymentType.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Tag.cs">

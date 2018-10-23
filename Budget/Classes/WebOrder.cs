@@ -16,7 +16,7 @@ namespace Budget.Classes {
         public bool IsJourney { get; set; }
         public string Tags { get; set; }
         public WebPaymentType PaymentType { get; set; }
-        public int PaymentNumber { get; set; }
+        public int? PaymentNumber { get; set; }
         public int __v { get; set; }
     }
 }

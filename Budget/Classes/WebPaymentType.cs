@@ -11,6 +11,7 @@ namespace Budget.Classes
         public string Name { get; set; }
         public int CurrentCount { get; set; }
         public bool IsYandex { get; set; }
+        public int LocalId { get; set; }
         public int __v { get; set; }
     }
 }

@@ -23,7 +23,9 @@ namespace Budget
         public bool Ignore { get; set; }
         public Nullable<int> OldParentTag { get; set; }
         public bool IsJourney { get; set; }
+        public Nullable<int> PaymentType { get; set; }
     
         public virtual Tag Tag { get; set; }
+        public virtual PaymentType PaymentType1 { get; set; }
     }
 }

@@ -27,5 +27,6 @@ namespace Budget
     
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
+        public virtual DbSet<PaymentType> PaymentTypes { get; set; }
     }
 }
