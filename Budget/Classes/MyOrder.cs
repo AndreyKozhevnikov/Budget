@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 namespace Budget {
     [DebuggerDisplay("DateOrder-{DateOrder} Value-{Value}, ParentTag-{ParentTag}")]
-    public class MyOrder : MyBindableBase {
+    public class MyOrder : MyBindableBase , IHaveId {
         public Order parentOrderEntity;
 
         public MyOrder() {
@@ -60,7 +60,7 @@ namespace Budget {
             }
             set {
                 parentOrderEntity.ParentTag = value;
-                if (value == 22) {
+                if(value == 22) {
                     Ignore = true;
                 }
                 RaisePropertyChanged("ParentTag");
@@ -98,8 +98,8 @@ namespace Budget {
             }
         }
 
-       public bool IsFromWeb{ get; set; }
-    
+        public bool IsFromWeb { get; set; }
+
         #endregion
 
 

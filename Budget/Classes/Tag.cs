@@ -37,7 +37,7 @@ namespace Budget {
         }
     }
 
-    public partial class Tag {
+    public partial class Tag: IHaveId {
         public string ComplexValue { get; set; }
     }
 }

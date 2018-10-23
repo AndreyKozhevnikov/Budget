@@ -124,39 +124,56 @@ namespace Budget {
             var finalList = ShowWebListWindowService.ShowWindow(listWebOrders);
             if(finalList == null)
                 return;
-            List<Tuple<WebOrder, MyOrder>> listForUPdateWeb = new List<Tuple<WebOrder, MyOrder>>();
+            List<Tuple<string, IHaveId, EntityForUpdateEnum>> listForUPdateWeb = new List<Tuple<string, IHaveId, EntityForUpdateEnum>>();
             foreach(WebOrder webOrder in finalList) {
+                var tst = finalList.Select(x => x.ParentTag.Name+" - "+ x.ParentTag.LocalId);
+                var newTagTuple = CreateTagIfRequired(webOrder);
+                if(newTagTuple != null) {
+                    listForUPdateWeb.Add(newTagTuple);
+                }
                 var localOrder = CreateLocalOrderFromWeb(webOrder);
                 ParentViewModel.Orders.Add(localOrder);
                 SupportDateTable.AddDate(localOrder.DateOrder);
-                listForUPdateWeb.Add(new Tuple<WebOrder, MyOrder>(webOrder, localOrder));
+                listForUPdateWeb.Add(new Tuple<string, IHaveId, EntityForUpdateEnum>(webOrder._id, localOrder, EntityForUpdateEnum.Order));
             }
             OrderViewModel.generalEntity.SaveChanges();
             var notUpdatedList = listWebOrders.Except(finalList);
             foreach(var notUpdatedItem in notUpdatedList) {
-                listForUPdateWeb.Add(new Tuple<WebOrder, MyOrder>(notUpdatedItem, null));
+                listForUPdateWeb.Add(new Tuple<string, IHaveId, EntityForUpdateEnum>(notUpdatedItem._id, null, EntityForUpdateEnum.Order));
             }
-
             foreach(var tuple in listForUPdateWeb) {
-                UpdateLocalIdForWebOrder(tuple.Item1, tuple.Item2);
+                UpdateLocalIdForWebEntity(tuple.Item1, tuple.Item2, tuple.Item3);
             }
-
-
         }
-        void UpdateLocalIdForWebOrder(WebOrder webOrder, MyOrder localOrder) {
-            int idToInsertInWeb;
-            if(localOrder != null) {
-                idToInsertInWeb = localOrder.Id;
-            } else {
-                idToInsertInWeb = -1;
+
+        Tuple<string, IHaveId, EntityForUpdateEnum> CreateTagIfRequired(WebOrder webOrder) {
+            var realParentTag = OrderViewModel.generalEntity.Tags.Where(x => x.Id == webOrder.ParentTag.LocalId).FirstOrDefault();
+            if(realParentTag == null) {
+                realParentTag = OrderViewModel.generalEntity.Tags.Create();
+                realParentTag.TagName = webOrder.ParentTag.Name;
+                OrderViewModel.generalEntity.Tags.Add(realParentTag);
+                OrderViewModel.generalEntity.SaveChanges();
+                webOrder.ParentTag.LocalId = realParentTag.Id;
+                return new Tuple<string, IHaveId, EntityForUpdateEnum>(webOrder.ParentTag._id, realParentTag, EntityForUpdateEnum.Tag);
             }
-            var webid = webOrder._id;
+            return null;
+        }
+
+        void UpdateLocalIdForWebEntity(string webId, IHaveId haveIdInstance, EntityForUpdateEnum type) {
+            string idToInsertInWeb;
+            if(haveIdInstance == null) {
+                idToInsertInWeb = "-1";
+            } else {
+                idToInsertInWeb = haveIdInstance.Id.ToString(); ;
+            }
+            var webid = webId;
             using(var client = new WebClient()) {
                 SetSecurityHeaders(client);
                 var values = new NameValueCollection();
                 values["id"] = webid;
-                values["localid"] = idToInsertInWeb.ToString();
-                var response = client.UploadValues(budgetWebPath + "/order/update", values);
+                values["localid"] = idToInsertInWeb;
+                values["type"] = type.ToString(); ;
+                var response = client.UploadValues(budgetWebPath + "/updateLocalId", values);
                 var responseString = Encoding.Default.GetString(response);
             }
         }
