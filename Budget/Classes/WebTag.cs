@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Budget.Classes {
-    public class WebTag {
+    public class WebTag:IWebEntity {
         public string _id { get; set; }
         public string Name { get; set; }
         public int LocalId { get; set; }

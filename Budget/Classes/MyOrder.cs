@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 namespace Budget {
     [DebuggerDisplay("DateOrder-{DateOrder} Value-{Value}, ParentTag-{ParentTag}")]
-    public class MyOrder : MyBindableBase , IHaveId {
+    public class MyOrder : MyBindableBase , ILocalEntity {
         public Order parentOrderEntity;
 
         public MyOrder() {
@@ -64,6 +64,16 @@ namespace Budget {
                     Ignore = true;
                 }
                 RaisePropertyChanged("ParentTag");
+            }
+        }
+
+        public int? PaymentTypeId {
+            get {
+                return parentOrderEntity.PaymentTypeId;
+            }
+            set {
+                parentOrderEntity.PaymentTypeId = value;
+                RaisePropertyChanged("PaymentType");
             }
         }
 
@@ -142,6 +152,10 @@ namespace Budget {
             OrderViewModel.generalEntity.SaveChanges();
 
             //IsSavedInBase = true;
+        }
+
+        public void GetPropertiesFromWebEntity(IWebEntity wEntity) {
+            throw new NotImplementedException();
         }
     }
 

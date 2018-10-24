@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -124,42 +125,55 @@ namespace Budget {
             var finalList = ShowWebListWindowService.ShowWindow(listWebOrders);
             if(finalList == null)
                 return;
-            List<Tuple<string, IHaveId, EntityForUpdateEnum>> listForUPdateWeb = new List<Tuple<string, IHaveId, EntityForUpdateEnum>>();
+            List<Tuple<string, ILocalEntity, EntityForUpdateEnum>> listForUpdateWeb = new List<Tuple<string, ILocalEntity, EntityForUpdateEnum>>();
             foreach(WebOrder webOrder in finalList) {
-                var tst = finalList.Select(x => x.ParentTag.Name+" - "+ x.ParentTag.LocalId);
-                var newTagTuple = CreateTagIfRequired(webOrder);
+                var newTagTuple = CreateLocalEntity(webOrder.ParentTag, EntityForUpdateEnum.Tag);
                 if(newTagTuple != null) {
-                    listForUPdateWeb.Add(newTagTuple);
+                    listForUpdateWeb.Add(newTagTuple);
+                }
+                var newPaymentTypeTuple = CreateLocalEntity(webOrder.PaymentType, EntityForUpdateEnum.PaymentType);
+                if(newPaymentTypeTuple != null) {
+                    listForUpdateWeb.Add(newPaymentTypeTuple);
                 }
                 var localOrder = CreateLocalOrderFromWeb(webOrder);
                 ParentViewModel.Orders.Add(localOrder);
                 SupportDateTable.AddDate(localOrder.DateOrder);
-                listForUPdateWeb.Add(new Tuple<string, IHaveId, EntityForUpdateEnum>(webOrder._id, localOrder, EntityForUpdateEnum.Order));
+                listForUpdateWeb.Add(new Tuple<string, ILocalEntity, EntityForUpdateEnum>(webOrder._id, localOrder, EntityForUpdateEnum.Order));
             }
             OrderViewModel.generalEntity.SaveChanges();
             var notUpdatedList = listWebOrders.Except(finalList);
             foreach(var notUpdatedItem in notUpdatedList) {
-                listForUPdateWeb.Add(new Tuple<string, IHaveId, EntityForUpdateEnum>(notUpdatedItem._id, null, EntityForUpdateEnum.Order));
+                listForUpdateWeb.Add(new Tuple<string, ILocalEntity, EntityForUpdateEnum>(notUpdatedItem._id, null, EntityForUpdateEnum.Order));
             }
-            foreach(var tuple in listForUPdateWeb) {
+            foreach(var tuple in listForUpdateWeb) {
                 UpdateLocalIdForWebEntity(tuple.Item1, tuple.Item2, tuple.Item3);
             }
         }
 
-        Tuple<string, IHaveId, EntityForUpdateEnum> CreateTagIfRequired(WebOrder webOrder) {
-            var realParentTag = OrderViewModel.generalEntity.Tags.Where(x => x.Id == webOrder.ParentTag.LocalId).FirstOrDefault();
-            if(realParentTag == null) {
-                realParentTag = OrderViewModel.generalEntity.Tags.Create();
-                realParentTag.TagName = webOrder.ParentTag.Name;
-                OrderViewModel.generalEntity.Tags.Add(realParentTag);
+        Tuple<string, ILocalEntity, EntityForUpdateEnum> CreateLocalEntity(IWebEntity webEntity, EntityForUpdateEnum type) {
+            Type localType = null;
+            switch(type) {
+                case EntityForUpdateEnum.Tag:
+                    localType = typeof(Tag);
+                    break;
+                case EntityForUpdateEnum.PaymentType:
+                    localType = typeof(PaymentType);
+                    break;
+            }
+            DbSet localList = OrderViewModel.generalEntity.Set(localType);
+            ILocalEntity realLocalEntity = (ILocalEntity)localList.Find(webEntity.LocalId);
+            if(realLocalEntity == null) {
+                realLocalEntity = (ILocalEntity)localList.Create();
+                realLocalEntity.GetPropertiesFromWebEntity(webEntity);
+                localList.Add(realLocalEntity);
                 OrderViewModel.generalEntity.SaveChanges();
-                webOrder.ParentTag.LocalId = realParentTag.Id;
-                return new Tuple<string, IHaveId, EntityForUpdateEnum>(webOrder.ParentTag._id, realParentTag, EntityForUpdateEnum.Tag);
+                webEntity.LocalId = realLocalEntity.Id;
+                return new Tuple<string, ILocalEntity, EntityForUpdateEnum>(webEntity._id, realLocalEntity, type);
             }
             return null;
         }
 
-        void UpdateLocalIdForWebEntity(string webId, IHaveId haveIdInstance, EntityForUpdateEnum type) {
+        void UpdateLocalIdForWebEntity(string webId, ILocalEntity haveIdInstance, EntityForUpdateEnum type) {
             string idToInsertInWeb;
             if(haveIdInstance == null) {
                 idToInsertInWeb = "-1";
@@ -187,6 +201,8 @@ namespace Budget {
             localOrder.Description = webOrder.Description;
             localOrder.Value = webOrder.Value;
             localOrder.ParentTag = webOrder.ParentTag.LocalId;
+            if(webOrder.PaymentType != null)
+                localOrder.PaymentTypeId = webOrder.PaymentType.LocalId;
             localOrder.IsJourney = webOrder.IsJourney;
             localOrder.Tags = webOrder.Tags;
             localOrder.AddEntityInstanceToBase();

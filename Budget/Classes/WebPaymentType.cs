@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Budget.Classes
+namespace Budget
 {
-    public class WebPaymentType {
+    public class WebPaymentType:IWebEntity {
         public string _id { get; set; }
         public string Name { get; set; }
         public int CurrentCount { get; set; }

@@ -23,7 +23,6 @@ namespace Budget
         public string Name { get; set; }
         public Nullable<int> CurrentCount { get; set; }
         public Nullable<bool> IsYandex { get; set; }
-        public string WebId { get; set; }
     
         public virtual ICollection<Order> Orders { get; set; }
     }

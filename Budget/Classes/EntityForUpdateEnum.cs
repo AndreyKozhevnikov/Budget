@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace Budget.Classes {
     enum EntityForUpdateEnum {
-        Order, Tag
+        Order, Tag, PaymentType
     }
 }

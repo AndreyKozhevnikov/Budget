@@ -18,7 +18,7 @@
           <Property Name="Ignore" Type="bit" Nullable="false" />
           <Property Name="OldParentTag" Type="int" />
           <Property Name="IsJourney" Type="bit" Nullable="false" />
-          <Property Name="PaymentType" Type="int" />
+          <Property Name="PaymentTypeId" Type="int" />
         </EntityType>
         <EntityType Name="PaymentTypes">
           <Key>
@@ -28,7 +28,6 @@
           <Property Name="Name" Type="nvarchar(max)" />
           <Property Name="CurrentCount" Type="int" />
           <Property Name="IsYandex" Type="bit" />
-          <Property Name="WebId" Type="nvarchar" MaxLength="24" />
         </EntityType>
         <EntityType Name="Tags">
           <Key>
@@ -45,7 +44,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Orders">
-              <PropertyRef Name="PaymentType" />
+              <PropertyRef Name="PaymentTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -78,6 +77,27 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BudgetModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Tag">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TagName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Orders" Relationship="BudgetModel.FK_Orders_Tags" FromRole="Tag" ToRole="Order" />
+        </EntityType>
+        <EntityContainer Name="BudgetEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Tags" EntityType="Self.Tag" />
+          <EntitySet Name="Orders" EntityType="BudgetModel.Order" />
+          <EntitySet Name="PaymentTypes" EntityType="BudgetModel.PaymentType" />
+          <AssociationSet Name="FK_Orders_PaymentTypes" Association="BudgetModel.FK_Orders_PaymentTypes">
+            <End Role="PaymentType" EntitySet="PaymentTypes" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Tags" Association="BudgetModel.FK_Orders_Tags">
+            <End Role="Tag" EntitySet="Tags" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="Order">
           <Key>
             <PropertyRef Name="Id" />
@@ -89,45 +109,12 @@
           <Property Name="ParentTag" Type="Int32" Nullable="false" />
           <Property Name="Tags" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Ignore" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Tag" Relationship="Self.FK_Orders_Tags" FromRole="Orders" ToRole="Tags" />
           <Property Name="OldParentTag" Type="Int32" />
           <Property Name="IsJourney" Type="Boolean" Nullable="false" />
-          <Property Name="PaymentType" Type="Int32" />
-          <NavigationProperty Name="PaymentType1" Relationship="BudgetModel.FK_Orders_PaymentTypes" FromRole="Order" ToRole="PaymentType" />
+          <Property Name="PaymentTypeId" Type="Int32" />
+          <NavigationProperty Name="PaymentType" Relationship="BudgetModel.FK_Orders_PaymentTypes" FromRole="Order" ToRole="PaymentType" />
+          <NavigationProperty Name="Tag" Relationship="BudgetModel.FK_Orders_Tags" FromRole="Order" ToRole="Tag" />
         </EntityType>
-        <EntityType Name="Tag">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TagName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Tags" FromRole="Tags" ToRole="Orders" />
-        </EntityType>
-        <Association Name="FK_Orders_Tags">
-          <End Role="Tags" Type="Self.Tag" Multiplicity="1" />
-          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Tags">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Orders">
-              <PropertyRef Name="ParentTag" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="BudgetEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Orders" EntityType="Self.Order" />
-          <EntitySet Name="Tags" EntityType="Self.Tag" />
-          <AssociationSet Name="FK_Orders_Tags" Association="Self.FK_Orders_Tags">
-            <End Role="Tags" EntitySet="Tags" />
-            <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
-          <EntitySet Name="PaymentTypes" EntityType="BudgetModel.PaymentType" />
-          <AssociationSet Name="FK_Orders_PaymentTypes" Association="BudgetModel.FK_Orders_PaymentTypes">
-            <End Role="PaymentType" EntitySet="PaymentTypes" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
-        </EntityContainer>
         <EntityType Name="PaymentType">
           <Key>
             <PropertyRef Name="Id" />
@@ -136,9 +123,8 @@
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CurrentCount" Type="Int32" />
           <Property Name="IsYandex" Type="Boolean" />
-          <Property Name="WebId" Type="String" MaxLength="24" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Orders" Relationship="BudgetModel.FK_Orders_PaymentTypes" FromRole="PaymentType" ToRole="Order" />
-          </EntityType>
+        </EntityType>
         <Association Name="FK_Orders_PaymentTypes">
           <End Type="BudgetModel.PaymentType" Role="PaymentType" Multiplicity="0..1" />
           <End Type="BudgetModel.Order" Role="Order" Multiplicity="*" />
@@ -147,32 +133,28 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Order">
-              <PropertyRef Name="PaymentType" />
+              <PropertyRef Name="PaymentTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK_Orders_Tags">
+          <End Type="BudgetModel.Tag" Role="Tag" Multiplicity="1" />
+          <End Type="BudgetModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tag">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="ParentTag" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="BudgetModelStoreContainer" CdmEntityContainer="BudgetEntities">
-          <EntitySetMapping Name="Orders">
-            <EntityTypeMapping TypeName="BudgetModel.Order">
-              <MappingFragment StoreEntitySet="Orders">
-                <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
-                <ScalarProperty Name="IsJourney" ColumnName="IsJourney" />
-                <ScalarProperty Name="OldParentTag" ColumnName="OldParentTag" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="DateOrder" ColumnName="DateOrder" />
-                <ScalarProperty Name="Value" ColumnName="Value" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="ParentTag" ColumnName="ParentTag" />
-                <ScalarProperty Name="Tags" ColumnName="Tags" />
-                <ScalarProperty Name="Ignore" ColumnName="Ignore" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Tags">
             <EntityTypeMapping TypeName="BudgetModel.Tag">
               <MappingFragment StoreEntitySet="Tags">
@@ -181,10 +163,25 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="BudgetModel.Order">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="PaymentTypeId" ColumnName="PaymentTypeId" />
+                <ScalarProperty Name="IsJourney" ColumnName="IsJourney" />
+                <ScalarProperty Name="OldParentTag" ColumnName="OldParentTag" />
+                <ScalarProperty Name="Ignore" ColumnName="Ignore" />
+                <ScalarProperty Name="Tags" ColumnName="Tags" />
+                <ScalarProperty Name="ParentTag" ColumnName="ParentTag" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="DateOrder" ColumnName="DateOrder" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="PaymentTypes">
             <EntityTypeMapping TypeName="BudgetModel.PaymentType">
               <MappingFragment StoreEntitySet="PaymentTypes">
-                <ScalarProperty Name="WebId" ColumnName="WebId" />
                 <ScalarProperty Name="IsYandex" ColumnName="IsYandex" />
                 <ScalarProperty Name="CurrentCount" ColumnName="CurrentCount" />
                 <ScalarProperty Name="Name" ColumnName="Name" />

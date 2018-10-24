@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Budget
-{
-    interface IHaveId
-    {
-        int Id{ get; }
+namespace Budget {
+    public interface IWebEntity {
+        int LocalId { get; set; }
+        string _id { get; }
     }
 }

@@ -158,8 +158,11 @@
     <Compile Include="Classes\ChartDateBounds.cs" />
     <Compile Include="Classes\Converters.cs" />
     <Compile Include="Classes\EntityForUpdateEnum.cs" />
-    <Compile Include="Classes\IHaveId.cs" />
+    <Compile Include="Classes\ILocalEntity.cs" />
+    <Compile Include="Classes\IWebEntity.cs" />
     <Compile Include="Classes\MyIntInListPositionComparer.cs" />
+    <Compile Include="Classes\MyTag.cs" />
+    <Compile Include="Classes\PaymentType.cs" />
     <Compile Include="Classes\WebPaymentType.cs" />
     <Compile Include="Classes\Services.cs" />
     <Compile Include="Classes\GroupData.cs" />

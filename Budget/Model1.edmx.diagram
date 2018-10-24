@@ -5,12 +5,12 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="ec6a25c45740451bb36506d30c6a74dc" Name="Diagram1" ZoomLevel="64">
-        <EntityTypeShape EntityType="BudgetModel.Order" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="BudgetModel.Tag" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
-        <AssociationConnector Association="BudgetModel.FK_Orders_Tags" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="BudgetModel.PaymentType" Width="1.5" PointX="5.375" PointY="1" />
+        <EntityTypeShape EntityType="BudgetModel.Order" Width="1.5" PointX="3.375" PointY="2.875" />
+        <EntityTypeShape EntityType="BudgetModel.PaymentType" Width="1.5" PointX="0.75" PointY="1.625" />
         <AssociationConnector Association="BudgetModel.FK_Orders_PaymentTypes" />
-      </Diagram>
+        <AssociationConnector Association="BudgetModel.FK_Orders_Tags" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
