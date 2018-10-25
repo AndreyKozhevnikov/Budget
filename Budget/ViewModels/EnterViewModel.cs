@@ -119,6 +119,7 @@ namespace Budget {
 
         }
         private void ImportFromWeb() {
+            createdEntities = new Dictionary<string, ILocalEntity>();
             List<WebOrder> listWebOrders = GetWebOrders();
             if(listWebOrders.Count == 0)
                 return;
@@ -127,14 +128,8 @@ namespace Budget {
                 return;
             List<Tuple<string, ILocalEntity, EntityForUpdateEnum>> listForUpdateWeb = new List<Tuple<string, ILocalEntity, EntityForUpdateEnum>>();
             foreach(WebOrder webOrder in finalList) {
-                var newTagTuple = CreateLocalEntity(webOrder.ParentTag, EntityForUpdateEnum.Tag);
-                if(newTagTuple != null) {
-                    listForUpdateWeb.Add(newTagTuple);
-                }
-                var newPaymentTypeTuple = CreateLocalEntity(webOrder.PaymentType, EntityForUpdateEnum.PaymentType);
-                if(newPaymentTypeTuple != null) {
-                    listForUpdateWeb.Add(newPaymentTypeTuple);
-                }
+                CreateLocalEntity(webOrder.ParentTag, EntityForUpdateEnum.Tag, listForUpdateWeb);
+                CreateLocalEntity(webOrder.PaymentType, EntityForUpdateEnum.PaymentType, listForUpdateWeb);
                 var localOrder = CreateLocalOrderFromWeb(webOrder);
                 ParentViewModel.Orders.Add(localOrder);
                 SupportDateTable.AddDate(localOrder.DateOrder);
@@ -149,8 +144,8 @@ namespace Budget {
                 UpdateLocalIdForWebEntity(tuple.Item1, tuple.Item2, tuple.Item3);
             }
         }
-
-        Tuple<string, ILocalEntity, EntityForUpdateEnum> CreateLocalEntity(IWebEntity webEntity, EntityForUpdateEnum type) {
+        Dictionary<string, ILocalEntity> createdEntities;
+        void CreateLocalEntity(IWebEntity webEntity, EntityForUpdateEnum type, List<Tuple<string, ILocalEntity, EntityForUpdateEnum>> listForUpdateWeb) {
             Type localType = null;
             switch(type) {
                 case EntityForUpdateEnum.Tag:
@@ -163,14 +158,18 @@ namespace Budget {
             DbSet localList = OrderViewModel.generalEntity.Set(localType);
             ILocalEntity realLocalEntity = (ILocalEntity)localList.Find(webEntity.LocalId);
             if(realLocalEntity == null) {
-                realLocalEntity = (ILocalEntity)localList.Create();
-                realLocalEntity.GetPropertiesFromWebEntity(webEntity);
-                localList.Add(realLocalEntity);
-                OrderViewModel.generalEntity.SaveChanges();
+                if(createdEntities.ContainsKey(webEntity._id)) {
+                    realLocalEntity = createdEntities[webEntity._id];
+                } else {
+                    realLocalEntity = (ILocalEntity)localList.Create();
+                    realLocalEntity.GetPropertiesFromWebEntity(webEntity);
+                    localList.Add(realLocalEntity);
+                    OrderViewModel.generalEntity.SaveChanges();
+                    createdEntities[webEntity._id] = realLocalEntity;
+                    listForUpdateWeb.Add(new Tuple<string, ILocalEntity, EntityForUpdateEnum>(webEntity._id, realLocalEntity, type));
+                }
                 webEntity.LocalId = realLocalEntity.Id;
-                return new Tuple<string, ILocalEntity, EntityForUpdateEnum>(webEntity._id, realLocalEntity, type);
             }
-            return null;
         }
 
         void UpdateLocalIdForWebEntity(string webId, ILocalEntity haveIdInstance, EntityForUpdateEnum type) {
