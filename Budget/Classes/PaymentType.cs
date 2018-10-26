@@ -11,6 +11,7 @@ namespace Budget
             var wPType = (WebPaymentType)wEntity;
             this.Name = wPType.Name;
             this.IsYandex = wPType.IsYandex;
+            this.CurrentCount = wPType.CurrentCount;
         }
     }
 }

@@ -45,6 +45,15 @@ namespace Budget {
                 RaisePropertyChanged("Value");
             }
         }
+        public int? PaymentNumber {
+            get {
+                return parentOrderEntity.PaymentNumber;
+            }
+            set {
+                parentOrderEntity.PaymentNumber = value;
+                RaisePropertyChanged("PaymentNumber");
+            }
+        }
         public string Description {
             get {
                 return parentOrderEntity.Description;

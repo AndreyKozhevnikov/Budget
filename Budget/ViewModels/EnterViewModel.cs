@@ -212,6 +212,7 @@ namespace Budget {
             localOrder.Tags = webOrder.Tags;
             localOrder.AddEntityInstanceToBase();
             localOrder.IsFromWeb = true;
+            localOrder.PaymentNumber = webOrder.PaymentNumber;
             return localOrder;
         }
 

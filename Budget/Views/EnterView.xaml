@@ -108,6 +108,7 @@
                                                           DisplayMember="Name" ValueMember="Id" />
                     </dxg:GridColumn.EditSettings>
                 </dxg:GridColumn>
+                <dxg:GridColumn FieldName="PaymentNumber"/>
             </dxg:GridControl.Columns>
             <dxg:GridControl.View>
                 <dxg:TableView   x:Name="AllOrdersTableView"

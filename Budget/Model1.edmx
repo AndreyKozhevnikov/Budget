@@ -19,6 +19,7 @@
           <Property Name="OldParentTag" Type="int" />
           <Property Name="IsJourney" Type="bit" Nullable="false" />
           <Property Name="PaymentTypeId" Type="int" />
+          <Property Name="PaymentNumber" Type="int" />
         </EntityType>
         <EntityType Name="PaymentTypes">
           <Key>
@@ -114,6 +115,7 @@
           <Property Name="PaymentTypeId" Type="Int32" />
           <NavigationProperty Name="PaymentType" Relationship="BudgetModel.FK_Orders_PaymentTypes" FromRole="Order" ToRole="PaymentType" />
           <NavigationProperty Name="Tag" Relationship="BudgetModel.FK_Orders_Tags" FromRole="Order" ToRole="Tag" />
+          <Property Name="PaymentNumber" Type="Int32" />
         </EntityType>
         <EntityType Name="PaymentType">
           <Key>
@@ -166,6 +168,7 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="BudgetModel.Order">
               <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="PaymentNumber" ColumnName="PaymentNumber" />
                 <ScalarProperty Name="PaymentTypeId" ColumnName="PaymentTypeId" />
                 <ScalarProperty Name="IsJourney" ColumnName="IsJourney" />
                 <ScalarProperty Name="OldParentTag" ColumnName="OldParentTag" />
