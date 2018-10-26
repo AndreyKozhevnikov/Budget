@@ -18,9 +18,16 @@
         </Grid.RowDefinitions>
         <dxg:GridControl
             x:Name="grid1"
-            AutoGenerateColumns="AddNew"
             ItemsSource="{Binding .}"
             SelectionMode="Row">
+            <dxg:GridControl.Columns>
+                <dxg:GridColumn FieldName="DateOrder" />
+                <dxg:GridColumn FieldName="Value" />
+                <dxg:GridColumn FieldName="Description" />
+                <dxg:GridColumn FieldName="ParentTag.Name" />
+                <dxg:GridColumn FieldName="IsJourney" />
+                <dxg:GridColumn FieldName="PaymentType.Name" />
+            </dxg:GridControl.Columns>
             <dxg:GridControl.View>
                 <dxg:TableView ShowCheckBoxSelectorColumn="True" />
             </dxg:GridControl.View>

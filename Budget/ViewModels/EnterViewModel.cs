@@ -26,6 +26,7 @@ namespace Budget {
             ParentViewModel = vm;
             UpdateOrders();
             UpdateTags(); //+
+            UpdatePaymentTypes(); //+
             CreateNewCurrentOrder();//te
             CurrentDate = DateTime.Today;
             budgetWebPath = @"https://budgetweb.herokuapp.com";
@@ -78,7 +79,10 @@ namespace Budget {
         private void SetFocusOnTextEditValue() {
             SetFocusOnValueTextEditService.SetFocus();
         }
-
+        void UpdatePaymentTypes() {
+            AllPaymentTypes = new ObservableCollection<PaymentType>(OrderViewModel.generalEntity.PaymentTypes);
+            RaisePropertyChanged("AllPaymentTypes");
+        }
 
         void UpdateTags() {
             var v = OrderViewModel.generalEntity.Tags.ToList();
@@ -143,6 +147,8 @@ namespace Budget {
             foreach(var tuple in listForUpdateWeb) {
                 UpdateLocalIdForWebEntity(tuple.Item1, tuple.Item2, tuple.Item3);
             }
+            UpdateTags();
+            UpdatePaymentTypes();
         }
         Dictionary<string, ILocalEntity> createdEntities;
         void CreateLocalEntity(IWebEntity webEntity, EntityForUpdateEnum type, List<Tuple<string, ILocalEntity, EntityForUpdateEnum>> listForUpdateWeb) {
@@ -293,7 +299,23 @@ namespace Budget {
         public OrderViewModel ParentViewModel { get; set; }
         public UniqueDateKeeper SupportDateTable { get; set; }
         public ObservableCollection<MyOrder> SelectedOrders { get; set; }
-        public static ObservableCollection<Tag> AllTags { get; set; }
+        public ObservableCollection<Tag> AllTags {
+            get {
+                return s_allTags;
+            }
+            set {
+                s_allTags = value;
+                RaisePropertyChanged();
+            }
+        }
+        public ObservableCollection<PaymentType> AllPaymentTypes {
+            get { return s_allPaymentTypes; }
+
+            set {
+                s_allPaymentTypes = value;
+                RaisePropertyChanged();
+            }
+        }
         public int? SelectedItemsSumAll {
             get {
                 return SelectedOrders.Sum(x => x.Value);
@@ -399,6 +421,9 @@ namespace Budget {
 
 
         IServiceContainer serviceContainer = null;
+        private static ObservableCollection<PaymentType> s_allPaymentTypes;
+        private static ObservableCollection<Tag> s_allTags;
+
         protected IServiceContainer ServiceContainer {
             get {
                 if(serviceContainer == null)
