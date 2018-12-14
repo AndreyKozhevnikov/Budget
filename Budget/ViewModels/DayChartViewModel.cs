@@ -11,8 +11,8 @@ using System.Windows.Input;
 namespace Budget {
     public class DayChartViewModel : MyBindableBase {
         OrderViewModel ParentViewModel;
-        const int idealComPerDay = 1500;
-        const int idealEatPerDay = SummaryViewModel.NORMEATTOONEDAY;
+        int idealComPerDay = Properties.Settings.Default.NormAllToOneDay;
+        int idealEatPerDay = Properties.Settings.Default.NormEatToOneDay;
         public DayChartViewModel(OrderViewModel vm) {
             ParentViewModel = vm;
             MakeMonthsList();

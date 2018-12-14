@@ -96,7 +96,7 @@ namespace Budget {
     }
 
     public partial class SummaryViewModel {
-        public const int NORMEATTOONEDAY = 350;
+        public int NORMEATTOONEDAY = Properties.Settings.Default.NormEatToOneDay;
 
         bool isLightOrders;
         string _normToThisMonth;
