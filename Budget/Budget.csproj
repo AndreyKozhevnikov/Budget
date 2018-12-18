@@ -71,6 +71,9 @@
     <ApplicationIcon>Resources\coins_6049.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AssemblyResolverDll">
+      <HintPath>..\..\..\AssemblyResolverDll\AssemblyResolverDll\AssemblyResolverDll\bin\Release\AssemblyResolverDll.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.Charts.v18.1.Core, Version=18.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>

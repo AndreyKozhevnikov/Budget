@@ -13,7 +13,7 @@ namespace Budget {
     /// </summary>
     public partial class App : Application {
         private void Application_Startup_1(object sender, StartupEventArgs e) {
-        
+            AssemblyResolverDll.AsseblyResolver.Attach("Dll181");
         }
         public App() {
             CultureInfo newCI = (CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
