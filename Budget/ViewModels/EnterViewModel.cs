@@ -73,7 +73,6 @@ namespace Budget {
             CurrentOrder = new MyOrder() { parentOrderEntity = par };
             CurrentOrder.DateOrder = CurrentDate;
             CurrentOrder.ParentTag = AllTags[0].Id;
-            CurrentOrder.Ignore = false;
 
         }
         private void SetFocusOnTextEditValue() {

@@ -20,10 +20,10 @@ namespace Budget {
             DateTime? tmpDate = ParentViewModel.Orders.Min(x => x.DateOrder);
             List<MyOrder> Orders = null;
             if (IsLightOrders) {
-                Orders = ParentViewModel.Orders.Where(x => x.Ignore == false && x.ParentTag != 23 && x.ParentTag != 6 && x.ParentTag != 21 && x.ParentTag != 24).ToList();
+                Orders = ParentViewModel.Orders.Where(x => x.ParentTag != 23 && x.ParentTag != 6 && x.ParentTag != 21 && x.ParentTag != 24).ToList();
             }
             else {
-                Orders = ParentViewModel.Orders.Where(x => x.Ignore == false).ToList();
+                Orders = ParentViewModel.Orders.ToList();
             }
 
             var sumAll = Orders.GroupBy(s => s.DateOrder).Select(g => new { mid = g.Key, mall = g.Sum(s => s.Value) }).ToList();

@@ -69,9 +69,6 @@ namespace Budget {
             }
             set {
                 parentOrderEntity.ParentTag = value;
-                if(value == 22) {
-                    Ignore = true;
-                }
                 RaisePropertyChanged("ParentTag");
             }
         }
@@ -92,17 +89,6 @@ namespace Budget {
             }
             set {
                 parentOrderEntity.Tags = value;
-                RaisePropertyChanged();
-            }
-        }
-
-
-        public bool Ignore {
-            get {
-                return parentOrderEntity.Ignore;
-            }
-            set {
-                parentOrderEntity.Ignore = value;
                 RaisePropertyChanged();
             }
         }
