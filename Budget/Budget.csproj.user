@@ -9,7 +9,7 @@
     <ErrorReportUrlHistory />
     <FallbackCulture>en-US</FallbackCulture>
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
-    <ReferencePath>C:\Dropbox\C#\BudgetDevelop\Budget\DLL</ReferencePath>
+    <ReferencePath>C:\Dropbox\C#\BudgetDevelop\Budget\DLL;C:\Dropbox\Deploy\Dll181\</ReferencePath>
   </PropertyGroup>
   <PropertyGroup>
     <EnableSecurityDebugging>false</EnableSecurityDebugging>
