@@ -132,7 +132,7 @@ namespace Budget {
             List<Tuple<string, ILocalEntity, EntityForUpdateEnum>> listForUpdateWeb = new List<Tuple<string, ILocalEntity, EntityForUpdateEnum>>();
             foreach(WebOrder webOrder in finalList) {
                 CreateLocalEntity(webOrder.ParentTag, EntityForUpdateEnum.Tag, listForUpdateWeb);
-                CreateLocalEntity(webOrder.PaymentType, EntityForUpdateEnum.PaymentType, listForUpdateWeb);
+               // CreateLocalEntity(webOrder.PaymentType, EntityForUpdateEnum.PaymentType, listForUpdateWeb);
                 var localOrder = CreateLocalOrderFromWeb(webOrder);
                 ParentViewModel.Orders.Add(localOrder);
                 SupportDateTable.AddDate(localOrder.DateOrder);
@@ -205,13 +205,13 @@ namespace Budget {
             localOrder.Description = webOrder.Description;
             localOrder.Value = webOrder.Value;
             localOrder.ParentTag = webOrder.ParentTag.LocalId;
-            if(webOrder.PaymentType != null)
-                localOrder.PaymentTypeId = webOrder.PaymentType.LocalId;
-            localOrder.IsJourney = webOrder.IsJourney;
+            //if(webOrder.PaymentType != null)
+            //    localOrder.PaymentTypeId = webOrder.PaymentType.LocalId;
+            //localOrder.IsJourney = webOrder.IsJourney;
             localOrder.Tags = webOrder.Tags;
             localOrder.AddEntityInstanceToBase();
             localOrder.IsFromWeb = true;
-            localOrder.PaymentNumber = webOrder.PaymentNumber;
+          //  localOrder.PaymentNumber = webOrder.PaymentNumber;
             return localOrder;
         }
 
