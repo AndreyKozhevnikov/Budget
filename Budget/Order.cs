@@ -25,8 +25,12 @@ namespace Budget
         public bool IsJourney { get; set; }
         public Nullable<int> PaymentTypeId { get; set; }
         public Nullable<int> PaymentNumber { get; set; }
+        public Nullable<int> Place { get; set; }
+        public Nullable<int> Object { get; set; }
     
         public virtual PaymentType PaymentType { get; set; }
         public virtual Tag Tag { get; set; }
+        public virtual OrderObject OrderObject { get; set; }
+        public virtual OrderPlace OrderPlace { get; set; }
     }
 }

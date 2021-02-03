@@ -132,7 +132,9 @@ namespace Budget {
             List<Tuple<string, ILocalEntity, EntityForUpdateEnum>> listForUpdateWeb = new List<Tuple<string, ILocalEntity, EntityForUpdateEnum>>();
             foreach(WebOrder webOrder in finalList) {
                 CreateLocalEntity(webOrder.ParentTag, EntityForUpdateEnum.Tag, listForUpdateWeb);
-               // CreateLocalEntity(webOrder.PaymentType, EntityForUpdateEnum.PaymentType, listForUpdateWeb);
+                CreateLocalEntity(webOrder.Place, EntityForUpdateEnum.Place, listForUpdateWeb);
+                CreateLocalEntity(webOrder.Object, EntityForUpdateEnum.Object, listForUpdateWeb);
+                // CreateLocalEntity(webOrder.PaymentType, EntityForUpdateEnum.PaymentType, listForUpdateWeb);
                 var localOrder = CreateLocalOrderFromWeb(webOrder);
                 ParentViewModel.Orders.Add(localOrder);
                 SupportDateTable.AddDate(localOrder.DateOrder);
@@ -158,6 +160,12 @@ namespace Budget {
                     break;
                 case EntityForUpdateEnum.PaymentType:
                     localType = typeof(PaymentType);
+                    break;
+                case EntityForUpdateEnum.Place:
+                    localType = typeof(OrderPlace);
+                    break;
+                case EntityForUpdateEnum.Object:
+                    localType = typeof(OrderObject);
                     break;
             }
             DbSet localList = OrderViewModel.generalEntity.Set(localType);
@@ -204,14 +212,14 @@ namespace Budget {
             localOrder.DateOrder = webOrder.DateOrder;
             localOrder.Description = webOrder.Description;
             localOrder.Value = webOrder.Value;
-            localOrder.ParentTag = webOrder.ParentTag.LocalId;
+            localOrder.ParentTag = webOrder.ParentTag.LocalId.Value;
             //if(webOrder.PaymentType != null)
             //    localOrder.PaymentTypeId = webOrder.PaymentType.LocalId;
             //localOrder.IsJourney = webOrder.IsJourney;
             localOrder.Tags = webOrder.Tags;
             localOrder.AddEntityInstanceToBase();
             localOrder.IsFromWeb = true;
-          //  localOrder.PaymentNumber = webOrder.PaymentNumber;
+            //  localOrder.PaymentNumber = webOrder.PaymentNumber;
             return localOrder;
         }
 

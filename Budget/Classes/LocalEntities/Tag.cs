@@ -11,7 +11,7 @@ namespace Budget {
     public partial class Tag: ILocalEntity {
         public string ComplexValue { get; set; }
         public void GetPropertiesFromWebEntity(IWebEntity wTag) {
-            TagName = ((WebTag)wTag).Name;
+            TagName = wTag.Name;
         }
     }
 }

@@ -13,7 +13,9 @@ namespace Budget.Classes {
         public int Value { get; set; }
         public string Description { get; set; }
         public WebTag ParentTag { get; set; }
-       // public bool IsJourney { get; set; }
+        public WebObject Object { get; set; }
+        public WebPlace Place { get; set; }
+        // public bool IsJourney { get; set; }
         public string Tags { get; set; }
        // public WebPaymentType PaymentType { get; set; }
       //  public int? PaymentNumber { get; set; }

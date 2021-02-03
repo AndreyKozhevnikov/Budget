@@ -5,6 +5,20 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="BudgetModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="OrderObject">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="ObjectName" Type="varchar(max)" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderPlace">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="PlaceName" Type="varchar(max)" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
         <EntityType Name="Orders">
           <Key>
             <PropertyRef Name="Id" />
@@ -20,6 +34,8 @@
           <Property Name="IsJourney" Type="bit" Nullable="false" />
           <Property Name="PaymentTypeId" Type="int" />
           <Property Name="PaymentNumber" Type="int" />
+          <Property Name="Place" Type="int" />
+          <Property Name="Object" Type="int" />
         </EntityType>
         <EntityType Name="PaymentTypes">
           <Key>
@@ -37,6 +53,30 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TagName" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Orders_OrderObject">
+          <End Role="OrderObject" Type="Self.OrderObject" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderObject">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Object" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_OrderPlace">
+          <End Role="OrderPlace" Type="Self.OrderPlace" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderPlace">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Place" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Orders_PaymentTypes">
           <End Role="PaymentTypes" Type="Self.PaymentTypes" Multiplicity="0..1" />
           <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
@@ -62,9 +102,19 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="BudgetModelStoreContainer">
+          <EntitySet Name="OrderObject" EntityType="Self.OrderObject" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderPlace" EntityType="Self.OrderPlace" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentTypes" EntityType="Self.PaymentTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tags" EntityType="Self.Tags" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Orders_OrderObject" Association="Self.FK_Orders_OrderObject">
+            <End Role="OrderObject" EntitySet="OrderObject" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_OrderPlace" Association="Self.FK_Orders_OrderPlace">
+            <End Role="OrderPlace" EntitySet="OrderPlace" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
           <AssociationSet Name="FK_Orders_PaymentTypes" Association="Self.FK_Orders_PaymentTypes">
             <End Role="PaymentTypes" EntitySet="PaymentTypes" />
             <End Role="Orders" EntitySet="Orders" />
@@ -98,6 +148,16 @@
             <End Role="Tag" EntitySet="Tags" />
             <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
+          <EntitySet Name="OrderObjects" EntityType="BudgetModel.OrderObject" />
+          <EntitySet Name="OrderPlaces" EntityType="BudgetModel.OrderPlace" />
+          <AssociationSet Name="FK_Orders_OrderObject" Association="BudgetModel.FK_Orders_OrderObject">
+            <End Role="OrderObject" EntitySet="OrderObjects" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_OrderPlace" Association="BudgetModel.FK_Orders_OrderPlace">
+            <End Role="OrderPlace" EntitySet="OrderPlaces" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Order">
           <Key>
@@ -116,6 +176,10 @@
           <NavigationProperty Name="PaymentType" Relationship="BudgetModel.FK_Orders_PaymentTypes" FromRole="Order" ToRole="PaymentType" />
           <NavigationProperty Name="Tag" Relationship="BudgetModel.FK_Orders_Tags" FromRole="Order" ToRole="Tag" />
           <Property Name="PaymentNumber" Type="Int32" />
+          <Property Name="Place" Type="Int32" />
+          <Property Name="Object" Type="Int32" />
+          <NavigationProperty Name="OrderObject" Relationship="BudgetModel.FK_Orders_OrderObject" FromRole="Order" ToRole="OrderObject" />
+          <NavigationProperty Name="OrderPlace" Relationship="BudgetModel.FK_Orders_OrderPlace" FromRole="Order" ToRole="OrderPlace" />
         </EntityType>
         <EntityType Name="PaymentType">
           <Key>
@@ -151,6 +215,46 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="OrderObject">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="ObjectName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Orders" Relationship="BudgetModel.FK_Orders_OrderObject" FromRole="OrderObject" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="OrderPlace">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="PlaceName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Orders" Relationship="BudgetModel.FK_Orders_OrderPlace" FromRole="OrderPlace" ToRole="Order" />
+        </EntityType>
+        <Association Name="FK_Orders_OrderObject">
+          <End Type="BudgetModel.OrderObject" Role="OrderObject" Multiplicity="0..1" />
+          <End Type="BudgetModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderObject">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="Object" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_OrderPlace">
+          <End Type="BudgetModel.OrderPlace" Role="OrderPlace" Multiplicity="0..1" />
+          <End Type="BudgetModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderPlace">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="Place" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -168,6 +272,8 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="BudgetModel.Order">
               <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="Object" ColumnName="Object" />
+                <ScalarProperty Name="Place" ColumnName="Place" />
                 <ScalarProperty Name="PaymentNumber" ColumnName="PaymentNumber" />
                 <ScalarProperty Name="PaymentTypeId" ColumnName="PaymentTypeId" />
                 <ScalarProperty Name="IsJourney" ColumnName="IsJourney" />
@@ -189,6 +295,22 @@
                 <ScalarProperty Name="CurrentCount" ColumnName="CurrentCount" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderObjects">
+            <EntityTypeMapping TypeName="BudgetModel.OrderObject">
+              <MappingFragment StoreEntitySet="OrderObject">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ObjectName" ColumnName="ObjectName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderPlaces">
+            <EntityTypeMapping TypeName="BudgetModel.OrderPlace">
+              <MappingFragment StoreEntitySet="OrderPlace">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PlaceName" ColumnName="PlaceName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

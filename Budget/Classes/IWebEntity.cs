@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Budget {
     public interface IWebEntity {
-        int LocalId { get; set; }
+        int? LocalId { get; set; }
         string _id { get; }
+        string Name{ get; }
     }
 }

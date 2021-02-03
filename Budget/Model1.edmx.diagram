@@ -10,6 +10,10 @@
         <EntityTypeShape EntityType="BudgetModel.PaymentType" Width="1.5" PointX="0.75" PointY="1.625" />
         <AssociationConnector Association="BudgetModel.FK_Orders_PaymentTypes" />
         <AssociationConnector Association="BudgetModel.FK_Orders_Tags" />
+        <EntityTypeShape EntityType="BudgetModel.OrderObject" Width="1.5" PointX="7.625" PointY="6.875" />
+        <EntityTypeShape EntityType="BudgetModel.OrderPlace" Width="1.5" PointX="7.625" PointY="4.5" />
+        <AssociationConnector Association="BudgetModel.FK_Orders_OrderObject" />
+        <AssociationConnector Association="BudgetModel.FK_Orders_OrderPlace" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
