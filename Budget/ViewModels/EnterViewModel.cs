@@ -95,6 +95,8 @@ namespace Budget {
             var v2 = v.OrderBy(x => x.Id, comp).ToList();
 
             AllTags = new ObservableCollection<Tag>(v2);
+            AllPlaces = new ObservableCollection<OrderPlace>(OrderViewModel.generalEntity.OrderPlaces.ToList());
+            AllObjects = new ObservableCollection<OrderObject>(OrderViewModel.generalEntity.OrderObjects.ToList());
 
             foreach(Tag tg in AllTags) {
                 var tmp = lst3.Where(x => x.pn == tg.Id).FirstOrDefault();
@@ -316,6 +318,24 @@ namespace Budget {
                 RaisePropertyChanged();
             }
         }
+        public ObservableCollection<OrderPlace> AllPlaces {
+            get {
+                return s_allPlaces;
+            }
+            set {
+                s_allPlaces = value;
+                RaisePropertyChanged();
+            }
+        }
+        public ObservableCollection<OrderObject> AllObjects {
+            get {
+                return s_allObjects;
+            }
+            set {
+                s_allObjects = value;
+                RaisePropertyChanged();
+            }
+        }
         public ObservableCollection<PaymentType> AllPaymentTypes {
             get { return s_allPaymentTypes; }
 
@@ -431,6 +451,8 @@ namespace Budget {
         IServiceContainer serviceContainer = null;
         private static ObservableCollection<PaymentType> s_allPaymentTypes;
         private static ObservableCollection<Tag> s_allTags;
+        private static ObservableCollection<OrderPlace> s_allPlaces;
+        private static ObservableCollection<OrderObject> s_allObjects;
 
         protected IServiceContainer ServiceContainer {
             get {

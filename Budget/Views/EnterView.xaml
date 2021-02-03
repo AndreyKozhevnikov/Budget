@@ -98,17 +98,29 @@
                                                           DisplayMember="TagName" ValueMember="Id" />
                     </dxg:GridColumn.EditSettings>
                 </dxg:GridColumn>
+                <dxg:GridColumn FieldName="Place">
+                    <dxg:GridColumn.EditSettings>
+                        <dxe:ComboBoxEditSettings IsTextEditable="False" ItemsSource="{Binding AllPlaces}"
+                                                          DisplayMember="Name" ValueMember="Id" />
+                    </dxg:GridColumn.EditSettings>
+                </dxg:GridColumn>
+                <dxg:GridColumn FieldName="Object">
+                    <dxg:GridColumn.EditSettings>
+                        <dxe:ComboBoxEditSettings IsTextEditable="False" ItemsSource="{Binding AllObjects}"
+                                                          DisplayMember="Name" ValueMember="Id" />
+                    </dxg:GridColumn.EditSettings>
+                </dxg:GridColumn>
                 <dxg:GridColumn FieldName="Description"/>
                 <dxg:GridColumn FieldName="Tags"/>
                 <dxg:GridColumn FieldName="IsJourney"/>
                 <dxg:GridColumn FieldName="IsFromWeb"/>
-                <dxg:GridColumn FieldName="PaymentTypeId">
-                    <dxg:GridColumn.EditSettings>
+                <dxg:GridColumn FieldName="Place">
+                    <!--<dxg:GridColumn.EditSettings>
                         <dxe:ComboBoxEditSettings IsTextEditable="False" ItemsSource="{Binding AllPaymentTypes}"
                                                           DisplayMember="Name" ValueMember="Id" />
-                    </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn.EditSettings>-->
                 </dxg:GridColumn>
-                <dxg:GridColumn FieldName="PaymentNumber"/>
+                <dxg:GridColumn FieldName="Object"/>
             </dxg:GridControl.Columns>
             <dxg:GridControl.View>
                 <dxg:TableView   x:Name="AllOrdersTableView"
