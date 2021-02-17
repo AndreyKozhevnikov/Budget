@@ -72,6 +72,24 @@ namespace Budget {
                 RaisePropertyChanged("ParentTag");
             }
         }
+        public int? Place {
+            get {
+                return parentOrderEntity.Place;
+            }
+            set {
+                parentOrderEntity.Place = value;
+                RaisePropertyChanged("Place");
+            }
+        }
+        public int? Object {
+            get {
+                return parentOrderEntity.Object;
+            }
+            set {
+                parentOrderEntity.Object = value;
+                RaisePropertyChanged("Object");
+            }
+        }
 
         public int? PaymentTypeId {
             get {
