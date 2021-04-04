@@ -125,16 +125,28 @@ namespace Budget {
             TableViewExportToExcelService.ExportToExcel(path);
 
         }
+        
         private void ImportFromWeb() {
             createdEntities = new Dictionary<string, ILocalEntity>();
+            
+
+
             List<WebOrder> listWebOrders = GetWebOrders();
             if(listWebOrders.Count == 0)
                 return;
             var finalList = ShowWebListWindowService.ShowWindow(listWebOrders);
             if(finalList == null)
                 return;
-            List<Tuple<string, ILocalEntity, EntityForUpdateEnum>> listForUpdateWeb = new List<Tuple<string, ILocalEntity, EntityForUpdateEnum>>();
             DXSplashScreen.Show<SplashScreenView>();
+            DXSplashScreen.SetState("PopulateHash");
+            List<Tuple<string, ILocalEntity, EntityForUpdateEnum>> listForUpdateWeb = new List<Tuple<string, ILocalEntity, EntityForUpdateEnum>>();
+            existingEntities = new Dictionary<string, string>();
+            OrderViewModel.generalEntity.Tags.ToList().ForEach(x => existingEntities.Add(EntityForUpdateEnum.Tag.ToString() + x.Id, null));
+            OrderViewModel.generalEntity.PaymentTypes.ToList().ForEach(x => existingEntities.Add(EntityForUpdateEnum.PaymentType.ToString() + x.Id, null));
+            OrderViewModel.generalEntity.OrderPlaces.ToList().ForEach(x => existingEntities.Add(EntityForUpdateEnum.Place.ToString() + x.Id, null));
+            OrderViewModel.generalEntity.OrderObjects.ToList().ForEach(x => existingEntities.Add(EntityForUpdateEnum.Object.ToString() + x.Id, null));
+
+            
             int k = 0;
             int count = finalList.Count;
             DXSplashScreen.SetState("GeneralCreate");
@@ -173,11 +185,15 @@ namespace Budget {
             DXSplashScreen.Close();
         }
         Dictionary<string, ILocalEntity> createdEntities;
+        Dictionary<string, string> existingEntities;
+       
         void CreateLocalEntity(IWebEntity webEntity, EntityForUpdateEnum type, List<Tuple<string, ILocalEntity, EntityForUpdateEnum>> listForUpdateWeb) {
             Type localType = null;
+            string prefix = type.ToString();
             switch(type) {
                 case EntityForUpdateEnum.Tag:
                     localType = typeof(Tag);
+                    
                     break;
                 case EntityForUpdateEnum.PaymentType:
                     localType = typeof(PaymentType);
@@ -189,9 +205,11 @@ namespace Budget {
                     localType = typeof(OrderObject);
                     break;
             }
-            DbSet localList = OrderViewModel.generalEntity.Set(localType);
-            ILocalEntity realLocalEntity = (ILocalEntity)localList.Find(webEntity.LocalId);
-            if(realLocalEntity == null) {
+
+            bool isRealLocalEntityExist = existingEntities.ContainsKey(prefix + webEntity.LocalId);
+            if(!isRealLocalEntityExist) {
+                DbSet localList = OrderViewModel.generalEntity.Set(localType);
+                ILocalEntity realLocalEntity;
                 if(createdEntities.ContainsKey(webEntity._id)) {
                     realLocalEntity = createdEntities[webEntity._id];
                 } else {
