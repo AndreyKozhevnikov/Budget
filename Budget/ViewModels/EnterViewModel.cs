@@ -150,7 +150,7 @@ namespace Budget {
             int k = 0;
             int count = finalList.Count;
             DXSplashScreen.SetState("GeneralCreate");
-
+            List<Order> localOrdersToSave = new List<Order>();
             foreach(WebOrder webOrder in finalList) {
                 CreateLocalEntity(webOrder.ParentTag, EntityForUpdateEnum.Tag, listForUpdateWeb);
                 if(webOrder.Place != null) {
@@ -159,8 +159,8 @@ namespace Budget {
                 if(webOrder.Object != null) {
                     CreateLocalEntity(webOrder.Object, EntityForUpdateEnum.Object, listForUpdateWeb);
                 }
-                // CreateLocalEntity(webOrder.PaymentType, EntityForUpdateEnum.PaymentType, listForUpdateWeb);
                 var localOrder = CreateLocalOrderFromWeb(webOrder);
+                localOrdersToSave.Add(localOrder.parentOrderEntity);
                 ParentViewModel.Orders.Add(localOrder);
                 SupportDateTable.AddDate(localOrder.DateOrder);
                 listForUpdateWeb.Add(new Tuple<string, ILocalEntity, EntityForUpdateEnum>(webOrder._id, localOrder, EntityForUpdateEnum.Order));
@@ -168,15 +168,20 @@ namespace Budget {
                 DXSplashScreen.SetState(string.Format("GeneralCreate - {0}/{1}", k, count));
 
             }
+            DXSplashScreen.SetState("GeneralSaveToBase");
+            OrderViewModel.generalEntity.Orders.AddRange(localOrdersToSave);
             OrderViewModel.generalEntity.SaveChanges();
             var notUpdatedList = listWebOrders.Except(finalList);
             foreach(var notUpdatedItem in notUpdatedList) {
                 listForUpdateWeb.Add(new Tuple<string, ILocalEntity, EntityForUpdateEnum>(notUpdatedItem._id, null, EntityForUpdateEnum.Order));
             }
             DXSplashScreen.SetState("UpdateLocalIdForWebEntity");
+            k = 0;
+            count = listForUpdateWeb.Count();
             foreach(var tuple in listForUpdateWeb) {
                 UpdateLocalIdForWebEntity(tuple.Item1, tuple.Item2, tuple.Item3);
-
+                DXSplashScreen.Progress(++k, count);
+                DXSplashScreen.SetState(string.Format("UpdateLocalIdForWebEntity - {0}/{1}", k, count));
             }
             DXSplashScreen.SetState("UpdateTags");
             UpdateTags();
@@ -193,7 +198,6 @@ namespace Budget {
             switch(type) {
                 case EntityForUpdateEnum.Tag:
                     localType = typeof(Tag);
-                    
                     break;
                 case EntityForUpdateEnum.PaymentType:
                     localType = typeof(PaymentType);
@@ -256,7 +260,7 @@ namespace Budget {
             //    localOrder.PaymentTypeId = webOrder.PaymentType.LocalId;
             //localOrder.IsJourney = webOrder.IsJourney;
             localOrder.Tags = webOrder.Tags;
-            localOrder.AddEntityInstanceToBase();
+            //localOrder.AddEntityInstanceToBase();
             localOrder.IsFromWeb = true;
             //  localOrder.PaymentNumber = webOrder.PaymentNumber;
             if(webOrder.Object != null) {
