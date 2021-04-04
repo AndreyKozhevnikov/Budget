@@ -175,6 +175,7 @@
     <Compile Include="Classes\EntityForUpdateEnum.cs" />
     <Compile Include="Classes\ILocalEntity.cs" />
     <Compile Include="Classes\IWebEntity.cs" />
+    <Compile Include="Classes\JsonUpdateWebStore.cs" />
     <Compile Include="Classes\LocalEntities\OrderObject.cs" />
     <Compile Include="Classes\LocalEntities\OrderPlace.cs" />
     <Compile Include="Classes\MyIntInListPositionComparer.cs" />

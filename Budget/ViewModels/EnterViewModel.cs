@@ -172,23 +172,38 @@ namespace Budget {
             OrderViewModel.generalEntity.Orders.AddRange(localOrdersToSave);
             OrderViewModel.generalEntity.SaveChanges();
             var notUpdatedList = listWebOrders.Except(finalList);
+            
             foreach(var notUpdatedItem in notUpdatedList) {
                 listForUpdateWeb.Add(new Tuple<string, ILocalEntity, EntityForUpdateEnum>(notUpdatedItem._id, null, EntityForUpdateEnum.Order));
             }
             DXSplashScreen.SetState("UpdateLocalIdForWebEntity");
             k = 0;
             count = listForUpdateWeb.Count();
+            List<JsonUpdateWebStore> updateObjects = new List<JsonUpdateWebStore>();
             foreach(var tuple in listForUpdateWeb) {
-                UpdateLocalIdForWebEntity(tuple.Item1, tuple.Item2, tuple.Item3);
+                updateObjects.Add(GetUpdateWebStore(tuple.Item1, tuple.Item2, tuple.Item3));
                 DXSplashScreen.Progress(++k, count);
                 DXSplashScreen.SetState(string.Format("UpdateLocalIdForWebEntity - {0}/{1}", k, count));
             }
+            DXSplashScreen.SetState("UpdateWebOrders");
+            UpdateWebOrders(updateObjects);
             DXSplashScreen.SetState("UpdateTags");
             UpdateTags();
             DXSplashScreen.SetState("UpdatePaymentTypes");
             UpdatePaymentTypes();
             DXSplashScreen.Close();
         }
+        void UpdateWebOrders(List<JsonUpdateWebStore> updateObjects){
+            string jsonString= JsonConvert.SerializeObject(updateObjects, Formatting.Indented);
+            using(var client = new WebClient()) {
+                SetSecurityHeaders(client);
+                var values = new NameValueCollection();
+                values["updateObjects"] = jsonString;
+                var response = client.UploadValues(budgetWebPath + "/updateLocalIds", values);
+                var responseString = Encoding.Default.GetString(response);
+            }
+        }
+
         Dictionary<string, ILocalEntity> createdEntities;
         Dictionary<string, string> existingEntities;
        
@@ -227,24 +242,17 @@ namespace Budget {
                 webEntity.LocalId = realLocalEntity.Id;
             }
         }
-
-        void UpdateLocalIdForWebEntity(string webId, ILocalEntity haveIdInstance, EntityForUpdateEnum type) {
-            string idToInsertInWeb;
+        JsonUpdateWebStore GetUpdateWebStore(string webId, ILocalEntity haveIdInstance, EntityForUpdateEnum type) {
+            JsonUpdateWebStore updateStore = new JsonUpdateWebStore();
             if(haveIdInstance == null) {
-                idToInsertInWeb = "-1";
+                updateStore.LocalId = "-1";
             } else {
-                idToInsertInWeb = haveIdInstance.Id.ToString(); ;
+                updateStore.LocalId = haveIdInstance.Id.ToString(); ;
             }
-            var webid = webId;
-            using(var client = new WebClient()) {
-                SetSecurityHeaders(client);
-                var values = new NameValueCollection();
-                values["id"] = webid;
-                values["localid"] = idToInsertInWeb;
-                values["type"] = type.ToString(); ;
-                var response = client.UploadValues(budgetWebPath + "/updateLocalId", values);
-                var responseString = Encoding.Default.GetString(response);
-            }
+            updateStore.WebId= webId;
+            updateStore.Type = type.ToString();
+            return updateStore;
+            
         }
         void SetSecurityHeaders(WebClient client) {
             client.Headers.Add(HttpRequestHeader.Cookie, "cookiename=" + Resources.settings_log + ";  cookie2=value2");
