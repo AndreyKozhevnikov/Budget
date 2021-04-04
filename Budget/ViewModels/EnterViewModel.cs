@@ -1,7 +1,9 @@
 ﻿using Budget.Classes;
 using Budget.Properties;
+using Budget.Views;
 using DevExpress.Data.Filtering;
 using DevExpress.Mvvm;
+using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Editors;
 using DevExpress.Xpf.Grid;
 using Newtonsoft.Json;
@@ -132,6 +134,11 @@ namespace Budget {
             if(finalList == null)
                 return;
             List<Tuple<string, ILocalEntity, EntityForUpdateEnum>> listForUpdateWeb = new List<Tuple<string, ILocalEntity, EntityForUpdateEnum>>();
+            DXSplashScreen.Show<SplashScreenView>();
+            int k = 0;
+            int count = finalList.Count;
+            DXSplashScreen.SetState("GeneralCreate");
+
             foreach(WebOrder webOrder in finalList) {
                 CreateLocalEntity(webOrder.ParentTag, EntityForUpdateEnum.Tag, listForUpdateWeb);
                 if(webOrder.Place != null) {
@@ -145,17 +152,25 @@ namespace Budget {
                 ParentViewModel.Orders.Add(localOrder);
                 SupportDateTable.AddDate(localOrder.DateOrder);
                 listForUpdateWeb.Add(new Tuple<string, ILocalEntity, EntityForUpdateEnum>(webOrder._id, localOrder, EntityForUpdateEnum.Order));
+                DXSplashScreen.Progress(++k, count);
+                DXSplashScreen.SetState(string.Format("GeneralCreate - {0}/{1}", k, count));
+
             }
             OrderViewModel.generalEntity.SaveChanges();
             var notUpdatedList = listWebOrders.Except(finalList);
             foreach(var notUpdatedItem in notUpdatedList) {
                 listForUpdateWeb.Add(new Tuple<string, ILocalEntity, EntityForUpdateEnum>(notUpdatedItem._id, null, EntityForUpdateEnum.Order));
             }
+            DXSplashScreen.SetState("UpdateLocalIdForWebEntity");
             foreach(var tuple in listForUpdateWeb) {
                 UpdateLocalIdForWebEntity(tuple.Item1, tuple.Item2, tuple.Item3);
+
             }
+            DXSplashScreen.SetState("UpdateTags");
             UpdateTags();
+            DXSplashScreen.SetState("UpdatePaymentTypes");
             UpdatePaymentTypes();
+            DXSplashScreen.Close();
         }
         Dictionary<string, ILocalEntity> createdEntities;
         void CreateLocalEntity(IWebEntity webEntity, EntityForUpdateEnum type, List<Tuple<string, ILocalEntity, EntityForUpdateEnum>> listForUpdateWeb) {
